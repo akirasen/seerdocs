@@ -5,7 +5,7 @@ search: english
 # Seer Technical Documentation
 
 <p class="warning">
-  Document translation is still in progress. Please use  <a router-link="/zh-Hans">`Chinese documents`</a> as criteria.
+  Document translation is still in progress. Please use  <a router-link="/zh-Hans/">`Chinese documents`</a> as criteria.
 </p>
 
 This guide enables you to quickly experience building SEER witnes_node, using command-line wallet, using SEER Blockchain functions, and even developing DAPP based on SEER.

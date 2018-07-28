@@ -3,7 +3,7 @@ nav: zh-Hant
 search: zh-Hant
 ---
 
-#賽亞技術文檔
+#賽亞科技文檔
 
 通過本指南，讓您快速體驗搭建SEER見證人節點、使用命令列錢包、使用SEER鏈上功能，甚至基於SEER開發DAPP等。
 

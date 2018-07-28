@@ -4,6 +4,10 @@ search: english
 
 # Guide for the SEER development tools
 
+<p class="warning">
+  Document translation is still in progress. Please use  <a router-link="/zh-Hans">Chinese documents</a> as criteria.
+</p>
+
 Through this document, we introduce some peripheral tools and plug-ins that need to be developed based on SEER.
 
 Users who use this tutorial, by default, you know the basic SEER node and command line wallet usage. If you do not understand, <a router-link= "/cli" >, please click here `</a>.

@@ -3,7 +3,7 @@ nav: zh-Hant
 search: zh-Hant
 ---
 
-#賽亞開發工具使用指南
+# 賽亞開發工具使用指南
 
 通過此檔案，介紹基於SEER進行開發所需要的一些周邊工具、插件的使用管道。
 
@@ -15,7 +15,7 @@ search: zh-Hant
 
 餘額快照和批量轉帳功能結合在一起，就是Dapp會用到的空投功能了。在SEER區塊鏈系統中，這兩大功能分別集成在節點軟件和命令列錢包中，使用參數等形式調用。
 
-###餘額快照
+### 餘額快照
 
 餘額快照的調用管道是在啟動節點時加入以下參數：
 
@@ -23,7 +23,7 @@ search: zh-Hant
 witness_node --plugins=“snapshot”--snapshot-at-time=“2018-07-24T04:00:00”--snapshot-to=“d:/0724.csv”--snapshot-asset=“SEER”--snapshot-balance-limit=1
 ```
 
-####參數解釋
+#### 參數解釋
 
 `--plugins=“snapshot”`中`“snapshot”`告訴節點你要使用的功能為快照，注意不要漏了t和“之間的空格；
 
@@ -37,7 +37,7 @@ witness_node --plugins=“snapshot”--snapshot-at-time=“2018-07-24T04:00:00�
 
 在快照前節點需要和區塊鏈正常同步，如果同一臺設備上已經運行了`seednode`、`apinode`、`witness node`等節點，為避免埠衝突，需要修改埠號為未佔用的埠。
 
-####完整參數
+#### 完整參數
 
 ```cmd
 
@@ -51,11 +51,11 @@ witness_node --data-dir ./data --p2p-endpoint=0.0.0.0:1899 --rpc-endpoint=0.0.0.
 
 當然，這個錶裡面得到的是某種資產的餘額快照，如果要按一定的比例空投，只需對數據進行再加工即可。
 
-###批量轉帳（空投）
+### 批量轉帳（空投）
 
 批量轉帳功能已經集成在命令列錢包中，使用`“batch_transfer”`命令調用，調用的檔案是一個和cli_wallet同目錄的txt檔案。
 
-####使用管道
+#### 使用管道
 
 1、在命令列錢包（cli_wallet）同目錄下新建一個txt檔案，本例中我們命名為“transfer.txt”；
 

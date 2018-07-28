@@ -4,7 +4,6 @@ search: zh-Hans
 ---
 
 # 赛亚技术文档
-# Seer Technical Documentation
 
 通过本指南，让您快速体验搭建SEER见证人节点、使用命令行钱包、使用SEER链上功能，甚至基于SEER开发DAPP等。
 

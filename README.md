@@ -4,13 +4,13 @@ search: english
 
 # Seer Technical Documentation
 
-This guide enables you to quickly experience building SEER witness nodes, using command line wallets, using SEER chain functions, and even developing DAPP based on SEER.
+This guide enables you to quickly experience building SEER witnes_node, using command-line wallet, using SEER Blockchain functions, and even developing DAPP based on SEER.
 
-<a router-link= "/cli" > command line wallet `</a> related documents, please click here.
+<a router-link= "/cli" > `command line wallet `</a> related documents, please click here.
 
-<a router-link= "/witness" > witness `</a> related documents, please click here.
+<a router-link= "/witness" > `witness `</a> related documents, please click here.
 
-<a router-link= "/tools" > development tools `</a> related documents, please click here.
+<a router-link= "/tools" > `development tools `</a> related documents, please click here.
 
 <p class= "danger" >
 This document is suitable for a certain technical base user. Please experience the <a href= "http://123.206.78.97/" > ***testnet*** </a> or a small account to avoid misoperation resulting in loss of funds.

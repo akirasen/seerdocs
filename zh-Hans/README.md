@@ -8,11 +8,13 @@ search: zh-Hans
 通过本指南，让您快速体验搭建SEER见证人节点、使用命令行钱包、使用SEER链上功能，甚至基于SEER开发DAPP等。
 
 <a router-link="/cli">命令行钱包</a> 相关文档请点击这里；
+
 <a router-link="/witness">见证人</a> 相关文档请点击这里；
-<a router-link="/tools">开发工具</a> 相关文档请点击这里；
+
+<a router-link="/tools">开发工具</a> 相关文档请点击这里.
 
 <p class="danger">
-  此文档适合有一定技术基础用户，请使用 <a router-link="http://123.206.78.97/">测试网络</a> 或小额账户进行体验，以免误操作造成资金损失。
+  此文档适合有一定技术基础用户，请使用 <a router-link="http://123.206.78.97/"> *** 测试网络 *** </a> 或小额账户进行体验，以免误操作造成资金损失。
 </p>
 
 ## 注册

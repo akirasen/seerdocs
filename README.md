@@ -10,7 +10,7 @@ search: english
 
 This guide enables you to quickly experience building SEER witnes_node, using command-line wallet, using SEER Blockchain functions, and even developing DAPP based on SEER.
 
-<a router-link= "/cli" > `command line wallet `</a> related documents, please click here.
+<a router-link= "/cli" > `command-line wallet `</a> related documents, please click here.
 
 <a router-link= "/witness" > `witness `</a> related documents, please click here.
 

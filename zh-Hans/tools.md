@@ -73,7 +73,7 @@ alice eva 100 SEER
 ```cmd
 batch_transfer transfer.txt 
 ```
-执行后，所有的转账会同时被广播。本例中bob、charlie、 dove 、eva将每人收到100 SEER的空投，当然，此命令行钱包需要导入alice的活跃权限私钥。
+执行后，所有的转账会同时被广播。本例中`bob、charlie、 dove 、eva`将每人收到100 SEER的空投，当然，此命令行钱包需要导入alice的活跃权限私钥。
 
 
 

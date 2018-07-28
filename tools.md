@@ -69,7 +69,7 @@ alice eva 100 SEER
 
 Reminder: the same TXT transfer account is not too many, generally not more than `2000`, in order to avoid a single block too large, broadcast problems.
 
-3. Run in the unlocked command line:
+3, Run in the unlocked command line:
 
 ```cmd
 batch_transfer transfer.txt 

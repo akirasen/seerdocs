@@ -1,6 +1,6 @@
 ---
-nav: zh-Hans
-search: zh-Hans
+nav: zh-Hant
+search: zh-Hant
 ---
 
 #賽亞技術文檔

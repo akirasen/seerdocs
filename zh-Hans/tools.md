@@ -15,14 +15,14 @@ search: zh-Hans
 
 余额快照和批量转账功能结合在一起，就是Dapp会用到的空投功能了。在SEER区块链系统中，这两大功能分别集成在节点软件和命令行钱包中，使用参数等形式调用。
 
-## 余额快照
+### 余额快照
 
 余额快照的调用方式是在启动节点时加入以下参数：
 
 ```cmd
 witness_node --plugins="snapshot " --snapshot-at-time="2018-07-24T04:00:00" --snapshot-to="d:/0724.csv" --snapshot-asset="SEER" --snapshot-balance-limit=1
 ```
-### 解释：
+#### 参数解释
 
 --plugins="snapshot " 中 "snapshot " 告诉节点你要使用的功能为快照，注意不要漏了t 和 "之间的空格；
 
@@ -36,7 +36,7 @@ witness_node --plugins="snapshot " --snapshot-at-time="2018-07-24T04:00:00" --sn
 
 在快照前节点需要和区块链正常同步，如果同一台设备上已经运行了seednode、api node、witness node等节点，为避免端口冲突，需要修改端口号为未占用的端口。
 
-### 完整参数如下：
+#### 完整参数
 
 ```cmd
 witness_node --data-dir ./data  --p2p-endpoint=0.0.0.0:1899 --rpc-endpoint=0.0.0.0:9192 --replay-blockchain --plugins="snapshot " --snapshot-at-time="2018-07-24T04:00:00" --snapshot-to="d:/0724.csv" --snapshot-asset="SEER" --snapshot-balance-limit=1
@@ -48,11 +48,11 @@ witness_node --data-dir ./data  --p2p-endpoint=0.0.0.0:1899 --rpc-endpoint=0.0.0
 
 当然，这个表里面得到的是某种资产的余额快照，如果要按一定的比例空投，只需对数据进行再加工即可。
 
-## 批量转账（空投）：
+### 批量转账（空投）
 
 批量转账功能已经集成在命令行钱包中，使用“batch_transfer”命令调用，调用的文件是一个和cli_wallet同目录的txt文件。
 
-### 使用方式：
+#### 使用方式
 
 1、在命令行钱包（cli_wallet）同目录下新建一个txt文件，本例中我们命名为“transfer.txt”；
 
@@ -66,7 +66,7 @@ alice charlie 100 SEER
 alice dove 100 SEER
 alice eva 100 SEER
 ```
-### 提醒：同一个txt内转账数不要太多，一般不超过2000个，以避免单个区块过大，广播出问题。
+提醒：同一个txt内转账数不要太多，一般不超过2000个，以避免单个区块过大，广播出问题。
 
 3、在解锁的命令行中运行：
 

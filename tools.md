@@ -14,7 +14,7 @@ Please download the latest version of the witness_node and wallet: https://githu
 
 The balance snapshot and Batch_transfer function are combined, which is the airdrop that Dapp will use. In the SEER block chain system, these two functions are integrated in the witness-node software and the command-line wallet.
 
-### A snapshot of the balance
+### Snapshot of the balance
 
 The method of invoking the balance snapshot is to add the following parameters when starting the node:
 
@@ -22,7 +22,7 @@ The method of invoking the balance snapshot is to add the following parameters w
 witness_node --plugins="snapshot " --snapshot-at-time="2018-07-24T04:00:00" --snapshot-to="d:/0724.csv" --snapshot-asset="SEER" --snapshot-balance-limit=1
 ```
 
-#### A parameter interpretation
+#### Parameter interpretation
 
 `--plugins="snapshot "`  `"snapshot "` tell the node that you want to use the function as a snapshot, and be careful not to miss the space between T and "
 
@@ -36,7 +36,7 @@ The parameter `1` in `--snapshot-balance-limit=1` is the lower limit of snapshot
 
 The node needs to synchronize with the block chain before the snapshot. If the `seednode`, `apinode`, `witness node` and other nodes have been run on the same device, the port number is required to be modified to avoid port conflicts.
 
-#### A complete parameter
+#### complete parameter
 
 ```cmd
 witness_node --data-dir ./data  --p2p-endpoint=0.0.0.0:1899 --rpc-endpoint=0.0.0.0:9192 --replay-blockchain --plugins="snapshot " --snapshot-at-time="2018-07-24T04:00:00" --snapshot-to="d:/0724.csv" --snapshot-asset="SEER" --snapshot-balance-limit=1
@@ -54,9 +54,9 @@ The batch transfer function has been integrated into the command line purse, usi
 
 #### The way of use
 
-1, in the command line wallet (cli_wallet) and directory to create a new TXT file, in this case we named `"transfer.txt"`;
+1. in the command line wallet (cli_wallet) and directory to create a new TXT file, in this case we named `"transfer.txt"`;
 
-2, edit this document, each transfer is a row, in the form of from to amount asset, separated by spaces.
+2. edit this document, each transfer is a row, in the form of from to amount asset, separated by spaces.
 
 For example:
 
@@ -69,7 +69,7 @@ alice eva 100 SEER
 
 Reminder: the same TXT transfer account is not too many, generally not more than `2000`, in order to avoid a single block too large, broadcast problems.
 
-3, Run in the unlocked command line:
+3. Run in the unlocked command line:
 
 ```cmd
 batch_transfer transfer.txt 

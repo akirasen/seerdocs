@@ -2,7 +2,7 @@
 search: english
 ---
 
-# Technical documentation
+# Seer Technical Documentation
 
 This guide enables you to quickly experience building SEER witness nodes, using command line wallets, using SEER chain functions, and even developing DAPP based on SEER.
 

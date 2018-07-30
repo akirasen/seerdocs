@@ -5,7 +5,7 @@ search: zh-Hans
 
 # 赛亚命令行指令指南
 
-## 启用cli_wallet
+## 启动cli_wallet
 
 对Seer的命令行钱包`cli_wallet`常用指令进行说明，便于普通用户查阅。`cli_wallet`为命令行版本客户端钱包，所有操作都通过输入指令形式执行。
 
@@ -29,7 +29,7 @@ cli_wallet.exe -s ws://123.207.146.191:9999
 
 1. 在`cli_wallet.exe`所在目录创建文件`”run.cmd”`；
 
-2. 用记事本打开`run.cmd`，输入以下内容后保存退出；
+2. 用记事本打开`run.cmd`，输入以下内容后保存退出:
 ```cmd
 cli_wallet.exe -s ws://123.207.146.191:9999
 ```
@@ -45,15 +45,33 @@ cli_wallet.exe -s ws://123.207.146.191:9999
 ```
 其中`” ws://123.207.146.191:9999”`为API链接
 
+### 启动成功后的回显
+以windows为例：
+```cmd
+D:\SEER>cli_wallet -s ws://123.207.146.191:9999
+Logging RPC to file: logs\rpc\rpc.log
+3209149ms th_a       main.cpp:131                  main                 ] key_to_wif( committee_private_key ): 5KCBDTcyDqzsqehcb52tW5nU6pXife6V2rX9Yf7c3saYSzbDZ5W
+3209150ms th_a       main.cpp:135                  main                 ] nathan_pub_key: SEER6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+3209150ms th_a       main.cpp:136                  main                 ] key_to_wif( nathan_private_key ): 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
+Starting a new wallet with chain ID cea4fdf4f5c2278f139b22e782b308928f04008b0fc2c79970a58974a2a28f91 (from egenesis)
+3209157ms th_a       main.cpp:183                  main                 ] wdata.ws_server: ws://123.207.146.191:9999
+3209198ms th_a       main.cpp:188                  main                 ] wdata.ws_user:  wdata.ws_password:
+Please use the set_password method to initialize a new wallet before continuing
+new >>>
+```
+
 ## 使用cli_wallet操作完整流程
 
 ### 系统状态指令
 
 #### 1. variant  Info()
 参数：无
+
 作用：显示当前Seer区块链的状态
+
 示例：`info`
-回显示例：
+
+返回信息示例：
 ```cmd
  info
 {
@@ -64,6 +82,370 @@ cli_wallet.exe -s ws://123.207.146.191:9999
   "chain_id": "cea4fdf4f5c2278f139b22e782b308928f04008b0fc2c79970a58974a2a28f91",//链号
   "participation": "100.00000000000000000",//区块生产参与率
   "active_witnesses": [//活跃见证人ID
+    "1.5.22",
+    ......
+    "1.5.73"
+  ],
+  "active_committee_members": [//活跃理事会成员ID
+    "1.4.0",
+    ......
+    "1.4.6"
+  ]
+}
+```
+
+#### 2. variant_object  about()
+参数：无
+
+作用：显示当前Seer链相关的版本号
+
+示例：`about`
+
+```cmd
+about
+{
+  "client_version": "v0.02-8-gb681e10",
+  "graphene_revision": "b681e10b5492e879889a0b854e05bc292b3415bc",
+  "graphene_revision_age": "41 days ago",
+  "fc_revision": "cb627980a5ff5f65fe129414dd96d3c2bd51b095",
+  "fc_revision_age": "60 weeks ago",
+  "compile_date": "compiled on Jun 17 2018 at 18:06:22",
+  "boost_version": "1.58",
+  "openssl_version": "OpenSSL 1.0.1g 7 Apr 2014",
+  "build": "win32 64-bit"
+}
+```
+
+
+#### 3. global_property_object    get_global_properties() const;
+参数：无
+
+作用：列出链的当前全局参数
+
+示例：`get_global_properties`
+
+```cmd 
+get_global_properties
+{
+  "id": "2.0.0",
+  "parameters": {
+    "current_fees": {
+      "parameters": [[
+          0,{//转账
+            "fee": 200000,//手续费 单位为1/100000SEER，即2SEER
+            "price_per_kbyte": 1000000 //每千字节手续费 10SEER
+          }
+        ],[
+          1,{//发起限价单
+            "fee": 500000 //手续费 5SEER
+          }
+        ],[
+          2,{//取消限价单
+            "fee": 100000 //手续费 1SEER
+          }
+        ],[
+          3,{}
+        ],[
+          4,{
+            "basic_fee": 500000,
+            "premium_fee": 200000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          5,{
+            "fee": 2000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          6,{
+            "fee": 300000
+          }
+        ],[
+          7,{
+            "membership_annual_fee": 200000000,
+            "membership_lifetime_fee": 1000000000
+          }
+        ],[
+          8,{
+            "fee": 50000000
+          }
+        ],[
+          9,{
+            "symbol3": "35000000000",
+            "symbol4": "15000000000",
+            "long_symbol": 1500000000,
+            "price_per_kbyte": 10
+          }
+        ],[
+          10,{
+            "fee": 50000000,
+            "price_per_kbyte": 10
+          }
+        ],[
+          11,{
+            "fee": 2000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          12,{
+            "fee": 2000000
+          }
+        ],[
+          13,{
+            "fee": 100000
+          }
+        ],[
+          14,{
+            "fee": 2000000000
+          }
+        ],[
+          15,{
+            "fee": 10000000
+          }
+        ],[
+          16,{
+            "fee": 1000000
+          }
+        ],[
+          17,{
+            "fee": 10000000
+          }
+        ],[
+          18,{
+            "fee": 20000000
+          }
+        ],[
+          19,{
+            "fee": 2000000,
+            "price_per_kbyte": 10
+          }
+        ],[
+          20,{
+            "fee": 2000000,
+            "price_per_kbyte": 10
+          }
+        ],[
+          21,{
+            "fee": 100000
+          }
+        ],[
+          22,{
+            "fee": 100000
+          }
+        ],[
+          23,{
+            "fee": 100000
+          }
+        ],[
+          24,{
+            "fee": 2000000,
+            "price_per_kbyte": 10
+          }
+        ],[
+          25,{
+            "fee": 0
+          }
+        ],[
+          26,{
+            "fee": 500000000
+          }
+        ],[
+          27,{
+            "fee": 2000000
+          }
+        ],[
+          28,{
+            "fee": 100000
+          }
+        ],[
+          29,{
+            "fee": 100000
+          }
+        ],[
+          30,{
+            "fee": 2000000
+          }
+        ],[
+          31,{
+            "fee": 100000,
+            "price_per_kbyte": 10
+          }
+        ],[
+          32,{
+            "fee": 100000
+          }
+        ],[
+          33,{}
+        ],[
+          34,{
+            "fee": 2000000,
+            "price_per_kbyte": 10
+          }
+        ],[
+          35,{
+            "fee": 500000,
+            "price_per_output": 500000
+          }
+        ],[
+          36,{
+            "fee": 500000,
+            "price_per_output": 500000
+          }
+        ],[
+          37,{
+            "fee": 500000
+          }
+        ],[
+          38,{
+            "fee": 2000000
+          }
+        ],[
+          39,{}
+        ],[
+          40,{
+            "fee": 1000000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          41,{
+            "fee": 10000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          42,{
+            "fee": 1000000
+          }
+        ],[
+          43,{
+            "fee": 20000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          44,{
+            "fee": 10000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          45,{
+            "fee": 500000
+          }
+        ],[
+          46,{
+            "fee": 10000000
+          }
+        ],[
+          47,{
+            "fee": 500000
+          }
+        ],[
+          48,{
+            "fee": 1000000
+          }
+        ],[
+          49,{
+            "fee": 2000000
+          }
+        ],[
+          50,{
+            "fee": 500000
+          }
+        ],[
+          51,{
+            "fee": 1000000
+          }
+        ],[
+          52,{
+            "fee": 2000000
+          }
+        ],[
+          53,{
+            "fee": 3000000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          54,{
+            "fee": 100000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          55,{
+            "fee": 10000000
+          }
+        ],[
+          56,{
+            "fee": 1000000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          57,{
+            "fee": 100000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          58,{
+            "fee": 100000
+          }
+        ],[
+          59,{
+            "fee": 1000000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          60,{
+            "fee": 100000000,
+            "price_per_kbyte": 100000
+          }
+        ],[
+          61,{
+            "fee": 100000
+          }
+        ]
+      ],
+      "scale": 10000
+    },
+    "block_interval": 3,
+    "maintenance_interval": 86400,
+    "maintenance_skip_slots": 3,
+    "committee_proposal_review_period": 1209600,
+    "maximum_transaction_size": 2048,
+    "maximum_block_size": 2000000,
+    "maximum_time_until_expiration": 86400,
+    "maximum_proposal_lifetime": 2419200,
+    "maximum_asset_whitelist_authorities": 50,
+    "maximum_authenticator_count": 1001,
+    "maximum_committee_count": 1001,
+    "maximum_authority_membership": 10,
+    "network_percent_of_fee": 6000,
+    "lifetime_referrer_percent_of_fee": 0,
+    "cashback_vesting_period_seconds": 31536000,
+    "cashback_vesting_threshold": 10000000,
+    "count_non_member_votes": true,
+    "allow_non_member_whitelists": false,
+    "witness_pay_per_block": 300000,
+    "max_predicate_opcode": 1,
+    "fee_liquidation_threshold": 10000000,
+    "accounts_per_fee_scale": 1000,
+    "account_fee_scale_bitshifts": 4,
+    "max_authority_depth": 2,
+    "min_guaranty_per_room": "10000000000",
+    "max_oracle_reward": 100000000,
+    "fixed_witness_count": 21,
+    "maximum_profit_witness_count": 101,
+    "maximun_seer_settles_per_block": 1000,
+    "supported_authenticate_types": 7,
+    "extensions": []
+  },
+  "next_available_vote_id": 8,
+  "active_committee_members": [
+    "1.4.0",
+    "1.4.1",
+    "1.4.2",
+    "1.4.3",
+    "1.4.4",
+    "1.4.5",
+    "1.4.6"
+  ],
+  "active_witnesses": [
     "1.5.22",
     "1.5.24",
     "1.5.25",
@@ -86,27 +468,88 @@ cli_wallet.exe -s ws://123.207.146.191:9999
     "1.5.71",
     "1.5.73"
   ],
-  "active_committee_members": [//活跃理事会成员ID
-    "1.4.0",
-    "1.4.1",
-    "1.4.2",
-    "1.4.3",
-    "1.4.4",
-    "1.4.5",
-    "1.4.6"
-  ]
+  "active_collateral_witnesses": [
+    "1.5.61",
+    "1.5.71",
+    "1.5.50",
+    "1.5.42",
+    "1.5.58",
+    "1.5.41",
+    "1.5.63",
+    "1.5.60",
+    "1.5.62",
+    "1.5.38",
+    "1.5.70",
+    "1.5.52",
+    "1.5.54",
+    "1.5.25",
+    "1.5.44",
+    "1.5.48",
+    "1.5.26",
+    "1.5.24",
+    "1.5.73",
+    "1.5.22",
+    "1.5.46",
+    "1.5.53",
+    "1.5.37",
+    "1.5.56",
+    "1.5.72",
+    "1.5.43",
+    "1.5.14",
+    "1.5.15",
+    "1.5.16",
+    "1.5.17",
+    "1.5.18",
+    "1.5.12",
+    "1.5.13",
+    "1.5.64",
+    "1.5.10",
+    "1.5.11",
+    "1.5.9",
+    "1.5.8",
+    "1.5.30",
+    "1.5.57",
+    "1.5.19",
+    "1.5.21",
+    "1.5.66",
+    "1.5.68",
+    "1.5.28",
+    "1.5.34",
+    "1.5.36",
+    "1.5.69",
+    "1.5.31",
+    "1.5.32",
+    "1.5.29",
+    "1.5.40",
+    "1.5.27",
+    "1.5.65",
+    "1.5.33",
+    "1.5.20",
+    "1.5.55",
+    "1.5.23",
+    "1.5.1",
+    "1.5.2",
+    "1.5.3",
+    "1.5.4",
+    "1.5.5",
+    "1.5.6",
+    "1.5.7",
+    "1.5.35",
+    "1.5.39",
+    "1.5.45",
+    "1.5.47",
+    "1.5.49",
+    "1.5.51",
+    "1.5.59",
+    "1.5.67"
+  ],
+  "active_supervisors": [],
+  "active_authenticators": [],
+  "seer_exploded": false
 }
+
 ```
 
-### 2. variant_object  about()
-参数：无
-作用：显示当前Seer链相关的版本号
-示例：about
-
-3,global_property_object    get_global_properties() const;
-参数：无
-作用：列出链的当前全局参数
-示例：get_global_properties
 
 4,dynamic_global_property_object    get_dynamic_global_properties() const;
 参数：无 

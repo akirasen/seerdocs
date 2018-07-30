@@ -837,13 +837,19 @@ get_account_id gateway
 variant get_object(object_id_type id) const; 
 
 参数：id是可以是任意SEER数据的id，比如account、asset、witness、balance、oracle……
+
 作用：根据对象的id返回该对象
+
 示例：`get_object` 1.3.0  //资产
+
      `get_object` 1.2.9981 //账户
+     
      `get_object` 1.5.55 //见证人
+     
 <p class="warning">
 	说明：该接口不支持room类型,因room对象可能极其巨大,如需获取room对象请使用get_seer_room指令
 </p>
+
 返回信息示例：
 ```cmd
 get_object 1.5.55//这是获取见证人信息
@@ -869,99 +875,335 @@ get_object 1.5.55//这是获取见证人信息
 ]
 ```
 ### 钱包相关指令
-1，	string  get_wallet_filename() const;
-参数：无
-作用：列出当前钱包文件存放的路径
-示例：get_wallet_filename
 
-2，	vector<account_object>   list_my_accounts();
-参数：无
-作用：列出当前钱包里的所有账户
-示例：list_my_accounts
+#### 1. set_password
+void set_password(string password);
 
-3，	string  get_private_key(public_key_type pubkey)const
-参数：pubkey为指定公钥
-作用：列出钱包里pubkey所对应的私钥
-示例：
-get_private_key  SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ
-
-4，	void    lock();
-参数：无
-作用：锁定当前钱包
-示例：lock
-
-5，	void    unlock(string password);
 参数：password为钱包密码
-作用：使用password解锁当前钱包
-示例：unlock 1234567890
 
-6，	void    set_password(string password);
-参数：password为钱包密码
 作用：设置或修改当前钱包密码为password, 新钱包及解锁状态下可使用
-示例：set_password  1234567890
 
-7，	map<public_key_type, string> dump_private_keys();
-参数：无
-作用：导出当前钱包所有私钥
-示例：dump_private_keys
+示例：`set_password` 1234567890
 
-8，	brain_key_info  suggest_brain_key()const;
+返回信息示例：
+```cmd
+new >>> set_password 1234567890
+set_password 1234567890
+null
+locked >>>
+```
+
+#### 2. unlock
+void unlock(string password);
+
+参数：password为钱包密码
+
+作用：使用password解锁当前钱包
+
+示例：`unlock` 1234567890
+
+返回信息示例：
+```cmd
+locked >>> unlock 1234567890
+unlock 1234567890
+null
+unlocked >>>
+```
+
+#### 3. lock
+void lock();
+
 参数：无
+
+作用：锁定当前钱包
+
+示例：`lock`
+
+返回信息示例：
+```cmd
+unlocked >>> lock
+lock
+null
+locked >>>
+```
+
+#### 4. suggest_brain_key
+brain_key_info  suggest_brain_key()const;
+
+参数：无
+
 作用：随机生成脑钱包密钥
-示例：suggest_brain_key
 
-9，	bool import_key(string account_name_or_id, string wif_key);
+示例：`suggest_brain_key`
+
+返回信息示例：
+```cmd
+suggest_brain_key
+{
+  "brain_priv_key": "UNLISTY BLOOMER ANGSTER ENOLIC PILE EVEQUE STRE LECTERN CITRON GARETTA FRECKLE TELEDU JOKE AUNT OFT FOUNDRY",
+  "wif_priv_key": "5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci",
+  "pub_key": "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"
+}
+```
+
+#### 5. import_key
+bool import_key(string account_name_or_id, string wif_key);
+
 参数：account_name_or_id 为用户名或id，wif_key为私钥
+
 作用：通过私钥wif_key往钱包里导入账户account_name_or_id
-示例：import_key abc  5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
+<p class="tip">
+  不知道怎么获得你的账户私钥？<a router-link="/zh-Hans/">`点击这里`</a> 了解。
+</p>
+示例：`import_key` abc  5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
 
-10，	map<string, bool> import_accounts(string filename, string password); 
-参数：filename 为钱包文件名，password为密码
-作用：将钱包文件filename里的账户导入当前钱包
-示例：import_accounts  "d:\wallet.json" 12345
+返回信息示例：
+```cmd
 
-11，	vector< signed_transaction > import_balance(string account_name_or_id, const vector<string>& wif_keys, bool broadcast);
+unlocked >>> import_key abc 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
+import_key abc 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
+1983068ms th_a       wallet.cpp:793                save_wallet_file     ] saving wallet to file wallet.json
+1983069ms th_a       wallet.cpp:467                copy_wallet_file     ] backing up wallet wallet.json to after-import-key-4b839f25.wallet
+true
+
+```
+
+#### 6.  get_private_key
+string  get_private_key(public_key_type pubkey)const
+
+参数：pubkey为指定公钥
+
+作用：列出钱包里pubkey所对应的私钥
+
+示例：`get_private_key`  SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ
+
+返回信息示例：
+```cmd
+unlocked >>> get_private_key SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ
+get_private_key SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ
+"5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY"
+
+```
+#### 7.list_my_accounts
+vector<account_object>   list_my_accounts();
+
+参数：无
+
+作用：列出当前钱包里的所有账户
+
+示例：`list_my_accounts`
+
+返回信息示例：
+```cmd
+list_my_accounts
+[{
+    "id": "1.2.11006",
+    "membership_expiration_date": "1970-01-01T00:00:00",
+    ......
+    "top_n_control_flags": 0,
+    "country": 0,
+    "status": 0,
+    "authentications": []
+  },{
+    "id": "1.2.10021",
+    "membership_expiration_date": "1970-01-01T00:00:00",
+    ......
+    "top_n_control_flags": 0,
+    "country": 0,
+    "status": 0,
+    "authentications": []
+  }
+]
+```
+
+#### 8. dump_private_keys
+map<public_key_type, string> dump_private_keys();
+
+参数：无
+
+作用：导出当前钱包所有私钥
+
+示例：`dump_private_keys`
+
+返回信息示例：
+```cmd
+dump_private_keys
+[[
+    "SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ",
+    "5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY"
+  ],[
+    "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5",
+    "5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci"
+  ]
+]
+```
+
+#### 9. import_balance
+vector< signed_transaction > import_balance(string account_name_or_id, const vector<string>& wif_keys, bool broadcast);
+	
 参数：account_name_or_id 为账户名或id，wif_keys为私钥组(可含1到多个私钥)
+	
 作用：将私钥组wif_keys里的所有余额导入账户account_name_or_id
+
 示例：
-import_balance  abc  ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"]  true
+`import_balance`  abc  ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"]  true
 
-import_balance  abc  ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"," 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUB"," 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUC"]  true
+`import_balance`  abc  ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"," 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUB"," 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUC"]  true
 
-12，	signed_transaction  register_account(string name,
-			public_key_type owner,
-			public_key_type active,
-			string  registrar_account,
-			string  referrer_account,
-			uint32_t referrer_percent,
-			bool broadcast = false);
-参数：name为所注册账户名
-      owner为所注册账户的owner
-active为所注册账户的active
-registrar_account为注册者
-referrer_account为推荐人
-referrer_percent为推荐人获取手续费的百分比  10表10%, 20表20%
+返回信息示例：
+```cmd
+unlocked >>> import_balance abc ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"]  true
+import_balance abc ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"]  true
+40119ms th_a       wallet.cpp:4234               import_balance       ] balances: []
+[]
+```
+
+#### 10. register_account
+signed_transaction  register_account(string name, public_key_type owner, public_key_type active, string  registrar_account, string  referrer_account, uint32_t referrer_percent, bool broadcast = false);
+
+参数：name为所注册账户名 owner为所注册账户的owner active为所注册账户的active registrar_account为注册者 referrer_account为推荐人 referrer_percent为推荐人获取手续费的百分比 10表10%, 20表20%
+
 作用：注册新账户
-示例：
-register_account bb SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ  abc cde 20 true
 
-13，	signed_transaction  upgrade_account(string name, bool broadcast); 
+示例：`register_account` bb SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ abc cde 20 true
+
+返回信息示例：
+```cmd
+register_account abccba SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 abc abc 20 true
+{
+  "ref_block_num": 50287,
+  "ref_block_prefix": 1187139268,
+  "expiration": "2018-07-30T14:16:18",
+  "operations": [[
+      4,{
+        "fee": {
+          "amount": 200014355,
+          "asset_id": "1.3.0"
+        },
+        "registrar": "1.2.42",
+        "referrer": "1.2.42",
+        "referrer_percent": 2000,
+        "name": "abccba",
+        "owner": {
+          "weight_threshold": 1,
+          "account_auths": [],
+          "key_auths": [[
+              "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5",
+              1
+            ]
+          ],
+          "address_auths": []
+        },
+        "active": {
+          "weight_threshold": 1,
+          "account_auths": [],
+          "key_auths": [[
+              "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5",
+              1
+            ]
+          ],
+          "address_auths": []
+        },
+        "options": {
+          "memo_key": "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5",
+          "voting_account": "1.2.5",
+          "num_committee": 0,
+          "num_authenticator": 0,
+          "num_supervisor": 0,
+          "votes": [],
+          "extensions": []
+        },
+        "extensions": {}
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "20721186072027f779934b5a17c5272174b4338eadb946e3c326782d7e20b7f4d81068c2575e0194432750d12191cee33f483d1b01476b8700ae70233187635fb0"
+  ]
+}
+```
+#### 11. transfer
+signed_transaction transfer(string from, string to, string amount, string asset_symbol, string memo, bool broadcast = false);
+
+参数：from为转出账户,to为接收账户,amount为转账数量, asset_symbol为资产名,memo为备注。from/to 可以是用户名或者id。 
+
+作用：转账
+
+示例：`transfer` abc cde 100 SEER "give you 100 SEER" true
+
+返回信息示例：
+```cmd
+transfer abc cde 100 SEER "give you 100 SEER" true
+{
+  "ref_block_num": 50522,
+  "ref_block_prefix": 3064116022,
+  "expiration": "2018-07-30T14:28:03",
+  "operations": [[
+      0,{
+        "fee": {
+          "amount": 2089843,
+          "asset_id": "1.3.0"
+        },
+        "from": "1.2.42",
+        "to": "1.2.108",
+        "amount": {
+          "amount": 10000000,
+          "asset_id": "1.3.0"
+        },
+        "memo": {
+          "from": "SEER7nLQYsQzsMRNxQCadGvzAoTXq9Wwep2wMYw59ttDCY7zxr19DK",
+          "to": "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5",
+          "nonce": "14989512520743889312",
+          "message": "cbb1b8f0ca1dccb494a146a6076f30fb"
+        },
+        "extensions": []
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f53d69c8aeaeb94e531ff82f100fea2ba2f0e756199bc5120cc90c33001b5d95c055138ea309e692259e98cb3d77d6e219fc04feca32762cbfd72488bbc034bdc"
+  ]
+}
+```
+
+#### 12. upgrade_account
+signed_transaction  upgrade_account(string name, bool broadcast); 
+
 参数：name为账户名或者id
+
 作用：升级账户等级到终身会员
+
 示例：upgrade_account abc true
 
-14，	signed_transaction transfer(string from,
-				string to,
-				string amount,
-				string asset_symbol,
-				string memo,
-				bool broadcast = false);
-参数：from为转出账户,to为接收账户,amount为转账数量, asset_symbol为资产名,memo为备注。from/to 可以是用户名或者id。 
-作用：转账
-示例：transfer abc cde 100 SEER "give you 100 SEER" true
+返回信息示例：
+```cmd
+upgrade_account abc true
+{
+  "ref_block_num": 50465,
+  "ref_block_prefix": 3987236035,
+  "expiration": "2018-07-30T14:25:12",
+  "operations": [[
+      7,{
+        "fee": {
+          "amount": 1000000000,
+          "asset_id": "1.3.0"
+        },
+        "account_to_upgrade": "1.2.108",
+        "upgrade_to_lifetime_member": true,
+        "extensions": []
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f1c79777d8ae33d26bff69716aa1303e37b780b893f05eb291f0bc4c8f0d7efb01fb196f8011d31233ba202f53e12d8b469f7b96438b9b00da6bb65d0c3270078"
+  ]
+}
+```
 
-
-
+#### 13. 
 signed_transaction sell_asset(string seller_account,
 				string amount_to_sell,
 				string   symbol_to_sell,
@@ -973,6 +1215,29 @@ signed_transaction sell_asset(string seller_account,
 参数：seller_account为卖出账户, amount_to_sell为出售的资产数量, symbol_to_sell为想要出售的资产, min_to_receive为要购买的资产数量, symbol_to_receive要购买的资产 
 作用：市场交易的卖出
 示例：sell_asset tester 10 SEER 1000 ABCDE 0 false true
+
+
+5，	
+返回信息示例：
+```cmd
+
+```
+	
+10，	map<string, bool> import_accounts(string filename, string password); 
+参数：filename 为钱包文件名，password为密码
+作用：将钱包文件filename里的账户导入当前钱包
+示例：import_accounts  "d:\wallet.json" 12345
+
+11，	
+12，	
+
+13，	
+
+14，	
+
+
+
+
 
 15，	signed_transaction create_asset(string issuer, 
 				string symbol,

@@ -5,6 +5,11 @@ search: zh-Hans
 
 # 赛亚命令行指令指南
 
+<p class="danger">
+  
+ `json`格式的返回数据中本没有`//`形式的注释，是写文档时为了方便大家阅读所加，注释中若有错误请通过 <a href="https://github.com/akirasen/seerdocs"> **github** </a> 联系我们。
+</p>
+
 ## 启动cli_wallet
 
 对Seer的命令行钱包`cli_wallet`常用指令进行说明，便于普通用户查阅。`cli_wallet`为命令行版本客户端钱包，所有操作都通过输入指令形式执行。
@@ -74,7 +79,7 @@ variant Info()
 示例：`info`
 
 返回信息示例：
-```cmd
+```json
  info
 {
   "head_block_num": 2084691,//当前块高
@@ -106,7 +111,7 @@ variant_object about()
 示例：`about`
 
 返回信息示例：
-```cmd
+```json
 about
 {
   "client_version": "v0.02-8-gb681e10",
@@ -477,7 +482,7 @@ dynamic_global_property_object    get_dynamic_global_properties() const;
 示例：`get_dynamic_global_properties`
 
 返回信息示例：
-```cmd
+```json
 get_dynamic_global_properties
 {
   "id": "2.1.0",
@@ -509,7 +514,7 @@ optional<signed_block_with_info>  get_block(uint32_t num)
 示例：`get_block` 2090482
 
 返回信息示例：
-```cmd
+```json
 get_block 2090482
 {
   "previous": "001fe5f1e1dd8d195af805484ee8038a09866b76",//上一个块的块号
@@ -568,7 +573,7 @@ uint64_t get_account_count()const;
 示例：`get_account_count`
 
 返回信息示例：
-```cmd
+```json
 get_account_count
 13528
 ```
@@ -583,7 +588,7 @@ map<string, account_id_type> list_accounts(const string& lowerbound, uint32_t li
 示例：`list_accounts` "" 100
 
 返回信息示例：
-```cmd
+```json
 list_accounts "" 100
 [[
     "a-1233",
@@ -599,7 +604,7 @@ list_accounts "" 100
 示例：`list_accounts` "seer" 10
 
 返回信息示例：
-```cmd
+```json
 list_accounts "seer" 10
 [[
     "seer",
@@ -623,7 +628,7 @@ vector<asset>   list_account_balances(const string& id);
 示例：`list_account_balances` gateway
 
 返回信息示例：
-```cmd
+```json
 list_account_balances gateway
 269802279.85853 SEER
 ```
@@ -636,7 +641,7 @@ vector<asset_object>  list_assets(const string& lowerbound, uint32_t limit)const
 示例：`list_assets` "SEER" 100
 
 返回信息示例：
-```cmd
+```json
 list_assets "SEER" 100
 [{
     "id": "1.3.0",//SEER的资产ID
@@ -684,7 +689,7 @@ vector<operation_detail>  get_account_history(string name, int limit)const;
 </p>
 
 返回信息示例：
-```cmd
+```json
 get_account_history gateway 10
 2018-07-30T07:06:18 Transfer 38000 SEER from lxy5130 to gateway -- Unlock wallet to see memo.   (Fee: 3.36718 SEER)
 ......
@@ -702,7 +707,7 @@ account_object   get_account(string account_name_or_id) const;
      `get_account` 1.2.9981
 
 返回信息示例：
-```cmd
+```json
 get_account gateway
 {
   "id": "1.2.9981",
@@ -786,7 +791,7 @@ asset_object get_asset(string asset_name_or_id) const;
      `get_asset` 1.3.31
 
 返回信息示例：
-```cmd
+```json
 get_asset SEER
 {
   "id": "1.3.0",
@@ -829,7 +834,7 @@ account_id_type get_account_id(string account_name_or_id) const;
 示例：`get_account_id` gateway
 
 返回信息示例：
-```cmd
+```json
 get_account_id gateway
 "1.2.9981"
 ```
@@ -851,7 +856,7 @@ variant get_object(object_id_type id) const;
 </p>
 
 返回信息示例：
-```cmd
+```json
 get_object 1.5.55//这是获取见证人信息
 [{
     "id": "1.5.55",//见证人ID
@@ -886,7 +891,7 @@ void set_password(string password);
 示例：`set_password` 1234567890
 
 返回信息示例：
-```cmd
+```json
 new >>> set_password 1234567890
 set_password 1234567890
 null
@@ -903,7 +908,7 @@ void unlock(string password);
 示例：`unlock` 1234567890
 
 返回信息示例：
-```cmd
+```json
 locked >>> unlock 1234567890
 unlock 1234567890
 null
@@ -920,7 +925,7 @@ void lock();
 示例：`lock`
 
 返回信息示例：
-```cmd
+```json
 unlocked >>> lock
 lock
 null
@@ -937,7 +942,7 @@ brain_key_info  suggest_brain_key()const;
 示例：`suggest_brain_key`
 
 返回信息示例：
-```cmd
+```json
 suggest_brain_key
 {
   "brain_priv_key": "UNLISTY BLOOMER ANGSTER ENOLIC PILE EVEQUE STRE LECTERN CITRON GARETTA FRECKLE TELEDU JOKE AUNT OFT FOUNDRY",
@@ -958,7 +963,7 @@ bool import_key(string account_name_or_id, string wif_key);
 示例：`import_key` abc  5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
 
 返回信息示例：
-```cmd
+```json
 
 unlocked >>> import_key abc 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
 import_key abc 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
@@ -978,7 +983,7 @@ string  get_private_key(public_key_type pubkey)const
 示例：`get_private_key`  SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ
 
 返回信息示例：
-```cmd
+```json
 unlocked >>> get_private_key SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ
 get_private_key SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ
 "5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY"
@@ -994,7 +999,7 @@ vector<account_object>   list_my_accounts();
 示例：`list_my_accounts`
 
 返回信息示例：
-```cmd
+```json
 list_my_accounts
 [{
     "id": "1.2.11006",
@@ -1026,7 +1031,7 @@ map<public_key_type, string> dump_private_keys();
 示例：`dump_private_keys`
 
 返回信息示例：
-```cmd
+```json
 dump_private_keys
 [[
     "SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ",
@@ -1051,7 +1056,7 @@ vector< signed_transaction > import_balance(string account_name_or_id, const vec
 `import_balance`  abc  ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"," 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUB"," 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUC"]  true
 
 返回信息示例：
-```cmd
+```json
 unlocked >>> import_balance abc ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"]  true
 import_balance abc ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"]  true
 40119ms th_a       wallet.cpp:4234               import_balance       ] balances: []
@@ -1068,7 +1073,7 @@ signed_transaction  register_account(string name, public_key_type owner, public_
 示例：`register_account` bb SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ abc cde 20 true
 
 返回信息示例：
-```cmd
+```json
 register_account abccba SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 abc abc 20 true
 {
   "ref_block_num": 50287,
@@ -1133,7 +1138,7 @@ signed_transaction transfer(string from, string to, string amount, string asset_
 示例：`transfer` abc cde 100 SEER "give you 100 SEER" true
 
 返回信息示例：
-```cmd
+```json
 transfer abc cde 100 SEER "give you 100 SEER" true
 {
   "ref_block_num": 50522,
@@ -1178,7 +1183,7 @@ signed_transaction  upgrade_account(string name, bool broadcast);
 示例：upgrade_account abc true
 
 返回信息示例：
-```cmd
+```json
 upgrade_account abc true
 {
   "ref_block_num": 50465,
@@ -1219,7 +1224,7 @@ signed_transaction sell_asset(string seller_account,
 
 5，	
 返回信息示例：
-```cmd
+```json
 
 ```
 	

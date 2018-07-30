@@ -213,336 +213,244 @@ get_global_properties
             "fee": 10000000//手续费100SEER
           }
         ],[
-          18,{//
+          18,{//领取抵押金和利息
             "fee": 20000000//手续费200SEER
           }
         ],[
-          19,{//
+          19,{//创建提案
             "fee": 2000000,//手续费20SEER
             "price_per_kbyte": 10//每千字节手续费 0.0001SEER	
           }
         ],[
-          20,{//
-            "fee": 2000000,
+          20,{//更新提案
+            "fee": 2000000,/手续费20SEER
             "price_per_kbyte": 10//每千字节手续费 0.0001SEER	
           }
         ],[
-          21,{//
+          21,{//删除提案
             "fee": 100000//手续费1SEER
           }
         ],[
-          22,{//
+          22,{//授权提款
             "fee": 100000//手续费1SEER
           }
         ],[
-          23,{//
+          23,{//更新提款授权
             "fee": 100000//手续费1SEER
           }
         ],[
-          24,{//
+          24,{//行使提款授权
             "fee": 2000000,//手续费20SEER
             "price_per_kbyte": 10//每千字节手续费 0.0001SEER	
           }
         ],[
-          25,{//
+          25,{//删除提款授权
             "fee": 0//手续费0
           }
         ],[
-          26,{//
+          26,{//创建理事会成员
             "fee": 500000000//手续费5000SEER
           }
         ],[
-          27,{//
+          27,{//更新理事会成员
             "fee": 2000000//手续费20SEER
           }
         ],[
-          28,{//
+          28,{//全局参数更新
             "fee": 100000//手续费1SEER
           }
         ],[
-          29,{//
+          29,{//创建冻结账目余额
             "fee": 100000//手续费1SEER
           }
         ],[
-          30,{//
+          30,{//提取解冻账户余额
             "fee": 2000000//手续费20SEER
           }
         ],[
-          31,{//
+          31,{//自定义项目
             "fee": 100000,//手续费10SEER
             "price_per_kbyte": 10//每千字节手续费 0.0001SEER	
           }
         ],[
-          32,{//
+          32,{//断言操作
             "fee": 100000//手续费1SEER
           }
         ],[
           33,{}
         ],[
-          34,{//
+          34,{//强制转账
             "fee": 2000000,//手续费20SEER
             "price_per_kbyte": 10//每千字节手续费 0.0001SEER
           }
         ],[
-          35,{//
+          35,{//向隐私账户转账
             "fee": 500000,//手续费5SEER
             "price_per_output": 500000
           }
         ],[
-          36,{//
+          36,{//隐私转账
             "fee": 500000,//手续费5SEER
             "price_per_output": 500000
           }
         ],[
-          37,{//
+          37,{//从隐私账户转出
             "fee": 500000//手续费5SEER
           }
         ],[
-          38,{//
+          38,{//领取资产手续费
             "fee": 2000000//手续费20SEER
           }
         ],[
           39,{}
         ],[
-          40,{//
+          40,{//创建预言机
             "fee": 1000000000,//手续费10000SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          41,{//
+          41,{//更新预言机
             "fee": 10000000,//手续费100SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          42,{//
+          42,{//预言机输入结果
             "fee": 1000000//手续费10SEER
           }
         ],[
-          43,{//
+          43,{//创建房间
             "fee": 20000000,//手续费200SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          44,{//
+          44,{//房间更新
             "fee": 10000000,//手续费10SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          45,{//
+          45,{//房主输入预测结果
             "fee": 500000//手续费5SEER
           }
         ],[
-          46,{//
+          46,{//开启预测
             "fee": 10000000//手续费100SEER
           }
         ],[
-          47,{//
+          47,{//停止房间预测
             "fee": 500000//手续费5SEER
           }
         ],[
-          48,{//
+          48,{//对房间结算
             "fee": 1000000//手续费10SEER
           }
         ],[
-          49,{//
+          49,{//房间派奖
             "fee": 2000000//手续费200SEER
           }
         ],[
-          50,{//
+          50,{//参与预测
             "fee": 500000//手续费5SEER
           }
         ],[
-          51,{//
-            "fee": 1000000//手续费100SEER
+          51,{//关闭房间
+            "fee": 1000000//手续费10SEER
           }
         ],[
-          52,{//
+          52,{//从房间提取余额
             "fee": 2000000//手续费20SEER
           }
         ],[
-          53,{//
+          53,{//创建平台
             "fee": 3000000000,//手续费30000SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          54,{//
-            "fee": 100000000,
+          54,{//更新平台
+            "fee": 100000000,//手续费1000SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          55,{//
+          55,{//申请认证
             "fee": 10000000//手续费100SEER
           }
         ],[
-          56,{//
+          56,{//创建监管者
             "fee": 1000000000,//手续费10000SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          57,{//
+          57,{//更新监管者
             "fee": 100000000,//手续费1000SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          58,{//
+          58,{//监管处理
             "fee": 100000//手续费1SEER
           }
         ],[
-          59,{//
-            "fee": 1000000000,//手续费1000SEER
+          59,{//创建认证者
+            "fee": 1000000000,//手续费10000SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          60,{//
+          60,{//更新认证者
             "fee": 100000000,//手续费1000SEER
             "price_per_kbyte": 100000//每千字节手续费 1SEER
           }
         ],[
-          61,{//
+          61,{//认证处理
             "fee": 100000//手续费1SEER
           }
         ]
       ],
       "scale": 10000
     },
-    "block_interval": 3,
-    "maintenance_interval": 86400,
+    "block_interval": 3,//块间隔时间，3秒
+    "maintenance_interval": 86400,//计票更新时间 86400秒，一天
     "maintenance_skip_slots": 3,
-    "committee_proposal_review_period": 1209600,
-    "maximum_transaction_size": 2048,
-    "maximum_block_size": 2000000,
-    "maximum_time_until_expiration": 86400,
-    "maximum_proposal_lifetime": 2419200,
-    "maximum_asset_whitelist_authorities": 50,
-    "maximum_authenticator_count": 1001,
-    "maximum_committee_count": 1001,
-    "maximum_authority_membership": 10,
-    "network_percent_of_fee": 6000,
-    "lifetime_referrer_percent_of_fee": 0,
-    "cashback_vesting_period_seconds": 31536000,
-    "cashback_vesting_threshold": 10000000,
-    "count_non_member_votes": true,
-    "allow_non_member_whitelists": false,
-    "witness_pay_per_block": 300000,
-    "max_predicate_opcode": 1,
-    "fee_liquidation_threshold": 10000000,
-    "accounts_per_fee_scale": 1000,
-    "account_fee_scale_bitshifts": 4,
-    "max_authority_depth": 2,
-    "min_guaranty_per_room": "10000000000",
-    "max_oracle_reward": 100000000,
-    "fixed_witness_count": 21,
-    "maximum_profit_witness_count": 101,
-    "maximun_seer_settles_per_block": 1000,
-    "supported_authenticate_types": 7,
+    "committee_proposal_review_period": 1209600,//
+    "maximum_transaction_size": 2048,//
+    "maximum_block_size": 2000000,//
+    "maximum_time_until_expiration": 86400,//
+    "maximum_proposal_lifetime": 2419200,//
+    "maximum_asset_whitelist_authorities": 50,//
+    "maximum_authenticator_count": 1001,//
+    "maximum_committee_count": 1001,//
+    "maximum_authority_membership": 10,//
+    "network_percent_of_fee": 6000,//
+    "lifetime_referrer_percent_of_fee": 0,//
+    "cashback_vesting_period_seconds": 31536000,//
+    "cashback_vesting_threshold": 10000000,//
+    "count_non_member_votes": true,//
+    "allow_non_member_whitelists": false,//
+    "witness_pay_per_block": 300000,//
+    "max_predicate_opcode": 1,//
+    "fee_liquidation_threshold": 10000000,//
+    "accounts_per_fee_scale": 1000,//
+    "account_fee_scale_bitshifts": 4,//
+    "max_authority_depth": 2,//
+    "min_guaranty_per_room": "10000000000",//
+    "max_oracle_reward": 100000000,//
+    "fixed_witness_count": 21,//
+    "maximum_profit_witness_count": 101,//
+    "maximun_seer_settles_per_block": 1000,//
+    "supported_authenticate_types": 7,//
     "extensions": []
   },
   "next_available_vote_id": 8,
-  "active_committee_members": [
+  "active_committee_members": [//活跃理事会成员
     "1.4.0",
-    "1.4.1",
-    "1.4.2",
-    "1.4.3",
-    "1.4.4",
-    "1.4.5",
+......
     "1.4.6"
   ],
-  "active_witnesses": [
+  "active_witnesses": [//活跃主力见证人
     "1.5.22",
-    "1.5.24",
-    "1.5.25",
-    "1.5.26",
-    "1.5.38",
-    "1.5.41",
-    "1.5.42",
-    "1.5.44",
-    "1.5.46",
-    "1.5.48",
-    "1.5.50",
-    "1.5.52",
-    "1.5.54",
-    "1.5.58",
-    "1.5.60",
-    "1.5.61",
-    "1.5.62",
-    "1.5.63",
-    "1.5.70",
-    "1.5.71",
+   ......
     "1.5.73"
   ],
-  "active_collateral_witnesses": [
+  "active_collateral_witnesses": [//活跃候选见证人
     "1.5.61",
-    "1.5.71",
-    "1.5.50",
-    "1.5.42",
-    "1.5.58",
-    "1.5.41",
-    "1.5.63",
-    "1.5.60",
-    "1.5.62",
-    "1.5.38",
-    "1.5.70",
-    "1.5.52",
-    "1.5.54",
-    "1.5.25",
-    "1.5.44",
-    "1.5.48",
-    "1.5.26",
-    "1.5.24",
-    "1.5.73",
-    "1.5.22",
-    "1.5.46",
-    "1.5.53",
-    "1.5.37",
-    "1.5.56",
-    "1.5.72",
-    "1.5.43",
-    "1.5.14",
-    "1.5.15",
-    "1.5.16",
-    "1.5.17",
-    "1.5.18",
-    "1.5.12",
-    "1.5.13",
-    "1.5.64",
-    "1.5.10",
-    "1.5.11",
-    "1.5.9",
-    "1.5.8",
-    "1.5.30",
-    "1.5.57",
-    "1.5.19",
-    "1.5.21",
-    "1.5.66",
-    "1.5.68",
-    "1.5.28",
-    "1.5.34",
-    "1.5.36",
-    "1.5.69",
-    "1.5.31",
-    "1.5.32",
-    "1.5.29",
-    "1.5.40",
-    "1.5.27",
-    "1.5.65",
-    "1.5.33",
-    "1.5.20",
-    "1.5.55",
-    "1.5.23",
-    "1.5.1",
-    "1.5.2",
-    "1.5.3",
-    "1.5.4",
-    "1.5.5",
-    "1.5.6",
-    "1.5.7",
-    "1.5.35",
-    "1.5.39",
-    "1.5.45",
-    "1.5.47",
-    "1.5.49",
-    "1.5.51",
-    "1.5.59",
+......
     "1.5.67"
   ],
   "active_supervisors": [],

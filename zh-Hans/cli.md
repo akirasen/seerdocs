@@ -70,7 +70,7 @@ new >>>
 ### 系统状态指令
 
 #### 1. Info
-variant Info()
+variant `Info`()
 
 参数：无
 
@@ -102,7 +102,7 @@ variant Info()
 ```
 
 #### 2. about
-variant_object about()
+variant_object `about`()
 
 参数：无
 
@@ -128,7 +128,7 @@ about
 
 
 #### 3. get_global_properties
-global_property_object get_global_properties() const;
+global_property_object `get_global_properties`() const;
 
 参数：无
 
@@ -473,7 +473,7 @@ get_global_properties
 
 
 #### 4. get_dynamic_global_properties
-dynamic_global_property_object    get_dynamic_global_properties() const;
+dynamic_global_property_object `get_dynamic_global_properties`() const;
 
 参数：无 
 
@@ -505,7 +505,7 @@ get_dynamic_global_properties
 
 ### 区块链状态指令
 #### 1. get_block
-optional<signed_block_with_info>  get_block(uint32_t num)
+optional<signed_block_with_info>  `get_block`(uint32_t num)
 
 参数：块号
 
@@ -564,7 +564,7 @@ get_block 2090482
 
 
 #### 2. get_account_count
-uint64_t get_account_count()const;
+uint64_t `get_account_count`()const;
 
 参数：无
 
@@ -579,7 +579,7 @@ get_account_count
 ```
 
 #### 3. list_accounts
-map<string, account_id_type> list_accounts(const string& lowerbound, uint32_t limit);
+map<string, account_id_type> `list_accounts`(const string& lowerbound, uint32_t limit);
 
 参数：lowerbound:账户名下标, limit:返回结果的数量上限
 
@@ -619,7 +619,7 @@ list_accounts "seer" 10
 ```
 
 #### 4. list_account_balances
-vector<asset>   list_account_balances(const string& id);
+vector<asset>   `list_account_balances`(const string& id);
 
 参数：id可以是账户名，也可以是账户的id
 
@@ -633,7 +633,7 @@ list_account_balances gateway
 269802279.85853 SEER
 ```
 #### 5.list_assets
-vector<asset_object>  list_assets(const string& lowerbound, uint32_t limit)const;
+vector<asset_object>  `list_assets`(const string& lowerbound, uint32_t limit)const;
 
 参数：lowerbound资产名下标, limit 返回结果的数量上限
 
@@ -676,7 +676,7 @@ list_assets "SEER" 100
 ]
 ```
 #### 6. get_account_history
-vector<operation_detail>  get_account_history(string name, int limit)const;
+vector<operation_detail>  `get_account_history`(string name, int limit)const;
 
 参数：name可以是账户名或id,limit 为返回结果的数量上限
 
@@ -697,7 +697,7 @@ get_account_history gateway 10
 
 ```
 #### 7. get_account
-account_object   get_account(string account_name_or_id) const;
+account_object   `get_account`(string account_name_or_id) const;
 
 参数：account_name_or_id是账户名或id
 
@@ -781,7 +781,7 @@ get_account gateway
 }
 ```
 #### 8.	get_asset
-asset_object get_asset(string asset_name_or_id) const;
+asset_object `get_asset`(string asset_name_or_id) const;
 
 参数：asset_name_or_id是资产名或资产id
 
@@ -825,7 +825,7 @@ get_asset SEER
 }
 ```
 #### 9.	get_account_id
-account_id_type get_account_id(string account_name_or_id) const;
+account_id_type `get_account_id`(string account_name_or_id) const;
 
 参数：account_name_or_id是账户名
 
@@ -839,7 +839,7 @@ get_account_id gateway
 "1.2.9981"
 ```
 #### 10. get_object
-variant get_object(object_id_type id) const; 
+variant `get_object`(object_id_type id) const; 
 
 参数：id是可以是任意SEER数据的id，比如account、asset、witness、balance、oracle……
 
@@ -882,7 +882,7 @@ get_object 1.5.55//这是获取见证人信息
 ### 钱包相关指令
 
 #### 1. set_password
-void set_password(string password);
+void `set_password`(string password);
 
 参数：password为钱包密码
 
@@ -899,7 +899,7 @@ locked >>>
 ```
 
 #### 2. unlock
-void unlock(string password);
+void `unlock`(string password);
 
 参数：password为钱包密码
 
@@ -916,7 +916,7 @@ unlocked >>>
 ```
 
 #### 3. lock
-void lock();
+void `lock`();
 
 参数：无
 
@@ -933,7 +933,7 @@ locked >>>
 ```
 
 #### 4. suggest_brain_key
-brain_key_info  suggest_brain_key()const;
+brain_key_info  `suggest_brain_key`()const;
 
 参数：无
 
@@ -952,7 +952,7 @@ suggest_brain_key
 ```
 
 #### 5. import_key
-bool import_key(string account_name_or_id, string wif_key);
+bool `import_key`(string account_name_or_id, string wif_key);
 
 参数：account_name_or_id 为用户名或id，wif_key为私钥
 
@@ -974,7 +974,7 @@ true
 ```
 
 #### 6.  get_private_key
-string  get_private_key(public_key_type pubkey)const
+string  `get_private_key`(public_key_type pubkey)const
 
 参数：pubkey为指定公钥
 
@@ -990,7 +990,7 @@ get_private_key SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ
 
 ```
 #### 7.list_my_accounts
-vector<account_object>   list_my_accounts();
+vector<account_object>   `list_my_accounts`();
 
 参数：无
 
@@ -1022,7 +1022,7 @@ list_my_accounts
 ```
 
 #### 8. dump_private_keys
-map<public_key_type, string> dump_private_keys();
+map<public_key_type, string> `dump_private_keys`();
 
 参数：无
 
@@ -1044,7 +1044,7 @@ dump_private_keys
 ```
 
 #### 9. import_balance
-vector< signed_transaction > import_balance(string account_name_or_id, const vector<string>& wif_keys, bool broadcast);
+vector< signed_transaction > `import_balance`(string account_name_or_id, const vector<string>& wif_keys, bool broadcast);
 	
 参数：account_name_or_id 为账户名或id，wif_keys为私钥组(可含1到多个私钥)
 	
@@ -1064,7 +1064,7 @@ import_balance abc ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"]  true
 ```
 
 #### 10. register_account
-signed_transaction  register_account(string name, public_key_type owner, public_key_type active, string  registrar_account, string  referrer_account, uint32_t referrer_percent, bool broadcast = false);
+signed_transaction  `register_account`(string name, public_key_type owner, public_key_type active, string  registrar_account, string  referrer_account, uint32_t referrer_percent, bool broadcast = false);
 
 参数：name为所注册账户名 owner为所注册账户的owner active为所注册账户的active registrar_account为注册者 referrer_account为推荐人 referrer_percent为推荐人获取手续费的百分比 10表10%, 20表20%
 
@@ -1129,7 +1129,7 @@ register_account abccba SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 S
 }
 ```
 #### 11. transfer
-signed_transaction transfer(string from, string to, string amount, string asset_symbol, string memo, bool broadcast = false);
+signed_transaction `transfer`(string from, string to, string amount, string asset_symbol, string memo, bool broadcast = false);
 
 参数：from为转出账户,to为接收账户,amount为转账数量, asset_symbol为资产名,memo为备注。from/to 可以是用户名或者id。 
 
@@ -1174,7 +1174,7 @@ transfer abc cde 100 SEER "give you 100 SEER" true
 ```
 
 #### 12. upgrade_account
-signed_transaction  upgrade_account(string name, bool broadcast); 
+signed_transaction  `upgrade_account`(string name, bool broadcast); 
 
 参数：name为账户名或者id
 
@@ -1209,7 +1209,7 @@ upgrade_account abc true
 ```
 
 #### 13. 
-signed_transaction sell_asset(string seller_account,
+signed_transaction `sell_asset`(string seller_account,
 				string amount_to_sell,
 				string   symbol_to_sell,
 				string min_to_receive,

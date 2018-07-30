@@ -136,6 +136,10 @@ global_property_object `get_global_properties`() const;
 
 示例：`get_global_properties`
 
+<p class="tip">
+  提示：`"fee"`、`"price_per_kbyte"`等费率相关参数值的单位均为 `1/100000` ，代表着SEER支持的最大小数点后数据精度。
+</p>
+
 返回信息示例：
 ```json 
 get_global_properties
@@ -145,7 +149,7 @@ get_global_properties
     "current_fees": {
       "parameters": [[
           0,{//转账
-            "fee": 200000,//手续费 单位为1/100000SEER，即2SEER
+            "fee": 200000,//手续费 2SEER 
             "price_per_kbyte": 1000000 //每千字节手续费 10SEER
           }
         ],[
@@ -632,7 +636,7 @@ vector<asset>   `list_account_balances`(const string& id);
 list_account_balances gateway
 269802279.85853 SEER
 ```
-#### 5.list_assets
+#### 5. list_assets
 vector<asset_object>  `list_assets`(const string& lowerbound, uint32_t limit)const;
 
 参数：lowerbound资产名下标, limit 返回结果的数量上限
@@ -945,9 +949,9 @@ brain_key_info  `suggest_brain_key`()const;
 ```json
 suggest_brain_key
 {
-  "brain_priv_key": "UNLISTY BLOOMER ANGSTER ENOLIC PILE EVEQUE STRE LECTERN CITRON GARETTA FRECKLE TELEDU JOKE AUNT OFT FOUNDRY",
-  "wif_priv_key": "5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci",
-  "pub_key": "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"
+  "brain_priv_key": "UNLISTY BLOOMER ANGSTER ENOLIC PILE EVEQUE STRE LECTERN CITRON GARETTA FRECKLE TELEDU JOKE AUNT OFT FOUNDRY",//脑钱包秘钥（助记词）
+  "wif_priv_key": "5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci",//私钥
+  "pub_key": "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"//公钥
 }
 ```
 
@@ -973,7 +977,7 @@ true
 
 ```
 
-#### 6.  get_private_key
+#### 6. get_private_key
 string  `get_private_key`(public_key_type pubkey)const
 
 参数：pubkey为指定公钥
@@ -989,7 +993,7 @@ get_private_key SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ
 "5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY"
 
 ```
-#### 7.list_my_accounts
+#### 7. list_my_accounts
 vector<account_object>   `list_my_accounts`();
 
 参数：无
@@ -1002,7 +1006,7 @@ vector<account_object>   `list_my_accounts`();
 ```json
 list_my_accounts
 [{
-    "id": "1.2.11006",
+    "id": "1.2.11006",//账户ID
     "membership_expiration_date": "1970-01-01T00:00:00",
     ......
     "top_n_control_flags": 0,
@@ -1010,7 +1014,7 @@ list_my_accounts
     "status": 0,
     "authentications": []
   },{
-    "id": "1.2.10021",
+    "id": "1.2.10021",//账户id
     "membership_expiration_date": "1970-01-01T00:00:00",
     ......
     "top_n_control_flags": 0,
@@ -1074,7 +1078,7 @@ signed_transaction  `register_account`(string name, public_key_type owner, publi
 
 返回信息示例：
 ```json
-register_account abccba SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 abc abc 20 true
+register_account cba SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 abc abc 20 true
 {
   "ref_block_num": 50287,
   "ref_block_prefix": 1187139268,
@@ -1082,13 +1086,13 @@ register_account abccba SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 S
   "operations": [[
       4,{
         "fee": {
-          "amount": 200014355,
+          "amount": 200014355,//手续费=2000SEER基础+0.14355字节手续费
           "asset_id": "1.3.0"
         },
-        "registrar": "1.2.42",
-        "referrer": "1.2.42",
-        "referrer_percent": 2000,
-        "name": "abccba",
+        "registrar": "1.2.42",//注册人
+        "referrer": "1.2.42",//推荐人
+        "referrer_percent": 2000,//推荐人手续费分成=20%
+        "name": "cba",
         "owner": {
           "weight_threshold": 1,
           "account_auths": [],
@@ -1208,19 +1212,49 @@ upgrade_account abc true
 }
 ```
 
-#### 13. 
-signed_transaction `sell_asset`(string seller_account,
-				string amount_to_sell,
-				string   symbol_to_sell,
-				string min_to_receive,
-				string   symbol_to_receive,
-				uint32_t timeout_sec = 0,
-				bool     fill_or_kill = false,
-				bool     broadcast = false);
-参数：seller_account为卖出账户, amount_to_sell为出售的资产数量, symbol_to_sell为想要出售的资产, min_to_receive为要购买的资产数量, symbol_to_receive要购买的资产 
-作用：市场交易的卖出
-示例：sell_asset tester 10 SEER 1000 ABCDE 0 false true
+#### 13. sell_asset
+signed_transaction `sell_asset`(string seller_account, string amount_to_sell, string   symbol_to_sell, string min_to_receive, string   symbol_to_receive, uint32_t timeout_sec = 0, bool     fill_or_kill = false, bool     broadcast = false);
 
+参数：seller_account为卖出账户, amount_to_sell为出售的资产数量, symbol_to_sell为想要出售的资产名, min_to_receive为要购买的资产数量, symbol_to_receive要购买的资产 ，timeout_sec 为超时时间（0即不限），fill_or_kill指是否启用“全部成交否则取消功能”，broadcast指是否广播。
+
+作用：市场交易的卖出
+
+示例：`sell_asset` abc 1000 SEER 1000 USDT 0 false true
+
+返回信息示例：
+```json
+sell_asset abc 1000 SEER 1000 USDT 0 false true
+{
+  "ref_block_num": 51327,
+  "ref_block_prefix": 2834879860,
+  "expiration": "2018-07-30T15:08:18",
+  "operations": [[
+      1,{
+        "fee": {
+          "amount": 500000,
+          "asset_id": "1.3.0"
+        },
+        "seller": "1.2.108",
+        "amount_to_sell": {
+          "amount": 100000000,
+          "asset_id": "1.3.0"
+        },
+        "min_to_receive": {
+          "amount": 10000000,
+          "asset_id": "1.3.4"
+        },
+        "expiration": "1969-12-31T23:59:59",
+        "fill_or_kill": false,
+        "extensions": []
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f202094a93aabdb303a0a6076014a14c3ef18c40927dfd9f8f1e83a0f98893083311f8d41a0665351be02ba2d5c6ea0e314d90deb7d2e612e2c79c3f3546c43cf"
+  ]
+}
+```
 
 5，	
 返回信息示例：

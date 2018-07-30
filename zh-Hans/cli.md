@@ -64,7 +64,9 @@ new >>>
 
 ### 系统状态指令
 
-#### 1. variant Info()
+#### 1. Info
+variant Info()
+
 参数：无
 
 作用：显示当前Seer区块链的状态
@@ -78,7 +80,7 @@ new >>>
   "head_block_num": 2084691,//当前块高
   "head_block_id": "001fcf539d9b3593e31abd604c11fdd57f0bbffe",//当前块号
   "head_block_age": "0 second old",//上一个区块生成时间
-  "next_maintenance_time": "21 hours in the future",//计票更新时间
+  "next_maintenance_time": "21 hours in the future",//维护更新时间
   "chain_id": "cea4fdf4f5c2278f139b22e782b308928f04008b0fc2c79970a58974a2a28f91",//链号
   "participation": "100.00000000000000000",//区块生产参与率
   "active_witnesses": [//活跃见证人ID
@@ -94,13 +96,16 @@ new >>>
 }
 ```
 
-#### 2. variant_object about()
+#### 2. about
+variant_object about()
+
 参数：无
 
 作用：显示当前Seer链相关的版本号
 
 示例：`about`
 
+返回信息示例：
 ```cmd
 about
 {
@@ -117,7 +122,7 @@ about
 ```
 
 
-#### 3. get_global_properties() const;
+#### 3. get_global_properties
 global_property_object get_global_properties() const;
 
 参数：无
@@ -126,6 +131,7 @@ global_property_object get_global_properties() const;
 
 示例：`get_global_properties`
 
+返回信息示例：
 ```cmd 
 get_global_properties
 {
@@ -406,35 +412,35 @@ get_global_properties
       "scale": 10000
     },
     "block_interval": 3,//块间隔时间，3秒
-    "maintenance_interval": 86400,//计票更新时间 86400秒，一天
+    "maintenance_interval": 86400,//维护更新时间 86400秒，一天
     "maintenance_skip_slots": 3,
-    "committee_proposal_review_period": 1209600,//
-    "maximum_transaction_size": 2048,//
-    "maximum_block_size": 2000000,//
-    "maximum_time_until_expiration": 86400,//
-    "maximum_proposal_lifetime": 2419200,//
-    "maximum_asset_whitelist_authorities": 50,//
-    "maximum_authenticator_count": 1001,//
-    "maximum_committee_count": 1001,//
-    "maximum_authority_membership": 10,//
-    "network_percent_of_fee": 6000,//
-    "lifetime_referrer_percent_of_fee": 0,//
-    "cashback_vesting_period_seconds": 31536000,//
-    "cashback_vesting_threshold": 10000000,//
-    "count_non_member_votes": true,//
-    "allow_non_member_whitelists": false,//
-    "witness_pay_per_block": 300000,//
-    "max_predicate_opcode": 1,//
-    "fee_liquidation_threshold": 10000000,//
-    "accounts_per_fee_scale": 1000,//
-    "account_fee_scale_bitshifts": 4,//
-    "max_authority_depth": 2,//
-    "min_guaranty_per_room": "10000000000",//
-    "max_oracle_reward": 100000000,//
-    "fixed_witness_count": 21,//
-    "maximum_profit_witness_count": 101,//
-    "maximun_seer_settles_per_block": 1000,//
-    "supported_authenticate_types": 7,//
+    "committee_proposal_review_period": 1209600,//理事会提案审查期 1209600秒 14天
+    "maximum_transaction_size": 2048,//最大单个交易大小 2048K 即2M
+    "maximum_block_size": 2000000,//最大单个块数据大小 2000000K 即约1.9G
+    "maximum_time_until_expiration": 86400,
+    "maximum_proposal_lifetime": 2419200,
+    "maximum_asset_whitelist_authorities": 50,//资产白名单最多授权账户数
+    "maximum_authenticator_count": 1001,
+    "maximum_committee_count": 1001,
+    "maximum_authority_membership": 10,
+    "network_percent_of_fee": 6000,
+    "lifetime_referrer_percent_of_fee": 0,
+    "cashback_vesting_period_seconds": 31536000,//待解冻余额解冻周期，31536000秒，一年
+    "cashback_vesting_threshold": 10000000,//待解冻余额领取门槛，100SEER
+    "count_non_member_votes": true,
+    "allow_non_member_whitelists": false,
+    "witness_pay_per_block": 300000,//主力见证人出块的每个块奖励，3 SEER
+    "max_predicate_opcode": 1,
+    "fee_liquidation_threshold": 10000000,
+    "accounts_per_fee_scale": 1000,
+    "account_fee_scale_bitshifts": 4,
+    "max_authority_depth": 2,
+    "min_guaranty_per_room": "10000000000",//每个房间最少抵押金：10万SEER
+    "max_oracle_reward": 100000000,//每个预言机最高奖励：1000SEER
+    "fixed_witness_count": 21,//主力见证人数量
+    "maximum_profit_witness_count": 101,//获息见证人总数
+    "maximun_seer_settles_per_block": 1000,
+    "supported_authenticate_types": 7,
     "extensions": []
   },
   "next_available_vote_id": 8,
@@ -448,7 +454,7 @@ get_global_properties
    ......
     "1.5.73"
   ],
-  "active_collateral_witnesses": [//活跃候选见证人
+  "active_collateral_witnesses": [//活跃获息见证人（主力+候选）
     "1.5.61",
 ......
     "1.5.67"
@@ -461,65 +467,256 @@ get_global_properties
 ```
 
 
-4,dynamic_global_property_object    get_dynamic_global_properties() const;
+#### 4. get_dynamic_global_properties
+dynamic_global_property_object    get_dynamic_global_properties() const;
+
 参数：无 
+
 作用：列出链的当前全局动态参数
-示例：get_dynamic_global_properties
+
+示例：`get_dynamic_global_properties`
+
+返回信息示例：
+```cmd
+get_dynamic_global_properties
+{
+  "id": "2.1.0",
+  "head_block_number": 2090373,//当前区块高度
+  "head_block_id": "001fe58546d87ff984f7ca2102bd4ebdacdb2453",//当前块号
+  "time": "2018-07-30T07:26:27",//链上时间
+  "current_witness": "1.5.25",//当前出块的见证人
+  "next_maintenance_time": "2018-07-31T00:00:00",//下次维护更新时间
+  "last_budget_time": "2018-07-30T00:00:00",//上次更新时间
+  "witness_budget": "5962500000",//本期见证人预算总额
+  "accounts_registered_this_interval": 4,
+  "recently_missed_count": 0,//最近缺失区块数
+  "current_aslot": 2096707,
+  "recent_slots_filled": "340282366920938463463374607431768211455",
+  "dynamic_flags": 0,
+  "last_irreversible_block_num": 2090363
+}
+```
 
 
-区块链状态指令：
-1，	optional<signed_block_with_info>  get_block(uint32_t num)
+### 区块链状态指令
+#### 1. get_block
+optional<signed_block_with_info>  get_block(uint32_t num)
+
 参数：块号
+
 作用：显示第num个块的概况
-示例：get_block  10000
 
-2，	uint64_t  get_account_count()const;
+示例：`get_block` 2090482
+
+返回信息示例：
+```cmd
+get_block 2090482
+{
+  "previous": "001fe5f1e1dd8d195af805484ee8038a09866b76",//上一个块的块号
+  "timestamp": "2018-07-30T07:31:54",//时间戳
+  "witness": "1.5.22",//见证人
+  "transaction_merkle_root": "72756b0f1f1711622c8030eae65e6db055200320",
+  "extensions": [],
+  "witness_signature": "200d202d735de10f4f8213d71a8f946a2cc49bc02e930f682bea74321819b4bc7c4d436e366f1cad962f214eeaa42b5030fd716f692077f135b3cf33c688f68f1f",//见证人签名
+  "transactions": [{
+      "ref_block_num": 58864,
+      "ref_block_prefix": 2207768636,
+      "expiration": "2018-07-30T07:33:51",
+      "operations": [[
+          0,{
+            "fee": {
+              "amount": 200000,//手续费 2
+              "asset_id": "1.3.0"//手续费类型 1.3.0指SEER
+            },
+            "from": "1.2.12590",//发起用户ID
+            "to": "1.2.12902",//接收用户ID
+            "amount": {
+              "amount": 2000000000,//金额20000
+              "asset_id": "1.3.1"//金额类型 1.3.1即OPC
+            },
+            "extensions": []
+          }
+        ]
+      ],
+      "extensions": [],
+      "signatures": [
+        "205c1f92cd9eebba507094c0fe4a05be47d301b6b2e989f4f0fdcfc8acef69ceec5356faf1667b5576629bfbc29ee5a257dbfac935c5a8fef588e32d7a7902c2b3"//交易签名
+      ],
+      "operation_results": [[
+          0,{}
+        ]
+      ]
+    }
+  ],
+  "block_id": "001fe5f26d0f3ee5b1569a1618fe903e4dc5aef0",//块号
+  "signing_key": "SEER5oyAoCzw5GRD9unKK6vsLXkPVx1aKU7i3hX19E8BRU5u3FoAoA",//见证人签名公钥
+  "transaction_ids": [
+    "30e73f68d163398005557a21c58bd751db22eb53"//交易id
+  ]
+}
+```
+
+
+
+#### 2. get_account_count
+uint64_t get_account_count()const;
+
 参数：无
+
 作用：显示当前链上有多少个注册账户
-示例：get_account_count
 
-3，	map<string, account_id_type>   list_accounts(const string& lowerbound, uint32_t limit);
-参数：lowerbound账户名下标, limit 返回结果的数量上限
+示例：`get_account_count`
+
+返回信息示例：
+```cmd
+get_account_count
+13528
+```
+
+#### 3. list_accounts
+map<string, account_id_type> list_accounts(const string& lowerbound, uint32_t limit);
+
+参数：lowerbound:账户名下标, limit:返回结果的数量上限
+
 作用：列出账号名大于lowerbound的账户
-示例：list_accounts  "" 100
 
-4，	vector<asset>   list_account_balances(const string& id);
+示例：`list_accounts` "" 100
+
+返回信息示例：
+```cmd
+list_accounts "" 100
+[[
+    "a-1233",
+    "1.2.11123"
+  ],
+  ......
+  [
+    "a45452352",
+    "1.2.10241"
+  ]
+]
+```
+示例：`list_accounts` "seer" 10
+
+返回信息示例：
+```cmd
+list_accounts "seer" 10
+[[
+    "seer",
+    "1.2.16"
+  ],
+  ......
+  [
+    "seer-10017",
+    "1.2.9189"
+  ]
+]
+```
+
+#### 4. list_account_balances
+vector<asset>   list_account_balances(const string& id);
+
 参数：id可以是账户名，也可以是账户的id
+
 作用：列出账号为id的账户的各资产余额
-示例：list_account_balances  abc
 
-5，	vector<asset_object>  list_assets(const string& lowerbound, uint32_t limit)const;
+示例：`list_account_balances` gateway
+
+返回信息示例：
+```cmd
+list_account_balances gateway
+269802279.85853 SEER
+```
+#### 5.list_assets
+vector<asset_object>  list_assets(const string& lowerbound, uint32_t limit)const;
+
 参数：lowerbound资产名下标, limit 返回结果的数量上限
-作用：列出资产名大于lowerbound的资产
-示例：list_assets  ""  100
 
+作用：列出资产名大于lowerbound的资产
+示例：`list_assets` "SEER" 100
+
+返回信息示例：
+```cmd
+list_assets "SEER" 100
+[{
+    "id": "1.3.0",//SEER的资产ID
+    "symbol": "SEER",//资产名
+    "precision": 5,//小数点后精度
+    "issuer": "1.2.3",//
+    "options": {
+      "max_supply": "1000000000000000",
+      "market_fee_percent": 0,
+      "max_market_fee": "1000000000000000",
+      "issuer_permissions": 0,
+      "flags": 0,
+      "core_exchange_rate": {
+        "base": {
+          "amount": 1,
+          "asset_id": "1.3.0"
+        },
+        "quote": {
+          "amount": 1,
+          "asset_id": "1.3.0"
+        }
+      },
+      "whitelist_authorities": [],
+      "blacklist_authorities": [],
+      "whitelist_markets": [],
+      "blacklist_markets": [],
+      "description": "",
+      "extensions": []
+    },
+    "dynamic_asset_data_id": "2.3.0"
+  }
+]
+```
 6，	vector<operation_detail>  get_account_history(string name, int limit)const;
 参数：name可以是账户名或id,limit 为返回结果的数量上限
 作用：列出账户name的操作历史记录
 示例：get_account_history  abc  100
 
+返回信息示例：
+```cmd
+
+```
 7，	account_object   get_account(string account_name_or_id) const;
 参数：account_name_or_id是账户名或id
 作用：列出账户account_name_or_id的详细情况
 示例：get_account  abc
       get_account  1.2.135
 
+返回信息示例：
+```cmd
+
+```
 8，	asset_object    get_asset(string asset_name_or_id) const;
 参数：asset_name_or_id是资产名或资产id
 作用：列出资产asset_name_or_id的详细情况
 示例：get_asset ABC
 		  get_asset 1.3.31
 
+返回信息示例：
+```cmd
+
+```
 9，	account_id_type   get_account_id(string account_name_or_id) const;
 参数：account_name_or_id是账户名
 作用：列出账户account_name_or_id的账户id
 示例：get_account_id  abc
 
+返回信息示例：
+```cmd
+
+```
 10，	asset_id_type   get_asset_id(string asset_name_or_id) const
 参数：asset_name_or_id是资产名
 作用：列出名为asset_name_or_id的资产的id
 示例：get_asset_id ABC
 
+返回信息示例：
+```cmd
+
+```
 11，	variant                           get_object(object_id_type id) const; 
 参数：id是可以是任意SEER数据的id，比如account、asset、witness、balance、oracle……
 作用：根据对象的id返回该对象
@@ -527,7 +724,11 @@ get_global_properties
 get_object 2.13.3
 说明：该接口不支持room类型,因room对象可能极其巨大,如需获取room对象请使用get_seer_room指令
 
-钱包相关指令：
+返回信息示例：
+```cmd
+
+```
+### 钱包相关指令
 1，	string  get_wallet_filename() const;
 参数：无
 作用：列出当前钱包文件存放的路径

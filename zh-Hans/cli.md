@@ -642,17 +642,17 @@ list_assets "SEER" 100
     "id": "1.3.0",//SEER的资产ID
     "symbol": "SEER",//资产名
     "precision": 5,//小数点后精度
-    "issuer": "1.2.3",//
+    "issuer": "1.2.3",//创建者
     "options": {
-      "max_supply": "1000000000000000",
+      "max_supply": "1000000000000000",//最大供给量
       "market_fee_percent": 0,
-      "max_market_fee": "1000000000000000",
+      "max_market_fee": "1000000000000000",//最大市场手续费
       "issuer_permissions": 0,
       "flags": 0,
       "core_exchange_rate": {
         "base": {
           "amount": 1,
-          "asset_id": "1.3.0"
+          "asset_id": "1.3.0"//资产ID
         },
         "quote": {
           "amount": 1,
@@ -670,63 +670,203 @@ list_assets "SEER" 100
   }
 ]
 ```
-6，	vector<operation_detail>  get_account_history(string name, int limit)const;
+#### 6. get_account_history
+vector<operation_detail>  get_account_history(string name, int limit)const;
+
 参数：name可以是账户名或id,limit 为返回结果的数量上限
+
 作用：列出账户name的操作历史记录
-示例：get_account_history  abc  100
+
+示例：get_account_history gateway 10
+
+<p class="warning">
+如果涉及大量数据操作推荐使用本地全节点否则 limit 上限太高容易导致节点报错退出
+</p>
 
 返回信息示例：
 ```cmd
+get_account_history gateway 10
+2018-07-30T07:06:18 Transfer 38000 SEER from lxy5130 to gateway -- Unlock wallet to see memo.   (Fee: 3.36718 SEER)
+......
+2018-07-30T02:04:39 Transfer 359998 SEER from gateway to phoebe2 -- Unlock wallet to see memo.   (Fee: 3.05468 SEER)
 
 ```
-7，	account_object   get_account(string account_name_or_id) const;
+#### 7. get_account
+account_object   get_account(string account_name_or_id) const;
+
 参数：account_name_or_id是账户名或id
+
 作用：列出账户account_name_or_id的详细情况
-示例：get_account  abc
-      get_account  1.2.135
+
+示例：`get_account` gateway
+     `get_account` 1.2.9981
 
 返回信息示例：
 ```cmd
-
+get_account gateway
+{
+  "id": "1.2.9981",
+  "membership_expiration_date": "1969-12-31T23:59:59",
+  "registrar": "1.2.9981",
+  "referrer": "1.2.9981",
+  "lifetime_referrer": "1.2.9981",
+  "network_fee_percentage": 6000,
+  "lifetime_referrer_fee_percentage": 4000,
+  "referrer_rewards_percentage": 0,
+  "name": "gateway",
+  "owner": {//账户权限 多签管理
+    "weight_threshold": 50,//阈值
+    "account_auths": [[
+        "1.2.9987",//控制人id
+        25//权重
+      ],[
+        "1.2.9990",//控制人id
+        25//权重
+      ],[
+        "1.2.10041",//控制人id
+        25//权重
+      ]
+    ],
+    "key_auths": [[
+        "SEER4uy8k3qrVJVJG5a1Nif9fTi4FDVUnWgmqYoNapdxBagMsT3vRh",//账户权限公钥
+        1
+      ]
+    ],
+    "address_auths": []
+  },
+  "active": {
+    "weight_threshold": 1,/阈值
+    "account_auths": [[
+        "1.2.9990",//控制人id
+        1//权重
+      ]
+    ],
+    "key_auths": [[
+        "SEER646RGdL4gncz7y834wfGfcHECnKdbdVWd6gh9aEYdn3HWyhBjB",//资金权限公钥
+        1
+      ]
+    ],
+    "address_auths": []
+  },
+  "options": {
+    "memo_key": "SEER646RGdL4gncz7y834wfGfcHECnKdbdVWd6gh9aEYdn3HWyhBjB",//备注权限公钥
+    "voting_account": "1.2.5",
+    "num_committee": 0,
+    "num_authenticator": 0,
+    "num_supervisor": 0,
+    "votes": [],
+    "extensions": []
+  },
+  "statistics": "2.5.9981",
+  "whitelisting_accounts": [],
+  "blacklisting_accounts": [],
+  "whitelisted_accounts": [],
+  "blacklisted_accounts": [],
+  "cashback_vb": "1.11.11",
+  "owner_special_authority": [
+    0,{}
+  ],
+  "active_special_authority": [
+    0,{}
+  ],
+  "top_n_control_flags": 0,
+  "country": 0,
+  "status": 0,
+  "authentications": []
+}
 ```
-8，	asset_object    get_asset(string asset_name_or_id) const;
+#### 8.	get_asset
+asset_object get_asset(string asset_name_or_id) const;
+
 参数：asset_name_or_id是资产名或资产id
+
 作用：列出资产asset_name_or_id的详细情况
-示例：get_asset ABC
-		  get_asset 1.3.31
+
+示例：`get_asset` SEER
+     `get_asset` 1.3.31
 
 返回信息示例：
 ```cmd
-
+get_asset SEER
+{
+  "id": "1.3.0",
+  "symbol": "SEER",
+  "precision": 5,
+  "issuer": "1.2.3",
+  "options": {
+    "max_supply": "1000000000000000",
+    "market_fee_percent": 0,
+    "max_market_fee": "1000000000000000",
+    "issuer_permissions": 0,
+    "flags": 0,
+    "core_exchange_rate": {
+      "base": {
+        "amount": 1,
+        "asset_id": "1.3.0"
+      },
+      "quote": {
+        "amount": 1,
+        "asset_id": "1.3.0"
+      }
+    },
+    "whitelist_authorities": [],
+    "blacklist_authorities": [],
+    "whitelist_markets": [],
+    "blacklist_markets": [],
+    "description": "",
+    "extensions": []
+  },
+  "dynamic_asset_data_id": "2.3.0"
+}
 ```
-9，	account_id_type   get_account_id(string account_name_or_id) const;
+#### 9.	get_account_id
+account_id_type get_account_id(string account_name_or_id) const;
+
 参数：account_name_or_id是账户名
+
 作用：列出账户account_name_or_id的账户id
-示例：get_account_id  abc
+
+示例：`get_account_id` gateway
 
 返回信息示例：
 ```cmd
-
+get_account_id gateway
+"1.2.9981"
 ```
-10，	asset_id_type   get_asset_id(string asset_name_or_id) const
-参数：asset_name_or_id是资产名
-作用：列出名为asset_name_or_id的资产的id
-示例：get_asset_id ABC
+#### 10. get_object
+variant get_object(object_id_type id) const; 
 
-返回信息示例：
-```cmd
-
-```
-11，	variant                           get_object(object_id_type id) const; 
 参数：id是可以是任意SEER数据的id，比如account、asset、witness、balance、oracle……
 作用：根据对象的id返回该对象
-示例：get_object 1.2.0
-get_object 2.13.3
-说明：该接口不支持room类型,因room对象可能极其巨大,如需获取room对象请使用get_seer_room指令
-
+示例：`get_object` 1.3.0  //资产
+     `get_object` 1.2.9981 //账户
+     `get_object` 1.5.55 //见证人
+<p class="warning">
+	说明：该接口不支持room类型,因room对象可能极其巨大,如需获取room对象请使用get_seer_room指令
+</p>
 返回信息示例：
 ```cmd
-
+get_object 1.5.55//这是获取见证人信息
+[{
+    "id": "1.5.55",//见证人ID
+    "witness_account": "1.2.10238",//见证人对应的用户id
+    "last_aslot": 0,
+    "signing_key": "SEER6EhrGFDawS3J1WfvTZVXDn44TD96PqvvbdRhkpz3EKxRcjR3v1",//见证人签名公钥
+    "collaterals": [
+      "2.16.110"//抵押号
+    ],
+    "collateral_profit": 751206254,//抵押收益 7512
+    "total_collateral": "27000000000",//总抵押数 27万
+    "cancelling_collateral": 0,//解锁中的抵押数
+    "url": "https://weibo.com/p/1005055125210412/home?from=page_100505&mod=TAB&is_all=1#place",//见证人网页
+    "total_missed": 0,//丢块数
+    "last_confirmed_block_num": 0,//最后一次确认的块号
+    "recent_maintenance_missed_blocks": [
+      0,
+      0
+    ]
+  }
+]
 ```
 ### 钱包相关指令
 1，	string  get_wallet_filename() const;

@@ -132,7 +132,7 @@ global_property_object get_global_properties() const;
 示例：`get_global_properties`
 
 返回信息示例：
-```cmd 
+```json 
 get_global_properties
 {
   "id": "2.0.0",

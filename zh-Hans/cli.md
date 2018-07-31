@@ -504,7 +504,7 @@ get_dynamic_global_properties
   "current_aslot": 2096707,//当前总块（丢掉的块加实际块高）
   "recent_slots_filled": "340282366920938463463374607431768211455",//用于计算见证人参与度的参数
   "dynamic_flags": 0,
-  "last_irreversible_block_num": 2090363
+  "last_irreversible_block_num": 2090363//最近一个不可逆块块号
 }
 ```
 

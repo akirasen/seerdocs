@@ -2431,9 +2431,9 @@ signed_transaction `room_claim`(string  account,  seer_room_id_type room, int64_
 
 示例：room_claim abc 1.15.3  1000 true
 
-<p class="tip">
+
   注意：该指令只对room_type2和room_type3有效，而且amount是包括资产精度的，比如room_claim 1 SEER时amount值为100000
-</p>
+
 
 返回信息示例：
 ```json

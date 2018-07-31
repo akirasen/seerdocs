@@ -16,6 +16,8 @@ search: zh-Hans
 
 请下载最新版的钱包文件：https://github.com/seer-project/seer-core-package/releases
 
+请下载最新版的测试网络命令行钱包进行测试：https://github.com/akirasen/seertestnet/releases
+
 ### Windows下启用cli_wallet
 
 #### 方法1 命令启动

@@ -67,7 +67,7 @@ new >>>
 
 ## 使用cli_wallet操作完整流程
 
-### 系统状态指令
+### 区块链系统状态指令
 
 #### 1. Info
 variant `Info`()
@@ -506,9 +506,7 @@ get_dynamic_global_properties
 }
 ```
 
-
-### 区块链状态指令
-#### 1. get_block
+#### 5. get_block
 optional<signed_block_with_info>  `get_block`(uint32_t num)
 
 参数：块号
@@ -567,7 +565,7 @@ get_block 2090482
 
 
 
-#### 2. get_account_count
+#### 6. get_account_count
 uint64_t `get_account_count`()const;
 
 参数：无
@@ -582,7 +580,7 @@ get_account_count
 13528
 ```
 
-#### 3. list_accounts
+#### 7. list_accounts
 map<string, account_id_type> `list_accounts`(const string& lowerbound, uint32_t limit);
 
 参数：lowerbound:账户名下标, limit:返回结果的数量上限
@@ -622,7 +620,7 @@ list_accounts "seer" 10
 ]
 ```
 
-#### 4. list_account_balances
+#### 8. list_account_balances
 vector<asset>   `list_account_balances`(const string& id);
 
 参数：id可以是账户名，也可以是账户的id
@@ -636,7 +634,7 @@ vector<asset>   `list_account_balances`(const string& id);
 list_account_balances gateway
 269802279.85853 SEER
 ```
-#### 5. list_assets
+#### 9. list_assets
 vector<asset_object>  `list_assets`(const string& lowerbound, uint32_t limit)const;
 
 参数：lowerbound资产名下标, limit 返回结果的数量上限
@@ -679,7 +677,7 @@ list_assets "SEER" 100
   }
 ]
 ```
-#### 6. get_account_history
+#### 10. get_account_history
 vector<operation_detail>  `get_account_history`(string name, int limit)const;
 
 参数：name可以是账户名或id,limit 为返回结果的数量上限
@@ -700,7 +698,7 @@ get_account_history gateway 10
 2018-07-30T02:04:39 Transfer 359998 SEER from gateway to phoebe2 -- Unlock wallet to see memo.   (Fee: 3.05468 SEER)
 
 ```
-#### 7. get_account
+#### 11. get_account
 account_object   `get_account`(string account_name_or_id) const;
 
 参数：account_name_or_id是账户名或id
@@ -784,7 +782,7 @@ get_account gateway
   "authentications": []
 }
 ```
-#### 8.	get_asset
+#### 12. get_asset
 asset_object `get_asset`(string asset_name_or_id) const;
 
 参数：asset_name_or_id是资产名或资产id
@@ -828,7 +826,7 @@ get_asset SEER
   "dynamic_asset_data_id": "2.3.0"
 }
 ```
-#### 9.	get_account_id
+#### 13. get_account_id
 account_id_type `get_account_id`(string account_name_or_id) const;
 
 参数：account_name_or_id是账户名
@@ -842,7 +840,7 @@ account_id_type `get_account_id`(string account_name_or_id) const;
 get_account_id gateway
 "1.2.9981"
 ```
-#### 10. get_object
+#### 14. get_object
 variant `get_object`(object_id_type id) const; 
 
 参数：id是可以是任意SEER数据的id，比如account、asset、witness、balance、oracle……

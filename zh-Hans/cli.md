@@ -2308,7 +2308,7 @@ signed_transaction `oracle_input`(string account, string   oracle_id, string  ro
 
 作用：预言机给房间输入预测结果
 
-示例：oracle_input  abc 1.13.5  1.15.3  [2]  true
+示例：`oracle_input`  abc 1.13.5  1.15.3  [2]  true
 
 返回信息示例：
 ```json
@@ -2346,7 +2346,7 @@ signed_transaction `house_create`(string account, int64_t  guaranty, string   de
 
 作用：创建平台
 
-示例：house_create abc 100000 “the first house” “http://www.a.com/show_me.jpg”  true
+示例：`house_create` abc 100000 “the first house” “http://www.a.com/show_me.jpg”  true
 
 返回信息示例：
 ```json
@@ -2382,7 +2382,7 @@ signed_transaction `house_update`(string account, string   house_id, int64_t  gu
 
 作用：更新平台,guaranty负数时为提取保证金,为正为添加保证金，claim_fees不为0时领取分成的手续费。
 
-示例：house_update abc 1.14.5 -100000 0  "not the first house"  "" true
+示例：`house_update` abc 1.14.5 -100000 0  "not the first house"  "" true
 
 返回信息示例：
 ```json
@@ -2414,7 +2414,7 @@ house_update abc 1.14.5 -100000 0 "not the first house" "http://www.a.com/show_m
 
 ```
 #### 14. room_create
-signed_transaction room_create(string account, vector<string> label, tring   description, string  script, uint8_t  room_type,  room_option  option,  optional<seer_room_option_lmsr>  room_lmsr,  optional<seer_room_option_type1>	room_type1,  optional<seer_room_option_type2>	room_type2,  optional<seer_room_option_type3>	room_type3,  bool broadcast );
+signed_transaction room_create(string account, vector<string> label, string   description, string  script, uint8_t  room_type,  room_option  option,  optional<seer_room_option_lmsr>  room_lmsr,  optional<seer_room_option_type1>	room_type1,  optional<seer_room_option_type2>	room_type2,  optional<seer_room_option_type3>	room_type3,  bool broadcast );
 	
 参数：account为账户名或账户id, label为标签,description为描述，script为脚本, room_type为房间类型，option为房间通用参数，room_type为0时表示LMSR
 
@@ -2423,8 +2423,12 @@ signed_transaction room_create(string account, vector<string> label, tring   des
 作用：创建房间
 
 示例：
-room_create abc ["football","basketball","games"] "test room create" "show me"  0  {"result_owner_percent":0,"reward_per_oracle":"2000000","accept_asset":"1.3.0","minimum":"1","maximum":"100000000","start":"2018-07-31T07:17:31","stop":"2018-07-31T07:17:33","input_duration_secs":0,"filter":{"reputation":"0","guaranty":"0","volume":"0"},"allowed_oracles":["1.13.0"]}  {"selection_description":["No","Yes"],"L":"100000","total_shares":"1","items":["1"],"range":2,"participators":[],"solds":[],"settled_balance":"0","settled_index":0,"settled_sold_index":0,"histories":[]} null null null true 
+room_create abc ["football","basketball","games"] "test room create" "show me"  0  {"result_owner_percent":0,"reward_per_oracle":"2000000","accept_asset":"1.3.0","minimum":"1","maximum":"100000000","start":"2018-08-01T07:17:31","stop":"2018-08-01T07:01:33","input_duration_secs":0,"filter":{"reputation":"0","guaranty":"0","volume":"0"},"allowed_oracles":["1.13.0"]}  {"selection_description":["No","Yes"],"L":"100000","total_shares":"1","items":["1"],"range":2,"participators":[],"solds":[],"settled_balance":"0","settled_index":0,"settled_sold_index":0,"histories":[]} null null null true 
 
+返回信息示例：
+```json
+
+```
 #### 15. room_update
 signed_transaction `room_update`(string account, seer_room_id_type  room,  optional<string>   description,  optional<string>  script,  optional<room_option>  option,  optional<vector<uint64_t>>  new_awards,  bool broadcast );
 	

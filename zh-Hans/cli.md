@@ -524,13 +524,13 @@ get_block 2090482
   "previous": "001fe5f1e1dd8d195af805484ee8038a09866b76",//上一个块的块号
   "timestamp": "2018-07-30T07:31:54",//时间戳
   "witness": "1.5.22",//见证人
-  "transaction_merkle_root": "72756b0f1f1711622c8030eae65e6db055200320",
+  "transaction_merkle_root": "72756b0f1f1711622c8030eae65e6db055200320",//区块产生时的加密校验
   "extensions": [],
   "witness_signature": "200d202d735de10f4f8213d71a8f946a2cc49bc02e930f682bea74321819b4bc7c4d436e366f1cad962f214eeaa42b5030fd716f692077f135b3cf33c688f68f1f",//见证人签名
   "transactions": [{
-      "ref_block_num": 58864,
-      "ref_block_prefix": 2207768636,
-      "expiration": "2018-07-30T07:33:51",
+      "ref_block_num": 58864,//引用的区块号
+      "ref_block_prefix": 2207768636,//引用的区块头
+      "expiration": "2018-07-30T07:33:51",//交易过期时间
       "operations": [[
           0,{
             "fee": {
@@ -549,7 +549,7 @@ get_block 2090482
       ],
       "extensions": [],
       "signatures": [
-        "205c1f92cd9eebba507094c0fe4a05be47d301b6b2e989f4f0fdcfc8acef69ceec5356faf1667b5576629bfbc29ee5a257dbfac935c5a8fef588e32d7a7902c2b3"//交易签名
+        "205c1f92cd9eebba507094c0fe4a05be47d301b6b2e989f4f0fdcfc8acef69ceec5356faf1667b5576629bfbc29ee5a257dbfac935c5a8fef588e32d7a7902c2b3"//交易签名集合
       ],
       "operation_results": [[
           0,{}
@@ -883,7 +883,7 @@ get_object 1.5.55//这是获取见证人信息
   }
 ]
 ```
-### 钱包相关指令
+### 钱包管理指令
 
 #### 1. set_password
 void `set_password`(string password);
@@ -1066,8 +1066,18 @@ import_balance abc ["5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUA"]  true
 40119ms th_a       wallet.cpp:4234               import_balance       ] balances: []
 []
 ```
+#### 10. import_accounts
+map<string, bool> `import_accounts`(string filename, string password); 
 
-#### 10. register_account
+参数：filename 为钱包文件名，password为密码
+
+作用：将钱包文件filename里的账户导入当前钱包
+
+示例：`import_accounts`  "d:\wallet.json" 12345
+
+### 账户及资产管理
+
+#### 1. register_account
 signed_transaction  `register_account`(string name, public_key_type owner, public_key_type active, string  registrar_account, string  referrer_account, uint32_t referrer_percent, bool broadcast = false);
 
 参数：name为所注册账户名 owner为所注册账户的owner active为所注册账户的active registrar_account为注册者 referrer_account为推荐人 referrer_percent为推荐人获取手续费的百分比 10表10%, 20表20%
@@ -1132,7 +1142,7 @@ register_account cba SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 SEER
   ]
 }
 ```
-#### 11. transfer
+#### 2. transfer
 signed_transaction `transfer`(string from, string to, string amount, string asset_symbol, string memo, bool broadcast = false);
 
 参数：from为转出账户,to为接收账户,amount为转账数量, asset_symbol为资产名,memo为备注。from/to 可以是用户名或者id。 
@@ -1177,7 +1187,7 @@ transfer abc cde 100 SEER "give you 100 SEER" true
 }
 ```
 
-#### 12. upgrade_account
+#### 3. upgrade_account
 signed_transaction  `upgrade_account`(string name, bool broadcast); 
 
 参数：name为账户名或者id
@@ -1190,9 +1200,9 @@ signed_transaction  `upgrade_account`(string name, bool broadcast);
 ```json
 upgrade_account abc true
 {
-  "ref_block_num": 50465,
-  "ref_block_prefix": 3987236035,
-  "expiration": "2018-07-30T14:25:12",
+  "ref_block_num": 50465,//引用的区块号
+  "ref_block_prefix": 3987236035,//引用的区块头
+  "expiration": "2018-07-30T14:25:12",//交易过期时间
   "operations": [[
       7,{
         "fee": {
@@ -1212,8 +1222,8 @@ upgrade_account abc true
 }
 ```
 
-#### 13. sell_asset
-signed_transaction `sell_asset`(string seller_account, string amount_to_sell, string   symbol_to_sell, string min_to_receive, string   symbol_to_receive, uint32_t timeout_sec = 0, bool     fill_or_kill = false, bool     broadcast = false);
+#### 4. sell_asset
+signed_transaction `sell_asset`(string seller_account, string amount_to_sell, string   symbol_to_sell, string min_to_receive, string   symbol_to_receive, uint32_t timeout_sec = 0, bool     fill_or_kill = false, bool     broadcast);
 
 参数：seller_account为卖出账户, amount_to_sell为出售的资产数量, symbol_to_sell为想要出售的资产名, min_to_receive为要购买的资产数量, symbol_to_receive要购买的资产 ，timeout_sec 为超时时间（0即不限），fill_or_kill指是否启用“全部成交否则取消功能”，broadcast指是否广播。
 
@@ -1255,178 +1265,683 @@ sell_asset abc 1000 SEER 1000 USDT 0 false true
   ]
 }
 ```
+#### 5. create_asset
+signed_transaction `create_asset`(string issuer,  string symbol, uint8_t precision, asset_options common, bool broadcast);
 
-5，	
+参数：issuer为发行人, symbol为资产名, precision为精度, common为资产属性。 
+
+作用：发行新UIA资产
+
+示例：`create_asset` good  ABCDE 5 {max_supply : 10000000000000,market_fee_percent : 10,max_market_fee : 1000000000,issuer_permissions : 31,flags : 0,core_exchange_rate : {base : {amount : 100,asset_id : 1.3.1},quote : {amount : 10,asset_id : 1.3.0}},whitelist_authorities : [],blacklist_authorities : [],whitelist_markets : [],blacklist_markets : [],description : "test",extensions : [] } true
+
+返回信息示例：
+```json
+create_asset good ABCDE 5 {max_supply : 10000000000000,market_fee_percent : 10,max_market_fee : 1000000000,issuer_permissions : 31,flags : 0,core_exchange_rate : {base : {amount : 100,asset_id : 1.3.1},quote : {amount : 10,asset_id : 1.3.0}},whitelist_authorities : [],blacklist_authorities : [],whitelist_markets : [],blacklist_markets : [],description : "test",extensions : [] } true
+{
+  "ref_block_num": 3273,
+  "ref_block_prefix": 3393339853,
+  "expiration": "2018-07-31T05:42:33",
+  "operations": [[
+      9,{
+        "fee": {
+          "amount": "50000000000",
+          "asset_id": "1.3.0"
+        },
+        "issuer": "1.2.42",
+        "symbol": "ABCDE",
+        "precision": 5,
+        "common_options": {
+          "max_supply": "10000000000000",
+          "market_fee_percent": 10,
+          "max_market_fee": 1000000000,
+          "issuer_permissions": 31,
+          "flags": 0,
+          "core_exchange_rate": {
+            "base": {
+              "amount": 100,
+              "asset_id": "1.3.1"
+            },
+            "quote": {
+              "amount": 10,
+              "asset_id": "1.3.0"
+            }
+          },
+          "whitelist_authorities": [],
+          "blacklist_authorities": [],
+          "whitelist_markets": [],
+          "blacklist_markets": [],
+          "description": "test",
+          "extensions": []
+        },
+        "extensions": []
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f2e7425a639c4657d881f2ff6f80062c5d563cd7abc8e01dd04c62aeb6ee3861c0b9c557662e412b466bf956b6ae338621cf40579f0b11b1d491e9fb0d30cf88f"
+  ]
+}
+```
+#### 6. update_asset
+signed_transaction `update_asset`(string symbol, optional<string> new_issuer, asset_options new_options, bool broadcast);
+	
+参数：symbol为资产名, new_issuer为新的资产拥有人账号，new_options为资产新属性
+
+作用：更新资产
+
+示例：`update_asset` ABCDE tester {max_supply : 100000000000,market_fee_percent : 10,max_market_fee : 10000000,issuer_permissions : 31,flags : 31,core_exchange_rate : {base : {amount : 10,asset_id : 1.3.1},quote : {amount : 10,asset_id : 1.3.0}},whitelist_authorities : [],blacklist_authorities : [],whitelist_markets : [],blacklist_markets : [],description : "a",extensions : [] } true
+
+#### 7. issue_asset
+signed_transaction `issue_asset`(string to_account, string amount, string symbol, string memo, bool broadcast);
+
+参数：to_account为接收账户名或id，amount为数量，symbol为资产名, memo为备注
+
+作用：资产创建者给to_account派发数量为amount的symbol资产
+
+示例：`issue_asset` good 100000 ABCDE  "memo"  true
+
+返回信息示例：
+```json
+issue_asset good 100000 ABCDE  "memo"  true
+{
+  "ref_block_num": 3441,
+  "ref_block_prefix": 3230057673,
+  "expiration": "2018-07-31T05:50:57",
+  "operations": [[
+      11,{
+        "fee": {
+          "amount": 2008984,
+          "asset_id": "1.3.0"
+        },
+        "issuer": "1.2.42",
+        "asset_to_issue": {
+          "amount": "10000000000",
+          "asset_id": "1.3.7"
+        },
+        "issue_to_account": "1.2.42",
+        "memo": {
+          "from": "SEER7nLQYsQzsMRNxQCadGvzAoTXq9Wwep2wMYw59ttDCY7zxr19DK",
+          "to": "SEER7nLQYsQzsMRNxQCadGvzAoTXq9Wwep2wMYw59ttDCY7zxr19DK",
+          "nonce": "73590610262939532",
+          "message": "ef9c779f11166d2b97610103f23751d6"
+        },
+        "extensions": []
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "20705b0fa9a18cf51ccad528111b5dd76096eac2b3f83a8ef8e33dbdcc36e2ee1a3c1e2c8713016530a06527eef486dc269cecd71f280900d639451d970bf07e0c"
+  ]
+}
+```
+
+#### 8. fund_asset_fee_pool
+signed_transaction `fund_asset_fee_pool`(string from, string symbol, string amount, bool broadcast);
+
+参数：from为账户名或id，symbol为资产名,amount为数量
+
+作用：给资产手续费池注入资金
+
+示例：`fund_asset_fee_pool` tester ABCDE 1000 true
+	
+返回信息示例：
+```json
+fund_asset_fee_pool tester ABCDE 1000 true
+{
+  "ref_block_num": 4035,
+  "ref_block_prefix": 4135131871,
+  "expiration": "2018-07-31T06:20:39",
+  "operations": [[
+      13,{
+        "fee": {
+          "amount": 100000,
+          "asset_id": "1.3.0"
+        },
+        "from_account": "1.2.42",
+        "asset_id": "1.3.1",
+        "amount": 100000000,
+        "extensions": []
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f652b152abf31fc5b5122d173ac6b93099441079eb659594c49e4f00da045362c074bf258fd0d54ef3715f90ca0b2f5543e09e6d1a84252d2186624f39dcd0732"
+  ]
+}
+```
+
+### 系统治理指令
+
+#### 1. create_committee_member
+signed_transaction `create_committee_member`(string owner_account, tring url, bool broadcast);
+
+参数：owner_account为账户名或id，url为链接
+
+作用：创建理事会成员
+
+示例：`create_committee_member`  tester "https://baidu.com" true
+
+
+返回信息示例：
+```json
+create_committee_member tester "https://baidu.com" true
+{
+  "ref_block_num": 4211,
+  "ref_block_prefix": 390588442,
+  "expiration": "2018-07-31T06:29:27",
+  "operations": [[
+      26,{
+        "fee": {
+          "amount": 500000000,
+          "asset_id": "1.3.0"
+        },
+        "committee_member_account": "1.2.6",
+        "url": "https://baidu.com"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f682f6567c05a720ef1f05d23b464d3290a1f6402f0170aeae4c24f44826f5dba209269b9c64d0ae18df18275076ebe48b88343741c5d1a71482b3173bb2c17e4"
+  ]
+}
+```
+
+#### 2. list_witnesses
+map<string, witness_id_type> `list_witnesses`(const string& lowerbound, uint32_t limit);
+
+参数：lowerbound为账户名的下标，limit为返回结果的数量上限
+
+作用：列出见证人列表
+
+示例：`list_witnesses` "" 100
+
+返回信息示例：
+```json
+list_witnesses "" 100
+[[
+    "init0",
+    "1.5.1"
+  ],
+  ......
+  ,[
+    "abc",
+    "1.5.11"
+  ]
+]
+```
+#### 3. list_committee_members
+map<string, committee_member_id_type>  `list_committee_members`(const string& lowerbound, uint32_t limit); 
+
+参数：lowerbound为账户名的下标，limit为返回结果的数量上限
+
+作用：列出理事会成员列表
+
+示例：`list_committee_members` "" 100
+
+返回信息示例：
+```json
+list_committee_members "" 100
+[[
+    "init0",
+    "1.4.0"
+  ],
+  ......
+  ,[
+    "abc",
+    "1.4.7"
+  ]
+]
+```
+
+#### 4. get_witness
+witness_object `get_witness`(string owner_account); 
+
+参数：owner_account为账户名或者id
+
+作用：列出账户为owner_account的见证人
+
+示例：`get_witness` abc
+
+返回信息示例：
+```json
+get_witness abc
+{
+  "id": "1.5.11",
+  "witness_account": "1.2.6",
+  "last_aslot": 2648178,
+  "signing_key": "SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ",
+  "pay_vb": "1.11.3",
+  "collaterals": [],
+  "collateral_profit": 0,
+  "total_collateral": 0,
+  "cancelling_collateral": 0,
+  "url": "",
+  "total_missed": 13251,
+  "last_confirmed_block_num": 1839550,
+  "recent_maintenance_missed_blocks": [
+    0,
+    0
+  ]
+}
+
+```
+
+#### 5. get_committee_member
+committee_member_object `get_committee_member`(string owner_account); 
+
+参数：owner_account为账户名或者id
+
+作用：列出账户为owner_account的理事会成员
+
+示例：get_committee_member  abc
+
+返回信息示例：
+```json
+get_committee_member abc
+{
+  "id": "1.4.7",
+  "committee_member_account": "1.2.6",
+  "vote_id": "0:7",
+  "total_votes": 0,
+  "url": "https://baidu.com"
+}
+```
+
+#### 6. create_witness
+signed_transaction `create_witness`(string owner_account,string url,bool broadcast); 
+
+参数：owner_account为账户名或id,url为网址
+
+作用：创建见证人
+
+示例：`create_witness` abc  "http://www.baidu.com" true
+
+返回信息示例：
+```json
+create_witness abc  "http://www.baidu.com" true
+{
+  "ref_block_num": 4730,
+  "ref_block_prefix": 3148322765,
+  "expiration": "2018-07-31T06:55:24",
+  "operations": [[
+      14,{
+        "fee": {
+          "amount": 2000000000,
+          "asset_id": "1.3.0"
+        },
+        "witness_account": "1.2.6",
+        "url": "http://www.baidu.com",
+        "block_signing_key": "SEER5hYpWtqYyLgyWBzKy2SNcKSt3Qn4yDDrYiM8gqaHZwtgGnudGs"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f6c3c05635021a123b954a5b1ea63003999ad450f0107fb3f7ca64e7cefae939b0c6679ffd7c477587cb9d64c31e0664385d360321cd414af9b14952cadd98e4d"
+  ]
+}
+```
+
+#### 7. update_witness
+signed_transaction `update_witness`(string witness_name,  string url, string block_signing_key, bool broadcast);
+
+参数：witness_name为账户名或id，url为网址, block_signing_key为出块时签名的公钥
+
+作用：更新见证人资料
+
+示例：`update_witness` abc "http://www.google.com"  SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ true
+
+返回信息示例：
+```json
+update_witness abc "http://www.google.com" SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ true
+{
+  "ref_block_num": 4870,
+  "ref_block_prefix": 1016406219,
+  "expiration": "2018-07-31T07:02:24",
+  "operations": [[
+      15,{
+        "fee": {
+          "amount": 10000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6",
+        "new_url": "http://www.google.com",
+        "new_signing_key": "SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f677827fc57e4628e8cf61a25d40eecee120860e6d5a7fee6e1c6998b52c792fc28a977bcdefd87de3af5c754912a7766f69d6a376ace6b6b8dba042b9e0a05a6"
+  ]
+}
+```
+#### 8. get_vesting_balances
+vector<vesting_balance_object_with_info> `get_vesting_balances`(string account_name); 
+
+参数：account_name为账户名或id
+
+作用：列出用户的锁定余额详情
+
+示例：`get_vesting_balances`  abc
+
+返回信息示例：
+```json
+get_vesting_balances abc
+[{
+    "id": "1.11.3",
+    "owner": "1.2.7",
+    "balance": {
+      "amount": "77850000000",
+      "asset_id": "1.3.0"
+    },
+    "policy": [
+      1,{
+        "vesting_seconds": 86400,
+        "start_claim": "1970-01-01T00:00:00",
+        "coin_seconds_earned": "6726214080000000",
+        "coin_seconds_earned_last_update": "2018-07-31T07:09:51"
+      }
+    ],
+    "allowed_withdraw": {
+      "amount": "77850000000",
+      "asset_id": "1.3.0"
+    },
+    "allowed_withdraw_time": "2018-07-31T07:10:00"
+  }
+]
+```
+
+#### 9. withdraw_vesting
+signed_transaction `withdraw_vesting`(string witness_name, string amount, string asset_symbol, bool broadcast = false);
+参数：witness _name为账户名或id,amount为数量, asset_symbol为资产名
+作用：从锁定余额中领取余额，该命令仅供见证人使用
+示例：`withdraw_vesting`  abc 1000 SEER true
+	
+返回信息示例：
+```json
+withdraw_vesting  abc 1000 SEER true
+{
+  "ref_block_num": 21775,
+  "ref_block_prefix": 1566256200,
+  "expiration": "2018-07-31T07:14:57",
+  "operations": [[
+      30,{
+        "fee": {
+          "amount": 2000000,
+          "asset_id": "1.3.0"
+        },
+        "vesting_balance": "1.11.90",
+        "owner": "1.2.6",
+        "amount": {
+          "amount": 100000000,
+          "asset_id": "1.3.0"
+        }
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f40c90c48b07c3d261b927603387e22a0fc7aa43c6787623a13f08f9105b6536652fc85e4a1cd3d15abc798a65b28bd8d33449dc15e11f5dfcb51be8929fba4e6"
+  ]
+}
+```
+#### 10. vote_for_committee_member
+signed_transaction `vote_for_committee_member`(string voting_account,  string committee_member, bool approve, bool broadcast = false);
+
+参数：voting _name为投票人账户名或id, committee_member为理事会成员用户名或id，approve为投票或者撤票
+
+作用：对理事会成员进行投票
+
+示例：`vote_for_committee_member`  abc  cde true true
+
+返回信息示例：
+```json
+vote_for_committee_member abc  cde true true
+{
+  "ref_block_num": 5181,
+  "ref_block_prefix": 2077283036,
+  "expiration": "2018-07-31T07:17:57",
+  "operations": [[
+      5,{
+        "fee": {
+          "amount": 2005859,
+          "asset_id": "1.3.0"
+        },
+        "account": "1.2.6",
+        "new_options": {
+          "memo_key": "SEER7nLQYsQzsMRNxQCadGvzAoTXq9Wwep2wMYw59ttDCY7zxr19DK",
+          "voting_account": "1.2.5",
+          "num_committee": 0,
+          "num_authenticator": 0,
+          "num_supervisor": 0,
+          "votes": [
+            "0:0"
+          ],
+          "extensions": []
+        },
+        "extensions": {}
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f206f69ee54fe145769515ff955e7aa343e9b9eb6eb2fbb3f0f0e5b25ca5e38a5765b8b9ff731d3ea46c5a0735ec32424a8c8ecff970c418126035111610d497c"
+  ]
+}
+```
+#### 11. set_voting_proxy
+signed_transaction `set_voting_proxy`(string account_to_modify,  optional<string> voting_account, bool broadcast = false);
+	
+参数：account_to_modify为投票人账户名或id, voting_account为代理人用户名或id(为空时为取消代理人)
+
+作用：设置投票代理人
+
+示例：set_voting_proxy abc cde true
+
+或   set_voting_proxy abc null true
+
+返回信息示例：
+```json
+set_voting_proxy abc cde true
+{
+  "ref_block_num": 5282,
+  "ref_block_prefix": 3854856229,
+  "expiration": "2018-07-31T07:23:00",
+  "operations": [[
+      5,{
+        "fee": {
+          "amount": 2005468,
+          "asset_id": "1.3.0"
+        },
+        "account": "1.2.6",
+        "new_options": {
+          "memo_key": "SEER7nLQYsQzsMRNxQCadGvzAoTXq9Wwep2wMYw59ttDCY7zxr19DK",
+          "voting_account": "1.2.6",
+          "num_committee": 0,
+          "num_authenticator": 0,
+          "num_supervisor": 0,
+          "votes": [],
+          "extensions": []
+        },
+        "extensions": {}
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f080a46abce73d107f19059015a1afe868d168e07d35d9c0894b97f991ea107c63c0b30f55624bdfc46cd47135ed162ae976a74e7eb37d72929671b6f750c876b"
+  ]
+}
+```
+
+#### 12. witness_create_collateral
+signed_transaction `witness_create_collateral`(string account,  string amount, bool broadcast = false);
+
+参数：account为见证人id或者账户名或账户id, amount为抵押的SEER数量
+
+作用：增加见证人抵押项
+
+示例：`witness_create_collateral` abc 1000 true
+
+返回信息示例：
+```json
+witness_create_collateral abc 1000 true
+{
+  "ref_block_num": 5437,
+  "ref_block_prefix": 347254870,
+  "expiration": "2018-07-31T07:30:45",
+  "operations": [[
+      16,{
+        "fee": {
+          "amount": 1000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6",
+        "amount": 100000000
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "206a08b57ff8bff588bb812dd07a0e90a6ebacf749d9600a241c4033bbd39cfaae1d55ae3fc6977f5486b4c09c51f31b9609801e7c0aa3d8e16b2c67ebb7ff6fc9"
+  ]
+}
+```
+#### 13. list_witness_collaterals
+vector<witness_collateral_object>  `list_witness_collaterals`(string account); 
+
+参数：account为见证人id或者账户名或账户id
+
+作用：列出指定见证人的抵押清单
+
+示例：`list_witness_collaterals` abc
+
+返回信息示例：
+```json
+list_witness_collaterals abc
+[{
+    "id": "2.16.0",
+    "owner": "1.2.6",
+    "amount": 100000000,
+    "status": 0,
+    "start": "2018-07-31T07:30:15",
+    "expiration": "1970-01-01T00:00:00"
+  }
+]
+```
+#### 14. witness_cancel_collateral
+signed_transaction  `witness_cancel_collateral`(string account, string 	collateral_id, bool broadcast = false);
+
+参数：account为见证人id或者账户名或账户id, collateral_id抵押项的id
+
+作用：撤销指定的抵押项
+
+示例：`witness_cancel_collateral`  abc  2.16.0  true
+
+返回信息示例：
+```json
+witness_cancel_collateral  abc  2.16.0  true
+{
+  "ref_block_num": 5517,
+  "ref_block_prefix": 1913095735,
+  "expiration": "2018-07-31T07:34:45",
+  "operations": [[
+      17,{
+        "fee": {
+          "amount": 10000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6",
+        "collateral_id": "2.16.0"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "2014b4b48c9c789ae2f5da5e0bb11875e21232b00fd9b38642bd500cf7ade08aad789dffcc54a023ae41559f452fbc6f27b54481ba7c4b591ab03c9da8c8d7cc6d"
+  ]
+}
+```
+
+#### 15. witness_claim_collateral
+signed_transaction `witness_claim_collateral`(string account, string 	collateral_id, bool broadcast = false);
+
+参数：account为见证人id或者账户名或账户id, collateral_id抵押项的id
+
+作用：领取已经撤销抵押余额或者领取抵押利息
+
+示例：
+
+领取已撤销抵押余额：`witness_claim_collateral`  abc  "2.16.0" true
+
+领取抵押利息：`witness_claim_collateral`  abc  "" true
+
+返回信息示例：
+```json
+witness_claim_collateral abc  "" true
+{
+  "ref_block_num": 22273,
+  "ref_block_prefix": 2876124369,
+  "expiration": "2018-07-31T07:39:51",
+  "operations": [[
+      18,{
+        "fee": {
+          "amount": 20000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "2052bc058ea6f7125b5c2baf935ff9332cd43f352b4efe986fd8d776004164249110ac2e171698ca5a867ba1629c6b080f35027ec23c2b1ea66cddcf69cc492b1d"
+  ]
+}
+```
+
+### 预测市场相关
+
+#### 1. lookup_oracle_accounts
+map<string, seer_oracle_id_type> `lookup_oracle_accounts`(const string& lower_bound_name, uint32_t limit)const;
+
+参数：lowerbound为账户名的下标，limit为返回结果的数量上限
+
+作用：列出预言机成员列表
+
+示例：`lookup_oracle_accounts`  "" 100
+
+返回信息示例：
+```json
+lookup_oracle_accounts  "" 100
+[[
+    "tnt123456",
+    "1.13.0"
+  ],
+  ......
+  ,[
+    "tnt23456",
+    "1.13.1"
+  ]
+]
+```
+
+222
+
 返回信息示例：
 ```json
 
 ```
-	
-10，	map<string, bool> import_accounts(string filename, string password); 
-参数：filename 为钱包文件名，password为密码
-作用：将钱包文件filename里的账户导入当前钱包
-示例：import_accounts  "d:\wallet.json" 12345
 
-11，	
-12，	
-
-13，	
-
-14，	
-
-
-
-
-
-15，	signed_transaction create_asset(string issuer, 
-				string symbol,
-				uint8_t precision,
-				asset_options common,
-				bool broadcast = false);
-参数：issuer为发行人, symbol为资产名, precision为精度, common为资产属性。 
-作用：发行新资产
-示例：create_asset good  ABCDE 5 {max_supply : 10000,market_fee_percent : 10,max_maarket_fee : 10000000,issuer_permissions : 31,flags : 0,core_exchange_rate : {base : {amount : 10,asset_id : 1.3.1},quote : {amount : 10,asset_id : 1.3.0}},whitelist_authorities : [],blacklist_authorities : [],whitelist_markets : [],blacklist_markets : [],description : "create test asset",extensions : [] } true
-
-
-signed_transaction issue_asset(string to_account, string amount,
-				string symbol,
-				string memo,
-				bool broadcast = false);
-参数：to_account为接收账户名或id，amount为数量，symbol为资产名, memo为备注
-作用：资产创建者给to_account派发数量为amount的symbol资产
-示例：issue_asset good 0.0001 ABCDE  "memo"  true
-
-
-signed_transaction update_asset(string symbol,
-				optional<string> new_issuer,
-				asset_options new_options,
-				bool broadcast = false);
-参数：symbol为资产名, new_issuer为新的资产拥有人账号，new_options为资产新属性
-作用：更新资产
-示例：update_asset ABCDE tester {max_supply : 100000000000,market_fee_percent : 10,max_maarket_fee : 10000000,issuer_permissions : 31,flags : 31,core_exchange_rate : {base : {amount : 10,asset_id : 1.3.1},quote : {amount : 10,asset_id : 1.3.0}},whitelist_authorities : [],blacklist_authorities : [],whitelist_markets : [],blacklist_markets : [],description : "a",extensions : [] } true
-
-
-signed_transaction fund_asset_fee_pool(string from,
-				string symbol,
-				string amount,
-				bool broadcast = false);
-参数：from为账户名或id，symbol为资产名,amount为数量
-作用：给资产手续费池注入资金
-示例：fund_asset_fee_pool tester ABCDE 1000 true
-
-signed_transaction create_committee_member(string owner_account,
-				string url,
-				bool broadcast = false);
-参数：owner_account为账户名或id，url为链接
-作用：创建理事会成员
-示例：create_committee_member  tester "https://baidu.com" true
-
-
-16，	map<string, witness_id_type>       list_witnesses(const string& lowerbound, uint32_t limit);
-参数：lowerbound为账户名的下标，limit为返回结果的数量上限
-作用：列出受托人成员列表
-示例：list_witnesses "" 100
-
-17，	map<string, committee_member_id_type>       list_committee_members(const string& lowerbound, uint32_t limit); 
-参数：lowerbound为账户名的下标，limit为返回结果的数量上限
-作用：列出理事会成员列表
-示例：list_committee_members "" 100
-
-18，	witness_object get_witness(string owner_account); 
-参数：owner_account为账户名或者id
-作用：列出账户为owner_account的受托人
-示例：get_witness abc
-
-19，	committee_member_object get_committee_member(string owner_account); 
-参数：owner_account为账户名或者id
-作用：列出账户为owner_account的理事会成员
-示例：get_committee_member  abc
-
-
-20，	signed_transaction create_witness(string owner_account,string url,bool broadcast = false); 
-参数：owner_account为账户名或id,url为网址
-作用：创建受托人
-示例：create_witness abc  "http://www.baidu.com" true
-
-
-21，	signed_transaction update_witness(string witness_name, 
-				string url,
-				string block_signing_key,
-				bool broadcast = false);
-参数：witness_name为账户名或id，url为网址, block_signing_key为出块时签名的公钥
-作用：更新受托人资料
-示例：
-update_witness abc "http://www.google.com"  SEER 4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ true
-
-
-22，	vector<vesting_balance_object_with_info> get_vesting_balances(string account_name); 
-参数：account_name为账户名或id
-作用：列出用户的锁定余额详情
-示例：get_vesting_balances  abc
-
-23，	signed_transaction withdraw_vesting(
-				string witness_name,
-				string amount,
-				string asset_symbol,
-				bool broadcast = false);
-参数：witness _name为账户名或id,amount为数量, asset_symbol为资产名
-作用：从锁定余额中领取余额，该命令仅供受托人使用
-示例：withdraw_vesting  abc 1000 SEER true
-
-24，	signed_transaction vote_for_committee_member(string voting_account, 
-				string committee_member,
-				bool approve,
-				bool broadcast = false);
-参数：voting _name为投票人账户名或id, committee_member为理事会成员用户名或id，approve为投票或者撤票
-作用：对理事会成员进行投票
-示例：vote_for_committee_member  abc  cde true true
-
-
-25，	signed_transaction set_voting_proxy(string account_to_modify, 
-				optional<string> voting_account,
-				bool broadcast = false);
-参数：account_to_modify为投票人账户名或id, voting_account为代理人用户名或id(为空时为取消代理人)
-作用：设置投票代理人
-示例：set_voting_proxy abc cde true
-或    set_voting_proxy abc null true
-
-Seer特有指令：
-1，	signed_transaction witness_create_collateral(string account, 
-				string amount,
-				bool broadcast = false);
-参数：account为受托人id或者账户名或账户id, amount为抵押的SEER数量
-作用：增加受托人抵押
-示例：witness_create_collateral abc 1000 true
-
-2，	vector<witness_collateral_object>  	list_witness_collaterals(string account); 
-参数：account为受托人id或者账户名或账户id
-作用：列出指定受托人的抵押清单
-示例：list_witness_collaterals abc
-
-
-signed_transaction  witness_cancel_collateral(string account,
-				string 	collateral_id,
-				bool broadcast = false);
-参数：account为受托人id或者账户名或账户id, collateral_id抵押项的id
-作用：撤销指定的抵押项
-示例：witness_cancel_collateral  abc  2.16.333  true
-
-signed_transaction witness_claim_collateral(string account,
-				string 	collateral_id,
-				bool broadcast = false);
-参数：account为受托人id或者账户名或账户id, collateral_id抵押项的id
-作用：领取已经撤销抵押余额或者领取抵押利息
-示例：
-
-领取已撤销抵押余额：witness_claim_collateral  abc  "2.16.333" true
-领取抵押利息：witness_claim_collateral  abc  "" true
-
-
-
-map<string, seer_oracle_id_type> lookup_oracle_accounts(const string& lower_bound_name, uint32_t limit)const;
-参数：lowerbound为账户名的下标，limit为返回结果的数量上限
-作用：列出预言机成员列表
-示例：lookup_oracle_accounts  "" 100
 
 vector<optional<seer_oracle_object>> get_oracles(const vector<seer_oracle_id_type>& oracle_ids)const;
 参数：oracle_ids为预言机的id集

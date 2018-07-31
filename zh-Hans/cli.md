@@ -2233,10 +2233,32 @@ signed_transaction  `oracle_create`(string account, int64_t  guaranty, string   
 
 作用：创建预言机
 
-示例：oracle_create abc 100000 "the first oracle" "http://www.a.com/show_me.jpg"  true
+示例：`oracle_create` abc 100000 "the first oracle" "http://www.a.com/show_me.jpg"  true
 
 ```json
-
+oracle_create abc 100000 "the first oracle" "http://www.a.com/show_me.jpg"  true
+{
+  "ref_block_num": 7768,
+  "ref_block_prefix": 1942759640,
+  "expiration": "2018-07-31T09:27:18",
+  "operations": [[
+      40,{
+        "fee": {
+          "amount": 1000006250,
+          "asset_id": "1.3.0"
+        },
+        "issuer": "1.2.6",
+        "guaranty": 100000,
+        "description": "the first oracle",
+        "script": "http://www.a.com/show_me.jpg"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "2048f860d79235803a323ff06cff9ecd5dac826b6c4b8811acc7f5ed3339992c9b0852d16c38fc1f8fbd83c6a535c6c8295ecac35e9102d1b720c3e593c5d16e2b"
+  ]
+}
 ```
 
 #### 10. oracle_update
@@ -2246,10 +2268,33 @@ signed_transaction `oracle_update`(string account, string   oracle_id, int64_t	g
 
 作用：更新预言机,guaranty负数时为提取保证金,为正为添加保证金
 
-示例：oracle_ update abc 1.13.5 0  "not the first oracle"  {}  true
+示例：`oracle_update` abc 1.13.2 100000  "not the first oracle" “”  true
 	
 ```json
-
+oracle_update abc 1.13.2 100000  "not the first oracle"  ""  true
+{
+  "ref_block_num": 7848,
+  "ref_block_prefix": 2978404298,
+  "expiration": "2018-07-31T09:31:18",
+  "operations": [[
+      41,{
+        "fee": {
+          "amount": 100004199,
+          "asset_id": "1.3.0"
+        },
+        "issuer": "1.2.6",
+        "oracle": "1.13.2",
+        "guaranty": 100000,
+        "description": "not the first oracle",
+        "script": ""
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f1969d6e5c35bb92be68f5e591b8b7ffe35fdea6db3962ae4af26e6c7cd288add66bd212683e56040a1a53a9a5a392efeb40f1de4f8c6a8cc8f360362269783d7"
+  ]
+}
 ```
 
 #### 11. oracle_input
@@ -2259,7 +2304,7 @@ signed_transaction `oracle_input`(string account, string   oracle_id, string  ro
 
 作用：预言机给房间输入预测结果
 
-示例：oracle_ input  abc 1.13.5  1.15.3  [0]  true
+示例：oracle_input  abc 1.13.5  1.15.3  [0]  true
 
 ```json
 
@@ -2272,10 +2317,32 @@ signed_transaction `house_create`(string account, int64_t  guaranty, string   de
 
 作用：创建平台
 
-示例：house _create abc 100000 “the first house” “http://www.a.com/show_me.jpg”  true
+示例：house_create abc 100000 “the first house” “http://www.a.com/show_me.jpg”  true
 
 ```json
-
+house_create abc 100000 "the first house" "http://www.a.com/show_me.jpg"  true
+{
+  "ref_block_num": 8770,
+  "ref_block_prefix": 3930836429,
+  "expiration": "2018-07-31T10:17:24",
+  "operations": [[
+      53,{
+        "fee": {
+          "amount": 3000006152,
+          "asset_id": "1.3.0"
+        },
+        "issuer": "1.2.6",
+        "guaranty": 100000,
+        "description": "the first house",
+        "script": "http://www.a.com/show_me.jpg"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "206208e8832e9c7a670ba3f15aa71ea114dab7353f8132c64af8014c21f709e889559c9e3f3ba69b51f09cc426fd67a7d4403c165c2bb53a2f9e755d54dac265ac"
+  ]
+}
 ```
 
 #### 13. house_update
@@ -2285,11 +2352,8 @@ signed_transaction `house_update`(string account, string   house_id, int64_t  gu
 
 作用：更新平台,guaranty负数时为提取保证金,为正为添加保证金
 
-示例：house_update abc 1.14.5 0  "not the first house"  {} true
+示例：house_update abc 1.14.5 0  "not the first house"  "" true
 	
-```json
-
-```
 #### 14. room_create
 signed_transaction room_create(string account, vector<string> label, tring   description, string  script, uint8_t  room_type,  room_option  option,  optional<seer_room_option_lmsr>  room_lmsr,  optional<seer_room_option_type1>	room_type1,  optional<seer_room_option_type2>	room_type2,  optional<seer_room_option_type3>	room_type3,  bool broadcast );
 	
@@ -2300,12 +2364,7 @@ signed_transaction room_create(string account, vector<string> label, tring   des
 作用：创建房间
 
 示例：
-room_create good ["football","basketball","games"] "test room create" "show me"  0  {"result_owner_percent":0,"reward_per_oracle":"2000000","accept_asset":"1.3.0","minimum":"1","maximum":"100000000","start":"2018-03-26T07:17:31","stop":"2018-03-26T07:17:31","input_duration_secs":0,"filter":{"reputation":"0","guaranty":"0","volume":"0"},"allowed_oracles":["1.13.0"]}  {"selection_description":["No","Yes"],"L":"100000","total_shares":"1","items":["1"],"range":2,"participators":[],"solds":[],"settled_balance":"0","settled_index":0,"settled_sold_index":0,"histories":[]} null null null true 
-
-返回信息示例：
-```json
-
-```
+room_create abc ["football","basketball","games"] "test room create" "show me"  0  {"result_owner_percent":0,"reward_per_oracle":"2000000","accept_asset":"1.3.0","minimum":"1","maximum":"100000000","start":"2018-07-31T07:17:31","stop":"2018-07-31T07:17:33","input_duration_secs":0,"filter":{"reputation":"0","guaranty":"0","volume":"0"},"allowed_oracles":["1.13.0"]}  {"selection_description":["No","Yes"],"L":"100000","total_shares":"1","items":["1"],"range":2,"participators":[],"solds":[],"settled_balance":"0","settled_index":0,"settled_sold_index":0,"histories":[]} null null null true 
 
 #### 15. room_update
 signed_transaction `room_update`(string account, seer_room_id_type  room,  optional<string>   description,  optional<string>  script,  optional<room_option>  option,  optional<vector<uint64_t>>  new_awards,  bool broadcast );
@@ -2316,11 +2375,6 @@ signed_transaction `room_update`(string account, seer_room_id_type  room,  optio
 
 示例：room_update good 1.15.1 "change the description" null null null true
 
-返回信息示例：
-```json
-
-```
-
 #### 16. room_open
 signed_transaction  `room_open`(string account,  seer_room_id_type  room,  time_point_sec start, time_point_sec	 stop,  uint32_t   input_duration_secs,  bool broadcast);
 
@@ -2330,11 +2384,6 @@ signed_transaction  `room_open`(string account,  seer_room_id_type  room,  time_
 
 示例： room_open abc 1.15.3 “2018.4.1 21:00:00”  “2018.4.5 21:00:00”  86400 true
 		
-返回信息示例：
-```json
-
-```
-
 #### 17. room_stop_participate
 signed_transaction `room_stop_participate`(string account,  seer_room_id_type	 room,  uint32_t  input_duration_secs, bool broadcast = false);
 
@@ -2343,11 +2392,6 @@ signed_transaction `room_stop_participate`(string account,  seer_room_id_type	 r
 作用：停止参与预测
 
 示例： room_stop_participate abc 1.15.3 86400 true
-	
-返回信息示例：
-```json
-
-```
 
 #### 18. room_input
 signed_transaction `room_input`(string account, seer_room_id_type room, vector<uint8_t>	 input,  bool broadcast);
@@ -2361,11 +2405,6 @@ signed_transaction `room_input`(string account, seer_room_id_type room, vector<u
 单选：room_ input  abc 1.15.3  [3]  true
 多选：room_ input  abc 1.15.3  [1,5,3]  true
 
-返回信息示例：
-```json
-
-```
-
 #### 19. room_final
 
 signed_transaction `room_final`(string account, seer_room_id_type room, bool broadcast);
@@ -2374,12 +2413,7 @@ signed_transaction `room_final`(string account, seer_room_id_type room, bool bro
 
 作用：创建者统计预测结果,以及room_type3时计算预测正确的参与者详情)
 
-示例：room_ final abc 1.15.3 true
-
-返回信息示例：
-```json
-
-```
+示例：room_final abc 1.15.3 true
 
 #### 20. room_settle
 signed_transaction `room_settle`(string account, seer_room_id_type room, bool broadcast = false);
@@ -2390,11 +2424,6 @@ signed_transaction `room_settle`(string account, seer_room_id_type room, bool br
 
 示例：room_ settle  abc 1.15.3 true
 
-返回信息示例：
-```json
-
-```
-
 #### 21. room_participate
 signed_transaction  `room_participate`(string account, seer_room_id_type room, uint8_t  type, vector<uint8_t> input, vector<set<uint8_t>>    input1,  vector<vector<uint8_t>> input2,  int64_t amount,  bool broadcast = false);
 
@@ -2404,11 +2433,6 @@ signed_transaction  `room_participate`(string account, seer_room_id_type room, u
 
 示例：room_participate  abc 1.15.3  0  [1]  []  []  1000 true
 
-返回信息示例：
-```json
-
-```
-
 #### 22. room_close
 signed_transaction `room_close`(string account,  seer_room_id_type  room,  bool  remove,  bool broadcast );
 
@@ -2417,11 +2441,6 @@ signed_transaction `room_close`(string account,  seer_room_id_type  room,  bool 
 作用：创建者关闭房间
 
 示例：room_close abc 1.15.3  false true
-
-返回信息示例：
-```json
-
-```
 
 #### 23. room_claim
 signed_transaction `room_claim`(string  account,  seer_room_id_type room, int64_t  amount, bool broadcast);
@@ -2436,11 +2455,5 @@ signed_transaction `room_claim`(string  account,  seer_room_id_type room, int64_
   注意：该指令只对room_type2和room_type3有效，而且amount是包括资产精度的，比如`room_claim` 1 SEER时amount值为100000。
 </p>
   
-
-
-返回信息示例：
-```json
-
-```
 
 

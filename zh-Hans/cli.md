@@ -1230,28 +1230,28 @@ sell_asset abc 1000 SEER 1000 USDT 0 false true
   "expiration": "2018-07-30T15:08:18",
   "operations": [[
       1,{
-        "fee": {
-          "amount": 500000,
-          "asset_id": "1.3.0"
+        "fee": {//手续费
+          "amount": 500000,//金额5
+          "asset_id": "1.3.0"//SEER
         },
-        "seller": "1.2.108",
-        "amount_to_sell": {
-          "amount": 100000000,
-          "asset_id": "1.3.0"
+        "seller": "1.2.108",//卖出者ID
+        "amount_to_sell": {//卖出数量
+          "amount": 100000000,//金额100
+          "asset_id": "1.3.0"//SEER
         },
-        "min_to_receive": {
-          "amount": 10000000,
-          "asset_id": "1.3.4"
+        "min_to_receive": {//最少买的资产
+          "amount": 10000000,//金额100
+          "asset_id": "1.3.4"//测试网络此id对应的是USDT测试币
         },
         "expiration": "1969-12-31T23:59:59",
-        "fill_or_kill": false,
+        "fill_or_kill": false,//未开启全部成交否则取消
         "extensions": []
       }
     ]
   ],
   "extensions": [],
   "signatures": [
-    "1f202094a93aabdb303a0a6076014a14c3ef18c40927dfd9f8f1e83a0f98893083311f8d41a0665351be02ba2d5c6ea0e314d90deb7d2e612e2c79c3f3546c43cf"
+    "1f202094a93aabdb303a0a6076014a14c3ef18c40927dfd9f8f1e83a0f98893083311f8d41a0665351be02ba2d5c6ea0e314d90deb7d2e612e2c79c3f3546c43cf"//交易签名
   ]
 }
 ```

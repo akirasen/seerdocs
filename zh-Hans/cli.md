@@ -1907,10 +1907,10 @@ witness_claim_collateral abc  "" true
 }
 ```
 
-### 预测市场相关
+### 预测市场相关指令
 
 #### 1. lookup_oracle_accounts
-map<string, seer_oracle_id_type> `lookup_oracle_accounts`(const string& lower_bound_name, uint32_t limit)const;
+seer_oracle_id_type `lookup_oracle_accounts`(const string& lower_bound_name, uint32_t limit)const;
 
 参数：lowerbound为账户名的下标，limit为返回结果的数量上限
 
@@ -1932,8 +1932,506 @@ lookup_oracle_accounts  "" 100
   ]
 ]
 ```
+#### 2. get_oracles
+seer_oracle_object `get_oracles`(const seer_oracle_id_type& oracle_ids)const;
 
-222
+参数：oracle_ids为预言机的id集
+
+作用：根据给定的id集列出预言机成员列表
+
+示例：`get_oracles`  [1.13.0,1.13.1]
+
+返回信息示例：
+```json
+get_oracles  [1.13.0,1.13.1]
+[{
+    "id": "1.13.0",
+    "owner": "1.2.63",
+    "guaranty": "200001000000",
+    "locked_guaranty": 0,
+    "reputation": 1,
+    "volume": 1,
+    "description": "test",
+    "script": ""
+  },{
+    "id": "1.13.1",
+    "owner": "1.2.77",
+    "guaranty": "801000000000",
+    "locked_guaranty": 0,
+    "reputation": 0,
+    "volume": 0,
+    "description": "",
+    "script": ""
+  }
+]
+```
+#### 3. get_oracle_by_account
+seer_oracle_object `get_oracle_by_account`(account_id_type account)const;
+
+参数：account为账户id
+
+作用：根据对方账户id查询预言机
+
+示例：`get_oracle_by_account` 1.2.63
+
+返回信息示例：
+```json
+get_oracle_by_account 1.2.63
+{
+  "id": "1.13.0",
+  "owner": "1.2.63",
+  "guaranty": "200001000000",
+  "locked_guaranty": 0,
+  "reputation": 1,
+  "volume": 1,
+  "description": "test",
+  "script": ""
+}
+```
+
+#### 4.  lookup_house_accounts
+seer_house_id_type `lookup_house_accounts`(const string& lower_bound_name, uint32_t limit)const;
+
+参数：lowerbound为账户名的下标，limit为返回结果的数量上限
+
+作用：列出SEER平台列表
+
+示例：`lookup_house_accounts` "" 100
+
+返回信息示例：
+```json
+lookup_house_accounts "" 100
+[[
+    "cn-itata",
+    "1.14.3"
+  ],[
+    "danilo3",
+    "1.14.2"
+  ],
+  ......
+  ,[
+    "tnt23456",
+    "1.14.6"
+  ]
+]
+```
+
+
+#### 5. get_houses
+seer_house_object `get_houses`(const vector<seer_house_id_type>& house_ids)const;
+
+参数：house _ids为平台的id集
+
+作用：根据给定的id集列出平台列表
+
+示例：`get_houses` [1.14.1,1.14.2,1.14.4]
+
+返回信息示例：
+```json
+get_houses [1.14.3,1.14.2,1.14.6]
+[{
+    "id": "1.14.3",
+    "owner": "1.2.30",
+    "description": "test",
+    "script": "",
+    "reputation": 0,
+    "guaranty": "300000000000",
+    "volume": 0,
+    "rooms": [
+      "1.15.11"
+    ],
+    "finished_rooms": []
+  },{
+    "id": "1.14.2",
+    "owner": "1.2.29",
+    "description": "test",
+    "script": "1",
+    "reputation": 0,
+    "guaranty": "10000000000",
+    "volume": 0,
+    "rooms": [
+      "1.15.3"
+    ],
+    "finished_rooms": []
+  },{
+    "id": "1.14.6",
+    "owner": "1.2.77",
+    "description": "",
+    "script": "",
+    "reputation": 2,
+    "guaranty": "10000000000",
+    "volume": 2,
+    "rooms": [
+      "1.15.15"
+    ],
+    "finished_rooms": [
+      "1.15.12",
+      "1.15.13"
+    ]
+  }
+]
+```
+
+#### 6. get_house_by_account
+seer_house_object `get_house_by_account`(account_id_type account)const;
+
+参数：account为账户id
+
+作用：根据对方账户id查询平台
+
+示例：`get_house_by_account` 1.2.77
+
+返回信息示例：
+```json
+get_house_by_account 1.2.77
+{
+  "id": "1.14.6",
+  "owner": "1.2.77",
+  "description": "",
+  "script": "",
+  "reputation": 2,
+  "guaranty": "10000000000",
+  "volume": 2,
+  "rooms": [
+    "1.15.15"
+  ],
+  "finished_rooms": [
+    "1.15.12",
+    "1.15.13"
+  ]
+}
+```
+
+#### 7. get_seer_room
+seer_room_object `get_seer_room`(const seer_room_id_type& room_id, uint32_t start_index, uint32_t limit)const;
+
+参数：room_id为房间id，start_index为投注记录的开始索引,limit为返回结果中投注记录的最大数量
+
+作用：根据房间id查询房间详情（不是完整的房间,因投注太多的情况下房间空间会非常大）
+
+示例：`get_seer_room`  1.15.236 0 100
+
+返回信息示例：
+```json
+get_seer_room  1.15.236 0 100
+{
+  "id": "1.15.236",
+  "house_id": "1.14.1",
+  "owner": "1.2.37",
+  "label": [],
+  "description": "国际冠军杯 曼联 vs 皇马 胜负",
+  "script": "",
+  "room_type": 2,
+  "status": "opening",
+  "option": {
+    "result_owner_percent": 9000,
+    "reward_per_oracle": 0,
+    "accept_asset": "1.3.1",
+    "minimum": 1000000,
+    "maximum": 1000000000,
+    "start": "2018-07-29T08:14:18",
+    "stop": "2018-08-01T00:00:00",
+    "input_duration_secs": 300,
+    "filter": {
+      "reputation": 0,
+      "guaranty": 0,
+      "volume": 0
+    },
+    "allowed_oracles": [],
+    "allowed_countries": [],
+    "allowed_authentications": []
+  },
+  "running_option": {
+    "room_type": 2,
+    "selection_description": [
+      "home",
+      "draw",
+      "guest"
+    ],
+    "range": 3,
+    "advanced": {
+      "pool": "500000000000",
+      "awards": [
+        34000,
+        37500,
+        18500
+      ]
+    },
+    "participators": [[{//显示当前的预测参与记录
+          "player": "1.2.10936",
+          "when": "2018-07-29T13:57:21",
+          "amount": 1360000000,
+          "paid": 400000000,
+          "sequence": 0
+        },
+	......
+	,{
+          "player": "1.2.11271",
+          "when": "2018-07-31T04:55:57",
+          "amount": 92500000,
+          "paid": 50000000,
+          "sequence": 0
+        }
+      ]
+    ],
+    "total_shares": "5461000000",
+    "settled_balance": 0,
+    "settled_row": -1,
+    "settled_column": -1,
+    "player_count": [
+      3,
+      1,
+      16
+    ],
+    "total_player_count": 20,
+    "advanced_running": {
+      "total_participate": [[
+          511000000,
+          1737400000
+        ],[
+          100000000,
+          375000000
+        ],[
+          "4850000000",
+          "8972500000"
+        ]
+      ]
+    }
+  },
+  "owner_result": [],
+  "final_result": [],
+  "committee_result": [],
+  "oracle_sets": [],
+  "final_finished": false,
+  "settle_finished": false,
+  "last_deal_time": "1970-01-01T00:00:00"
+}
+```
+#### 8. get_rooms_by_label
+seer_room_id_type `get_rooms_by_label`(const string& label, uint32_t limit)const;
+
+参数：label为需要查找的索引, limit为返回结果的最大数量
+
+作用：查询标签为label的房间
+
+示例：`get_rooms_by_label` "football"  100
+
+返回信息示例：
+```json
+get_rooms_by_label "football"  100
+[
+  "1.15.24"
+]
+```
+#### 9. oracle_create
+signed_transaction  `oracle_create`(string account, int64_t  guaranty, string   description, bool broadcast);
+
+参数：account为账户名或账户id, guaranty为保证金, description为描述，script为脚本
+
+作用：创建预言机
+
+示例：oracle_create abc 100000 "the first oracle" "http://www.a.com/show_me.jpg"  true
+
+```json
+
+```
+
+#### 10. oracle_update
+signed_transaction `oracle_update`(string account, string   oracle_id, int64_t	guaranty, optional<string>   description, optional<string>   script, bool broadcast = false);
+	
+参数：account为账户名或账户id, oracle_id为预言机id,guaranty为保证金, description为描述，script为脚本
+
+作用：更新预言机,guaranty负数时为提取保证金,为正为添加保证金
+
+示例：oracle_ update abc 1.13.5 0  "not the first oracle"  {}  true
+	
+```json
+
+```
+
+#### 11. oracle_input
+signed_transaction `oracle_input`(string account, string   oracle_id, string  room_id, vector<uint8_t>   input, bool broadcast = false);
+
+参数：account为账户名或账户id, oracle_id为预言机id, room_id为房间id, input为输入数据
+
+作用：预言机给房间输入预测结果
+
+示例：oracle_ input  abc 1.13.5  1.15.3  [0]  true
+
+```json
+
+```
+
+#### 12. house_create
+signed_transaction `house_create`(string account, int64_t  guaranty, string   description, string  script, bool broadcast = false);
+
+参数：account为账户名或账户id, guaranty为保证金, description为描述，script为脚本
+
+作用：创建平台
+
+示例：house _create abc 100000 “the first house” “http://www.a.com/show_me.jpg”  true
+
+```json
+
+```
+
+#### 13. house_update
+signed_transaction `house_update`(string account, string   house_id, int64_t  guaranty, optional<string>   description, optional<string>   script, bool broadcast = false);
+	
+参数：account为账户名或账户id, house_id为平台id,guaranty为保证金, description为描述，script为脚本
+
+作用：更新平台,guaranty负数时为提取保证金,为正为添加保证金
+
+示例：house_update abc 1.14.5 0  "not the first house"  {} true
+	
+```json
+
+```
+#### 14. room_create
+signed_transaction room_create(string account, vector<string> label, tring   description, string  script, uint8_t  room_type,  room_option  option,  optional<seer_room_option_lmsr>  room_lmsr,  optional<seer_room_option_type1>	room_type1,  optional<seer_room_option_type2>	room_type2,  optional<seer_room_option_type3>	room_type3,  bool broadcast );
+	
+参数：account为账户名或账户id, label为标签,description为描述，script为脚本, room_type为房间类型，option为房间通用参数，room_type为0时表示LMSR
+
+类型则room_lmsr必须有值，room_type为1时表示简单竞猜玩法则room_type1必须有值，room_type为2时表示创建者自定义赔率的简单竞猜类型则room_ type2必须有值，room_type为3时表示彩票类型玩法则room_ type3必须有值
+
+作用：创建房间
+
+示例：
+room_create good ["football","basketball","games"] "test room create" "show me"  0  {"result_owner_percent":0,"reward_per_oracle":"2000000","accept_asset":"1.3.0","minimum":"1","maximum":"100000000","start":"2018-03-26T07:17:31","stop":"2018-03-26T07:17:31","input_duration_secs":0,"filter":{"reputation":"0","guaranty":"0","volume":"0"},"allowed_oracles":["1.13.0"]}  {"selection_description":["No","Yes"],"L":"100000","total_shares":"1","items":["1"],"range":2,"participators":[],"solds":[],"settled_balance":"0","settled_index":0,"settled_sold_index":0,"histories":[]} null null null true 
+
+返回信息示例：
+```json
+
+```
+
+#### 15. room_update
+signed_transaction `room_update`(string account, seer_room_id_type  room,  optional<string>   description,  optional<string>  script,  optional<room_option>  option,  optional<vector<uint64_t>>  new_awards,  bool broadcast );
+	
+参数：account为账户名或账户id, label为标签,description为描述，script为脚本, room_type为房间类型，option为房间通用参数，new_awards为 room_ type2的自定义赔率
+
+作用：更新房间
+
+示例：room_update good 1.15.1 "change the description" null null null true
+
+返回信息示例：
+```json
+
+```
+
+#### 16. room_open
+signed_transaction  `room_open`(string account,  seer_room_id_type  room,  time_point_sec start, time_point_sec	 stop,  uint32_t   input_duration_secs,  bool broadcast);
+
+参数：account为账户名或账户id, room为房间id, start为房间预测开启时间，stop为停止预测时间, input_duration_secs为停止参与预测以后预言机和创建者输入结果的时限
+
+作用：开启房间
+
+示例： room_open abc 1.15.3 “2018.4.1 21:00:00”  “2018.4.5 21:00:00”  86400 true
+		
+返回信息示例：
+```json
+
+```
+
+#### 17. room_stop_participate
+signed_transaction `room_stop_participate`(string account,  seer_room_id_type	 room,  uint32_t  input_duration_secs, bool broadcast = false);
+
+参数：account为账户名或账户id, room为房间id, input_duration_secs为停止参与预测以后预言机和创建者输入结果的时限
+
+作用：停止参与预测
+
+示例： room_stop_participate abc 1.15.3 86400 true
+	
+返回信息示例：
+```json
+
+```
+
+#### 18. room_input
+signed_transaction `room_input`(string account, seer_room_id_type room, vector<uint8_t>	 input,  bool broadcast);
+
+参数：account为账户名或账户id, room为房间id, input为结果
+
+作用：创建者输入预测结果
+
+示例： 
+
+单选：room_ input  abc 1.15.3  [3]  true
+多选：room_ input  abc 1.15.3  [1,5,3]  true
+
+返回信息示例：
+```json
+
+```
+
+#### 19. room_final
+
+signed_transaction `room_final`(string account, seer_room_id_type room, bool broadcast);
+
+参数：account为账户名或账户id, room为房间id
+
+作用：创建者统计预测结果,以及room_type3时计算预测正确的参与者详情)
+
+示例：room_ final abc 1.15.3 true
+
+返回信息示例：
+```json
+
+```
+
+#### 20. room_settle
+signed_transaction `room_settle`(string account, seer_room_id_type room, bool broadcast = false);
+
+参数：account为账户名或账户id, room为房间id
+
+作用：创建者派发奖励
+
+示例：room_ settle  abc 1.15.3 true
+
+返回信息示例：
+```json
+
+```
+
+#### 21. room_participate
+signed_transaction  `room_participate`(string account, seer_room_id_type room, uint8_t  type, vector<uint8_t> input, vector<set<uint8_t>>    input1,  vector<vector<uint8_t>> input2,  int64_t amount,  bool broadcast = false);
+
+参数：account为账户名或账户id, room为房间id,type为输入类型,type为0时为单选input必须有值, type为1时为多选input1必须有值, type为2时为复选input2必须有值, amount为参与数量
+
+作用：普通用户参与预测
+
+示例：room_participate  abc 1.15.3  0  [1]  []  []  1000 true
+
+返回信息示例：
+```json
+
+```
+
+#### 22. room_close
+signed_transaction `room_close`(string account,  seer_room_id_type  room,  bool  remove,  bool broadcast );
+
+参数：account为账户名或账户id, room为房间id, remove为是否从平台删除该房间
+
+作用：创建者关闭房间
+
+示例：room_close abc 1.15.3  false true
+
+返回信息示例：
+```json
+
+```
+
+#### 23. room_claim
+signed_transaction `room_claim`(string  account,  seer_room_id_type room, int64_t  amount, bool broadcast);
+
+参数：account为账户名或账户id, room为房间id, amount为金额
+
+作用：创建者从房间奖金池领取金额 
+
+示例：room_claim abc 1.15.3  1000 true
+
+<p class="tip">
+  注意：该指令只对room_type2和room_type3有效，而且amount是包括资产精度的，比如room_claim 1 SEER时amount值为100000
+</p>
 
 返回信息示例：
 ```json
@@ -1941,193 +2439,3 @@ lookup_oracle_accounts  "" 100
 ```
 
 
-vector<optional<seer_oracle_object>> get_oracles(const vector<seer_oracle_id_type>& oracle_ids)const;
-参数：oracle_ids为预言机的id集
-作用：根据给定的id集列出预言机成员列表
-示例：get_oracles  [1.13.1,1.13.2,1.13.4]
-
-fc::optional<seer_oracle_object> get_oracle_by_account(account_id_type account)const;
-参数：account为账户id
-作用：根据对方账户id查询预言机
-示例：get_oracle_by_account 1.2.135
-
-
-map<string, seer_house_id_type> lookup_house_accounts(const string& lower_bound_name, uint32_t limit)const;
-参数：lowerbound为账户名的下标，limit为返回结果的数量上限
-作用：列出SEER平台列表
-示例：lookup_ house _accounts "" 100
-
-
-	vector<optional<seer_house_object>> get_houses(const vector<seer_house_id_type>& house_ids)const;
-参数：house _ids为平台的id集
-作用：根据给定的id集列出平台列表
-示例：get_oracles  [1.14.1,1.14.2,1.14.4]
-
-	fc::optional<seer_house_object> get_house_by_account(account_id_type account)const;
-参数：account为账户id
-作用：根据对方账户id查询平台
-示例：get_ house _by_account 1.2.135
-
-
-optional<seer_room_object> get_seer_room(const seer_room_id_type& room_id, uint32_t start_index, uint32_t limit)const;
-参数：room_id为房间id，start_index为投注记录的开始索引,limit为返回结果中投注记录的最大数量
-作用：根据房间id查询房间详情（不是完整的房间,因投注太多的情况下房间空间会非常大）
-示例：get_seer_room  1.15.3  0   100
-
-
-vector<seer_room_id_type>  get_rooms_by_label(const string& label, uint32_t limit)const;
-参数：label为需要查找的索引, limit为返回结果的最大数量
-作用：查询标签为label的房间
-示例：get_rooms_by_label "football"  100
-
-
-signed_transaction  oracle_create(string account,
-				int64_t	guaranty,
-				string   description,
-				string 	script,
-				bool broadcast = false);
-参数：account为账户名或账户id, guaranty为保证金, description为描述，script为脚本
-作用：创建预言机
-示例：oracle_create abc 100000 "the first oracle" "http://www.a.com/show_me.jpg"  true
-
-			signed_transaction oracle_update(string account,
-				string   oracle_id,
-				int64_t	guaranty,
-				optional<string>   description,
-				optional<string>   script,
-				bool broadcast = false);
-参数：account为账户名或账户id, oracle_id为预言机id,guaranty为保证金, description为描述，script为脚本
-作用：更新预言机,guaranty负数时为提取保证金,为正为添加保证金
-示例：oracle_ update abc 1.13.5 0  "not the first oracle"  {}  true
-
-	signed_transaction oracle_input(string account,
-				string   oracle_id,
-				string	room_id,
-				vector<uint8_t>   input,
-				bool broadcast = false);
-参数：account为账户名或账户id, oracle_id为预言机id, room_id为房间id, input为输入数据
-作用：预言机给房间输入预测结果
-示例：oracle_ input  abc 1.13.5  1.15.3  [0]  true
-
-
-signed_transaction house_create(string account,
-				int64_t	guaranty,
-				string   description,
-				string 	script,
-				bool broadcast = false);
-参数：account为账户名或账户id, guaranty为保证金, description为描述，script为脚本
-作用：创建平台
-示例：house _create abc 100000 “the first house” “http://www.a.com/show_me.jpg”  true
-
-signed_transaction house_update(string account,
-				string   house_id,
-				int64_t	guaranty,
-				optional<string>   description,
-				optional<string>   script,
-				bool broadcast = false);
-参数：account为账户名或账户id, house_id为平台id,guaranty为保证金, description为描述，script为脚本
-作用：更新平台,guaranty负数时为提取保证金,为正为添加保证金
-示例：house_update abc 1.14.5 0  "not the first house"  {}  true
-
-		
-signed_transaction room_create(string account,
-				vector<string>			label,
-				string   		  		description,
-				string 					script,
-				uint8_t					room_type,
-				room_option				option,
-				optional<seer_room_option_lmsr>		room_lmsr,
-				optional<seer_room_option_type1>	room_type1,
-				optional<seer_room_option_type2>	room_type2,
-				optional<seer_room_option_type3>	room_type3,
-				bool broadcast = false);
-参数：account为账户名或账户id, label为标签,description为描述，script为脚本, room_type为房间类型，option为房间通用参数，room_type为0时表示LMSR
-类型则room_lmsr必须有值，room_type为1时表示简单竞猜玩法则room_type1必须有值，room_type为2时表示创建者自定义赔率的简单竞猜类型则room_ type2必须有值，room_type为3时表示彩票类型玩法则room_ type3必须有值
-作用：创建房间
-示例：
-room_create good ["football","basketball","games"] "test room create" "show me"  0  {"result_owner_percent":0,"reward_per_oracle":"2000000","accept_asset":"1.3.0","minimum":"1","maximum":"100000000","start":"2018-03-26T07:17:31","stop":"2018-03-26T07:17:31","input_duration_secs":0,"filter":{"reputation":"0","guaranty":"0","volume":"0"},"allowed_oracles":["1.13.0"]}  {"selection_description":["No","Yes"],"L":"100000","total_shares":"1","items":["1"],"range":2,"participators":[],"solds":[],"settled_balance":"0","settled_index":0,"settled_sold_index":0,"histories":[]} null null null true 
-
-signed_transaction room_update(string account,
-				seer_room_id_type		room,
-				optional<string>  		description,
-				optional<string>		script,
-				optional<room_option>	 option,
-				optional<vector<uint64_t>>	new_awards,
-				bool broadcast = false);
-参数：account为账户名或账户id, label为标签,description为描述，script为脚本, room_type为房间类型，option为房间通用参数，new_awards为 room_ type2的自定义赔率
-作用：更新房间
-示例：room_update good 1.15.1 "change the description" null null null true
-
-signed_transaction  room_open(string account,
-				seer_room_id_type		room,
-				fc::time_point_sec		start,
-				fc::time_point_sec		stop,
-				uint32_t 	            input_duration_secs,
-				bool broadcast = false);
-参数：account为账户名或账户id, room为房间id, start为房间预测开启时间，stop为停止预测时间, input_duration_secs为停止参与预测以后预言机和创建者输入结果的时限
-作用：开启房间
-示例： room_open abc 1.15.3 “2018.4.1 21:00:00”  “2018.4.5 21:00:00”  86400 true
-			
-signed_transaction room_stop_participate(string account,
-				seer_room_id_type		room,
-				uint32_t 	            input_duration_secs,
-				bool broadcast = false);
-参数：account为账户名或账户id, room为房间id, input_duration_secs为停止参与预测以后预言机和创建者输入结果的时限
-作用：停止参与预测
-示例： room_stop_participate abc 1.15.3 86400 true
-			
-signed_transaction  room_input(string account,
-				seer_room_id_type		room,
-				vector<uint8_t>			input,
-				bool broadcast = false);
-参数：account为账户名或账户id, room为房间id, input为结果
-作用：创建者输入预测结果
-示例： 
-单选：room_ input  abc 1.15.3  [3]  true
-彩票：room_ input  abc 1.15.3  [1,5,3]  true
-
-signed_transaction room_final(string account,
-				seer_room_id_type		room,
-				bool broadcast = false);
-参数：account为账户名或账户id, room为房间id
-作用：创建者统计预测结果,以及room_type3时计算预测正确的参与者详情)
-示例：room_ final abc 1.15.3 true
-
-			
-signed_transaction room_settle(string account,
-				seer_room_id_type		room,
-				bool broadcast = false);
-参数：account为账户名或账户id, room为房间id
-作用：创建者派发奖励
-示例：room_ settle  abc 1.15.3 true
-
-			
-signed_transaction  room_participate(string account,
-				seer_room_id_type		room,
-				uint8_t				   	type,
-				vector<uint8_t>		   	input,
-				vector<set<uint8_t>>    input1,
-				vector<vector<uint8_t>> input2,
-				int64_t				   	amount,
-				bool broadcast = false);
-参数：account为账户名或账户id, room为房间id,type为输入类型,type为0时为单选input必须有值, type为1时为多选input1必须有值, type为2时为复选input2必须有值, amount为参与数量
-作用：普通用户参与预测
-示例：room_participate  abc 1.15.3  0  [1]  []  []  1000 true
-
-			
-signed_transaction room_close(string account,
-				seer_room_id_type		room,
-				bool 					remove,
-				bool broadcast = false);
-参数：account为账户名或账户id, room为房间id, remove为是否从平台删除该房间
-作用：创建者关闭房间
-示例：room_close abc 1.15.3  false true
-			
-signed_transaction room_claim(string  account,
-				seer_room_id_type		room,
-				int64_t 				amount,
-				bool broadcast = false);
-参数：account为账户名或账户id, room为房间id, amount为金额
-作用：创建者从房间奖金池领取金额 
-示例：room_claim abc 1.15.3  1000 true
-注意：该指令只对room_type2和room_type3有效，而且amount是包括资产精度的，比如room_claim 1 SEER时amount值为100000

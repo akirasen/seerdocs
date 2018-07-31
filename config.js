@@ -1,8 +1,8 @@
 const langs = [
   { title: 'English', path: '/home', matchPath: /^\/(home|plugin|cli|changelog)/ },
-  { title: '简体中文', path: '/zh-Hans/', matchPath: /^\/zh-Hans/ },
-  { title: '繁體中文', path: '/zh-Hant/', matchPath: /^\/zh-Hant/ },
-  { title: '日本語', path: '/ja/', matchPath: /^\/ja/ }
+  { title: '简体中文', path: '/zh-Hans/', matchPath: /^\/zh-Hans/ , source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/README.md'},
+  { title: '繁體中文', path: '/zh-Hant/', matchPath: /^\/zh-Hant/ , source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hant/README.md'},
+  { title: '日本語', path: '/ja/', matchPath: /^\/ja/ , source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/ja/README.md'}
 ]
 
 docute.init({
@@ -28,13 +28,16 @@ docute.init({
         title: 'Home', path: '/home', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/README.md'
       },
       {
-        title: 'Plugins', path: '/plugins'
+        title: 'Tools', path: '/tools', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/tools.md'
       },
       {
-        title: 'Command-Line Tool', path: '/cli'
+        title: 'Command-Line', path: '/cli', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/cli.md'
       },
       {
-        title: 'Changelog', path: '/changelog', source: 'https://raw.githubusercontent.com/egoist/docute/master/CHANGELOG.md'
+        title: 'Witness', path: '/witness', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/witness.md'
+      },
+      {
+        title: 'Changelog', path: '/changelog', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/log.md'
       },
       {
         title: 'Languages', type: 'dropdown', items: langs
@@ -45,10 +48,13 @@ docute.init({
         title: '首页', path: '/zh-Hans/', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/README.md'
       },
       {
-        title: '插件', path: '/zh-Hans/plugins'
+        title: '工具', path: '/zh-Hans/tools', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/tools.md'
       },
       {
-        title: '命令行工具', path: '/zh-Hans/cli'
+        title: '命令行', path: '/zh-Hans/cli', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/cli.md'
+      },
+      {
+        title: '见证人', path: '/zh-Hans/witness', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/witness.md'
       },
       {
         title: '选择语言', type: 'dropdown', items: langs
@@ -56,13 +62,16 @@ docute.init({
     ],
     'zh-Hant': [
       {
-        title: '首頁', path: '/zh-Hant/'
+        title: '首頁', path: '/zh-Hant/', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hant/README.md'
       },
       {
-        title: '插件', path: '/zh-Hant/plugins'
+        title: '工具', path: '/zh-Hant/tools', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hant/tools.md'
       },
       {
-        title: '命令行工具', path: '/zh-Hant/cli'
+        title: '命令行', path: '/zh-Hant/cli', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hant/cli.md'
+      },
+      {
+        title: '見證人', path: '/zh-Hans/witness', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hant/witness.md'
       },
       {
         title: '選擇語言', type: 'dropdown', items: langs
@@ -70,13 +79,16 @@ docute.init({
     ],
     ja: [
       {
-        title: 'はじめに', path: '/ja/'
+        title: 'はじめに', path: '/ja/', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/ja/README.md'
       },
       {
-        title: 'プラグイン', path: '/ja/plugins'
+        title: 'プラグイン', path: '/ja/tools', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/ja/tools.md'
       },
       {
-        title: 'コマンドラインツール', path: '/ja/cli'
+        title: 'コマンドラインツール', path: '/ja/cli', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/ja/cli.md'
+      },
+      {
+        title: 'ブロックプロデューサー', path: '/ja/witness', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/ja/witness.md'
       },
       {
         title: '言語', type: 'dropdown', items: langs
@@ -90,18 +102,18 @@ docute.init({
       svgClass: 'weibo-icon',
       link: 'http://weibo.com/seerchain'
     }
-  ]/*,
+  ],
   plugins: [
-    docsearch({
+   /* docsearch({
       appId: 'BH4D9OD16A',
       apiKey: '65360cf9a91d87cd455d2b286d0d89ee',
       indexName: 'docute',
       tags: ['english', 'zh-Hans', 'zh-Hant', 'ja'],
       url: 'https://v3.docute.org'
-    }),
-    evanyou(),
+    }),*/
+    evanyou()/*,
     disqus({
             shortname: 'wxa'
-        })
-  ]*/
+        })*/
+  ]
 })

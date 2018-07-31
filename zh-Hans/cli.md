@@ -148,7 +148,7 @@ get_global_properties
 {
   "id": "2.0.0",
   "parameters": {
-    "current_fees": {
+    "current_fees": {//当前费率
       "parameters": [[
           0,{//转账
             "fee": 200000,//手续费 2SEER 
@@ -424,34 +424,34 @@ get_global_properties
     },
     "block_interval": 3,//块间隔时间，3秒
     "maintenance_interval": 86400,//维护更新时间 86400秒，一天
-    "maintenance_skip_slots": 3,
+    "maintenance_skip_slots": 3,//维护时跳过的块间隔数
     "committee_proposal_review_period": 1209600,//理事会提案审查期 1209600秒 14天
-    "maximum_transaction_size": 2048,//最大单个交易大小 2048K 即2M
+    "maximum_transaction_size": 2048,//最大交易大小 2048K 即2M
     "maximum_block_size": 2000000,//最大单个块数据大小 2000000K 即约1.9G
-    "maximum_time_until_expiration": 86400,
-    "maximum_proposal_lifetime": 2419200,
-    "maximum_asset_whitelist_authorities": 50,//资产白名单最多授权账户数
-    "maximum_authenticator_count": 1001,
-    "maximum_committee_count": 1001,
-    "maximum_authority_membership": 10,
-    "network_percent_of_fee": 6000,
-    "lifetime_referrer_percent_of_fee": 0,
+    "maximum_time_until_expiration": 86400,//在到期之前，交易有效的最长生命周期（以秒为单位）
+    "maximum_proposal_lifetime": 2419200,//在到期之前，填案的交易的最长生命周期（以秒为单位）
+    "maximum_asset_whitelist_authorities": 50,//资产可列为白名单或黑名单权限的最大帐户数
+    "maximum_authenticator_count": 1001,//最多认证者的数量
+    "maximum_committee_count": 1001,//活跃理事会成员最大人数
+    "maximum_authority_membership": 10,//权限(多签)可以设置的最大数量的密钥/帐户
+    "network_percent_of_fee": 6000,//支付给网络的手续费比例 此处为60%
+    "lifetime_referrer_percent_of_fee": 0,//终身会员推荐人手续费分成比例
     "cashback_vesting_period_seconds": 31536000,//待解冻余额解冻周期，31536000秒，一年
     "cashback_vesting_threshold": 10000000,//待解冻余额领取门槛，100SEER
-    "count_non_member_votes": true,
-    "allow_non_member_whitelists": false,
+    "count_non_member_votes": true,//是否能投票给成员账户
+    "allow_non_member_whitelists": false,//非会员帐户能否设置白名单和黑名单
     "witness_pay_per_block": 300000,//主力见证人出块的每个块奖励，3 SEER
-    "max_predicate_opcode": 1,
+    "max_predicate_opcode": 1,//断言操作码需小于此数值
     "fee_liquidation_threshold": 10000000,
     "accounts_per_fee_scale": 1000,
     "account_fee_scale_bitshifts": 4,
-    "max_authority_depth": 2,
+    "max_authority_depth": 2,//权限(多签)可以设置的最大深度（级别）
     "min_guaranty_per_room": "10000000000",//每个房间最少抵押金：10万SEER
     "max_oracle_reward": 100000000,//每个预言机最高奖励：1000SEER
     "fixed_witness_count": 21,//主力见证人数量
     "maximum_profit_witness_count": 101,//获息见证人总数
-    "maximun_seer_settles_per_block": 1000,
-    "supported_authenticate_types": 7,
+    "maximun_seer_settles_per_block": 1000,//
+    "supported_authenticate_types": 7,//
     "extensions": []
   },
   "next_available_vote_id": 8,
@@ -499,10 +499,10 @@ get_dynamic_global_properties
   "next_maintenance_time": "2018-07-31T00:00:00",//下次维护更新时间
   "last_budget_time": "2018-07-30T00:00:00",//上次更新时间
   "witness_budget": "5962500000",//本期见证人预算总额
-  "accounts_registered_this_interval": 4,
+  "accounts_registered_this_interval": 4,//账户注册间隔
   "recently_missed_count": 0,//最近缺失区块数
-  "current_aslot": 2096707,
-  "recent_slots_filled": "340282366920938463463374607431768211455",
+  "current_aslot": 2096707,//当前总块（丢掉的块加实际块高）
+  "recent_slots_filled": "340282366920938463463374607431768211455",//用于计算见证人参与度的参数
   "dynamic_flags": 0,
   "last_irreversible_block_num": 2090363
 }

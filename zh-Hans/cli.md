@@ -1075,7 +1075,7 @@ map<string, bool> `import_accounts`(string filename, string password);
 
 示例：`import_accounts`  "d:\wallet.json" 12345
 
-### 账户及资产管理
+### 账户及资产管理指令
 
 #### 1. register_account
 signed_transaction  `register_account`(string name, public_key_type owner, public_key_type active, string  registrar_account, string  referrer_account, uint32_t referrer_percent, bool broadcast = false);
@@ -1416,7 +1416,7 @@ fund_asset_fee_pool tester ABCDE 1000 true
 ### 系统治理指令
 
 #### 1. create_committee_member
-signed_transaction `create_committee_member`(string owner_account, tring url, bool broadcast);
+signed_transaction `create_committee_member`(string owner_account, string url, bool broadcast);
 
 参数：owner_account为账户名或id，url为链接
 

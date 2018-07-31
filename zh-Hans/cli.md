@@ -1226,15 +1226,15 @@ upgrade_account abc true
 #### 4. sell_asset
 signed_transaction `sell_asset`(string seller_account, string amount_to_sell, string   symbol_to_sell, string min_to_receive, string   symbol_to_receive, uint32_t timeout_sec = 0, bool     fill_or_kill = false, bool     broadcast);
 
-参数：seller_account为卖出账户, amount_to_sell为出售的资产数量, symbol_to_sell为想要出售的资产名, min_to_receive为要购买的资产数量, symbol_to_receive要购买的资产 ，timeout_sec 为超时时间（0即不限），fill_or_kill指是否启用“全部成交否则取消功能”，broadcast指是否广播。
+参数：seller_account为卖出账户, amount_to_sell为出售的资产数量, symbol_to_sell为想要出售的资产名, min_to_receive为要购买的资产数量, symbol_to_receive要购买的资产 ，timeout_sec 为订单在取消前留在列表中的时间（秒），fill_or_kill指是否启用“全额否则取消功能”，broadcast指是否广播。
 
 作用：市场交易的卖出
 
-示例：`sell_asset` abc 1000 SEER 1000 USDT 0 false true
+示例：`sell_asset` abc 1000 SEER 1000 ABC 0 false true
 
 返回信息示例：
 ```json
-sell_asset abc 1000 SEER 1000 USDT 0 false true
+sell_asset abc 1000 SEER 1000 ABC 0 false true
 {
   "ref_block_num": 51327,
   "ref_block_prefix": 2834879860,
@@ -1250,12 +1250,12 @@ sell_asset abc 1000 SEER 1000 USDT 0 false true
           "amount": 100000000,//金额100
           "asset_id": "1.3.0"//SEER
         },
-        "min_to_receive": {//最少买的资产
+        "min_to_receive": {//出售上述数量资产愿意收到的最低金额
           "amount": 10000000,//金额100
-          "asset_id": "1.3.4"//测试网络此id对应的是USDT测试币
+          "asset_id": "1.3.1"//测试网络此id对应的是ABC测试币
         },
         "expiration": "1969-12-31T23:59:59",
-        "fill_or_kill": false,//未开启全部成交否则取消
+        "fill_or_kill": false,//未开启全额否则取消
         "extensions": []
       }
     ]
@@ -1285,16 +1285,16 @@ create_asset good ABCDE 5 {max_supply : 10000000000000,market_fee_percent : 10,m
   "operations": [[
       9,{
         "fee": {
-          "amount": "50000000000",
-          "asset_id": "1.3.0"
+          "amount": "50000000000",//手续费50万
+          "asset_id": "1.3.0"//SEER
         },
-        "issuer": "1.2.42",
-        "symbol": "ABCDE",
-        "precision": 5,
+        "issuer": "1.2.42",//创建者
+        "symbol": "ABCDE",//资产名
+        "precision": 5,//精度
         "common_options": {
-          "max_supply": "10000000000000",
-          "market_fee_percent": 10,
-          "max_market_fee": 1000000000,
+          "max_supply": "10000000000000",//最大供给
+          "market_fee_percent": 10,//交易手续费比例 10表示0.1%手续费
+          "max_market_fee": 1000000000,//最多收取的手续费
           "issuer_permissions": 31,
           "flags": 0,
           "core_exchange_rate": {

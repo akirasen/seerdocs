@@ -959,9 +959,11 @@ bool `import_key`(string account_name_or_id, string wif_key);
 参数：account_name_or_id 为用户名或id，wif_key为私钥
 
 作用：通过私钥wif_key往钱包里导入账户account_name_or_id
+
 <p class="tip">
   不知道怎么获得你的账户私钥？<a router-link="/zh-Hans/">`点击这里`</a> 了解。
 </p>
+
 示例：`import_key` abc  5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
 
 返回信息示例：

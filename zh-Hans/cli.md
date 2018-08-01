@@ -432,13 +432,13 @@ get_global_properties
     "maximum_proposal_lifetime": 2419200,//在到期之前，填案的交易的最长生命周期（以秒为单位）
     "maximum_asset_whitelist_authorities": 50,//资产可列为白名单或黑名单权限的最大帐户数
     "maximum_authenticator_count": 1001,//最多认证者的数量
-    "maximum_committee_count": 1001,//活跃理事会成员最大人数
+    "maximum_committee_count": 1001,//参与理事会最大人数
     "maximum_authority_membership": 10,//权限(多签)可以设置的最大数量的密钥/帐户
     "network_percent_of_fee": 6000,//支付给网络的手续费比例 此处为60%
     "lifetime_referrer_percent_of_fee": 0,//终身会员推荐人手续费分成比例
     "cashback_vesting_period_seconds": 31536000,//待解冻余额解冻周期，31536000秒，一年
     "cashback_vesting_threshold": 10000000,//待解冻余额领取门槛，100SEER
-    "count_non_member_votes": true,//是否能投票给成员账户
+    "count_non_member_votes": true,//非会员账户是否投票
     "allow_non_member_whitelists": false,//非会员帐户能否设置白名单和黑名单
     "witness_pay_per_block": 300000,//主力见证人出块的每个块奖励，3 SEER
     "max_predicate_opcode": 1,//断言操作码需小于此数值
@@ -470,8 +470,8 @@ get_global_properties
 ......
     "1.5.67"
   ],
-  "active_supervisors": [],
-  "active_authenticators": [],
+  "active_supervisors": [],//活跃监管者
+  "active_authenticators": [],//活跃认证者
   "seer_exploded": false
 }
 
@@ -537,8 +537,8 @@ get_block 2090482
               "amount": 200000,//手续费 2
               "asset_id": "1.3.0"//手续费类型 1.3.0指SEER
             },
-            "from": "1.2.12590",//发起用户ID
-            "to": "1.2.12902",//接收用户ID
+            "from": "1.2.1250",//发起用户ID
+            "to": "1.2.1292",//接收用户ID
             "amount": {
               "amount": 2000000000,//金额20000
               "asset_id": "1.3.1"//金额类型 1.3.1即OPC
@@ -560,7 +560,7 @@ get_block 2090482
   "block_id": "001fe5f26d0f3ee5b1569a1618fe903e4dc5aef0",//块号
   "signing_key": "SEER5oyAoCzw5GRD9unKK6vsLXkPVx1aKU7i3hX19E8BRU5u3FoAoA",//见证人签名公钥
   "transaction_ids": [
-    "30e73f68d163398005557a21c58bd751db22eb53"//交易id
+    "30e73f68d163398005557a21c58bd751db22eb53"//交易id集
   ]
 }
 ```
@@ -605,6 +605,10 @@ list_accounts "" 100
   ]
 ]
 ```
+<p class="tip">
+  此例未指定账号名，所以从a开始，若设置账号名大于test，则会列出从test开始的test01、test03等账户。
+</p>
+
 示例：`list_accounts` "seer" 10
 
 返回信息示例：
@@ -616,7 +620,7 @@ list_accounts "seer" 10
   ],
   ......
   [
-    "seer-10017",
+    "seer-1017",
     "1.2.9189"
   ]
 ]
@@ -629,12 +633,13 @@ vector<asset>   `list_account_balances`(const string& id);
 
 作用：列出账号为id的账户的各资产余额
 
-示例：`list_account_balances` gateway
+示例：`list_account_balances` abc
 
 返回信息示例：
 ```json
-list_account_balances gateway
-269802279.85853 SEER
+list_account_balances abc
+84934.96329 SEER
+144309.60000 ABC
 ```
 #### 9. list_assets
 vector<asset_object>  `list_assets`(const string& lowerbound, uint32_t limit)const;
@@ -654,25 +659,25 @@ list_assets "SEER" 100
     "issuer": "1.2.3",//创建者
     "options": {
       "max_supply": "1000000000000000",//最大供给量
-      "market_fee_percent": 0,
+      "market_fee_percent": 0,//交易手续费收取比例
       "max_market_fee": "1000000000000000",//最大市场手续费
       "issuer_permissions": 0,
       "flags": 0,
-      "core_exchange_rate": {
+      "core_exchange_rate": {//发生手续费会按以下比例 从费用池自动将此资产换为核心资产（SEER）用于支付费用
         "base": {
-          "amount": 1,
-          "asset_id": "1.3.0"//资产ID
+          "amount": 1,//对标市场基准资产的比例
+          "asset_id": "1.3.0"//资产ID SEER
         },
         "quote": {
           "amount": 1,
-          "asset_id": "1.3.0"
+          "asset_id": "1.3.0"//资产ID SEER
         }
       },
-      "whitelist_authorities": [],
-      "blacklist_authorities": [],
-      "whitelist_markets": [],
-      "blacklist_markets": [],
-      "description": "",
+      "whitelist_authorities": [],//一组帐户，此资产的白名单。如果白名单非空，则只允许白名单中的帐户保留、使用或转移资产。
+      "blacklist_authorities": [],//一组帐户，此资产的黑名单。如果设置了白名单，则只有这些帐户能进行此资产的发送、接收、交易等，但如果该帐户被列入黑名单，即使该帐户也列入白名单，它也不能操作此资产。
+      "whitelist_markets": [],//定义此资产可在市场上组成交易对的资产
+      "blacklist_markets": [],//定义此资产在市场上不可进行交易的资产，不得与白名单重叠
+      "description": "",//资产描述
       "extensions": []
     },
     "dynamic_asset_data_id": "2.3.0"
@@ -686,7 +691,7 @@ vector<operation_detail>  `get_account_history`(string name, int limit)const;
 
 作用：列出账户name的操作历史记录
 
-示例：get_account_history gateway 10
+示例：get_account_history abc 10
 
 <p class="warning">
 如果涉及大量数据操作推荐使用本地全节点否则 limit 上限太高容易导致节点报错退出
@@ -694,10 +699,10 @@ vector<operation_detail>  `get_account_history`(string name, int limit)const;
 
 返回信息示例：
 ```json
-get_account_history gateway 10
-2018-07-30T07:06:18 Transfer 38000 SEER from lxy5130 to gateway -- Unlock wallet to see memo.   (Fee: 3.36718 SEER)
+get_account_history abc 10
+2018-07-30T07:06:18 Transfer 38000 SEER from abc123 to abc -- Unlock wallet to see memo.   (Fee: 3.36718 SEER)//时间 转账 数额 资产名 从 某账户 到 某账户 - 解锁以查看memo （手续费）
 ......
-2018-07-30T02:04:39 Transfer 359998 SEER from gateway to phoebe2 -- Unlock wallet to see memo.   (Fee: 3.05468 SEER)
+2018-07-30T02:04:39 Transfer 359998 SEER from abc to cbe2 -- Unlock wallet to see memo.   (Fee: 3.05468 SEER)
 
 ```
 #### 11. get_account
@@ -707,22 +712,22 @@ account_object   `get_account`(string account_name_or_id) const;
 
 作用：列出账户account_name_or_id的详细情况
 
-示例：`get_account` gateway
+示例：`get_account` abc
      `get_account` 1.2.9981
 
 返回信息示例：
 ```json
-get_account gateway
+get_account abc
 {
   "id": "1.2.9981",
-  "membership_expiration_date": "1969-12-31T23:59:59",
-  "registrar": "1.2.9981",
-  "referrer": "1.2.9981",
-  "lifetime_referrer": "1.2.9981",
-  "network_fee_percentage": 6000,
-  "lifetime_referrer_fee_percentage": 4000,
-  "referrer_rewards_percentage": 0,
-  "name": "gateway",
+  "membership_expiration_date": "1969-12-31T23:59:59",//此帐户的会员资格到期的时间。
+  "registrar": "1.2.9981",//注册人
+  "referrer": "1.2.9981",//推荐人
+  "lifetime_referrer": "1.2.9981",//终身会员推荐人
+  "network_fee_percentage": 6000,//手续费分配给网络的百分比
+  "lifetime_referrer_fee_percentage": 4000,//手续费分配给终身会员推荐人的百分比
+  "referrer_rewards_percentage": 0,//推荐人获得的比例
+  "name": "abc",//名称
   "owner": {//账户权限 多签管理
     "weight_threshold": 50,//阈值
     "account_auths": [[
@@ -799,32 +804,14 @@ asset_object `get_asset`(string asset_name_or_id) const;
 get_asset SEER
 {
   "id": "1.3.0",
-  "symbol": "SEER",
-  "precision": 5,
-  "issuer": "1.2.3",
+  "symbol": "SEER",//资产名
+  "precision": 5,//精度
+  "issuer": "1.2.3",//发行人
   "options": {
-    "max_supply": "1000000000000000",
+    "max_supply": "1000000000000000",//最大供给
     "market_fee_percent": 0,
-    "max_market_fee": "1000000000000000",
-    "issuer_permissions": 0,
-    "flags": 0,
-    "core_exchange_rate": {
-      "base": {
-        "amount": 1,
-        "asset_id": "1.3.0"
-      },
-      "quote": {
-        "amount": 1,
-        "asset_id": "1.3.0"
-      }
-    },
-    "whitelist_authorities": [],
-    "blacklist_authorities": [],
-    "whitelist_markets": [],
-    "blacklist_markets": [],
-    "description": "",
-    "extensions": []
-  },
+   ......
+   ,
   "dynamic_asset_data_id": "2.3.0"
 }
 ```
@@ -839,7 +826,7 @@ account_id_type `get_account_id`(string account_name_or_id) const;
 
 返回信息示例：
 ```json
-get_account_id gateway
+get_account_id abc
 "1.2.9981"
 ```
 #### 14. get_object
@@ -963,7 +950,7 @@ bool `import_key`(string account_name_or_id, string wif_key);
 作用：通过私钥wif_key往钱包里导入账户account_name_or_id
 
 <p class="tip">
-  不知道怎么获得你的账户私钥？<a router-link="/zh-Hans/">`点击这里`</a> 了解。
+  不知道怎么获得你的私钥？<a router-link="/zh-Hans/">`点击这里`</a> 了解。
 </p>
 
 示例：`import_key` abc  5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
@@ -1010,7 +997,7 @@ vector<account_object>   `list_my_accounts`();
 list_my_accounts
 [{
     "id": "1.2.11006",//账户ID
-    "membership_expiration_date": "1970-01-01T00:00:00",
+    "membership_expiration_date": "1970-01-01T00:00:00",//会员资格到期时间
     ......
     "top_n_control_flags": 0,
     "country": 0,
@@ -1093,11 +1080,11 @@ signed_transaction  `register_account`(string name, public_key_type owner, publi
 ```json
 register_account cba SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 abc abc 20 true
 {
-  "ref_block_num": 50287,
-  "ref_block_prefix": 1187139268,
-  "expiration": "2018-07-30T14:16:18",
+  "ref_block_num": 50287,//引用的区块号
+  "ref_block_prefix": 1187139268,//引用的区块头
+  "expiration": "2018-07-30T14:16:18",//交易过期时间
   "operations": [[
-      4,{
+      4,{//注册账户
         "fee": {
           "amount": 200014355,//手续费=2000SEER基础+0.14355字节手续费
           "asset_id": "1.3.0"
@@ -1105,29 +1092,29 @@ register_account cba SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 SEER
         "registrar": "1.2.42",//注册人
         "referrer": "1.2.42",//推荐人
         "referrer_percent": 2000,//推荐人手续费分成=20%
-        "name": "cba",
+        "name": "cba",//账户名
         "owner": {
-          "weight_threshold": 1,
+          "weight_threshold": 1,//阈值
           "account_auths": [],
           "key_auths": [[
               "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5",
-              1
+              1//权重
             ]
           ],
           "address_auths": []
         },
         "active": {
-          "weight_threshold": 1,
+          "weight_threshold": 1,//阈值
           "account_auths": [],
           "key_auths": [[
               "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5",
-              1
+              1//权重
             ]
           ],
           "address_auths": []
         },
         "options": {
-          "memo_key": "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5",
+          "memo_key": "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5",//备注公钥
           "voting_account": "1.2.5",
           "num_committee": 0,
           "num_authenticator": 0,
@@ -1158,20 +1145,20 @@ signed_transaction `transfer`(string from, string to, string amount, string asse
 ```json
 transfer abc cde 100 SEER "give you 100 SEER" true
 {
-  "ref_block_num": 50522,
-  "ref_block_prefix": 3064116022,
-  "expiration": "2018-07-30T14:28:03",
+  "ref_block_num": 50522,//引用的区块号
+  "ref_block_prefix": 3064116022,//引用的区块头
+  "expiration": "2018-07-30T14:28:03",//交易过期时间
   "operations": [[
-      0,{
-        "fee": {
-          "amount": 2089843,
-          "asset_id": "1.3.0"
+      0,{//转账
+        "fee": {//手续费
+          "amount": 2089843,//金额
+          "asset_id": "1.3.0"//资产
         },
-        "from": "1.2.42",
-        "to": "1.2.108",
+        "from": "1.2.42",//转出账户id
+        "to": "1.2.108",//转入账户id
         "amount": {
-          "amount": 10000000,
-          "asset_id": "1.3.0"
+          "amount": 10000000,//金额
+          "asset_id": "1.3.0"//资产
         },
         "memo": {
           "from": "SEER7nLQYsQzsMRNxQCadGvzAoTXq9Wwep2wMYw59ttDCY7zxr19DK",
@@ -1207,13 +1194,13 @@ upgrade_account abc true
   "ref_block_prefix": 3987236035,//引用的区块头
   "expiration": "2018-07-30T14:25:12",//交易过期时间
   "operations": [[
-      7,{
-        "fee": {
-          "amount": 1000000000,
-          "asset_id": "1.3.0"
+      7,{//升级
+        "fee": {//手续费
+          "amount": 1000000000,//金额
+          "asset_id": "1.3.0"//资产
         },
-        "account_to_upgrade": "1.2.108",
-        "upgrade_to_lifetime_member": true,
+        "account_to_upgrade": "1.2.108",//升级的账户
+        "upgrade_to_lifetime_member": true,//是否升级到终生会员
         "extensions": []
       }
     ]
@@ -1257,7 +1244,7 @@ sell_asset abc 1000 SEER 1000 ABC 0 false true
           "asset_id": "1.3.1"//测试网络此id对应的是ABC测试币
         },
         "expiration": "1969-12-31T23:59:59",
-        "fill_or_kill": false,//未开启全额否则取消
+        "fill_or_kill": false,//未开启“全额否则取消”
         "extensions": []
       }
     ]

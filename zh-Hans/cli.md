@@ -18,6 +18,8 @@ search: zh-Hans
 
 请下载最新版的测试网络命令行钱包进行测试：https://github.com/akirasen/seertestnet/releases
 
+测试网络账号：okok 私钥：5JkbV8aTaYRVaarTUJQ9Y56cr4QajxNFfCoQj6Q9JFL8XvUZ5CQ 内有上千万测试币，欢迎体验。
+
 ### Windows下启用cli_wallet
 
 #### 方法1 命令启动

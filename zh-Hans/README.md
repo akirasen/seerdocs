@@ -135,4 +135,41 @@ bin备份文件文件名类似：`seer_default_20180705.bin`。bin文件十分�
 
 #### 在命令行钱包导入私钥
 
-此步骤参考 <a router-link=".//cli?id=_5-import_key"> ***通过私钥导入账户*** </a> 相关文档请点击这里。
+此步骤参考 <a router-link="./cli?id=_5-import_key"> ***通过私钥导入账户*** </a> 相关文档请点击这里。
+
+### 网关
+
+在SEER主网钱包中提供了BTS、ERC20资产和主网资产互转的双向网关，这是测试网络中不具备的。在bitshares和ethereum网络中分别转账SEER资产到SEER的网关账号，即可实现主网中账号自动确认到账，反之也可将SEER主网资产转为交易所、钱包等处的SEER。
+
+#### 内盘GDEX.SEER至主网
+
+持有内盘资产GDEX.SEER（比特股内盘GDEX.IO、鼓鼓钱包）的用户可以直接使用此网关和主网SEER进行兑换。
+
+<p class="tips">
+特别注意：持有内盘资产SEER的用户需要先通过GDEX.SEER：SEER交易对1:1兑换为GDEX.SEER，再使用网关兑换为主网SEER。
+</p>
+
+将 `BTS内盘` 的 `GDEX.SEER` 转账至 `seer.gateway`（数字 ID#974186）转账 `memo` 备注填：`“seer#主网帐号”`（双引号不需要填写），即可完成主网 `SEER` 自动发放，第一次建议小额转账先试一下。
+
+#### 主网至内盘GDEX.SEER
+
+在 `SEER主网` ，点击`“网关”`选项卡，选择 `转出BTS代币` ，填写`您的BTS账号`，即可完成BTS内盘资产`GDEX.SEER`的自动兑换，建议先小额转账进行测试。
+
+目前BTS网关的转入或者转出手续费均设定为 2 SEER。
+
+#### Erc-20至主网
+
+持有`Erc-20`版SEERBitfinex、Aex、Lbank等交易所内SEER和imtoken等以太坊钱包内SEER）的用户可以直接使用此网关兑换和主网SEER进行兑换。
+
+在SEER主网，点击`“网关”`选项卡，选择`转入（ERC20）`，`“点击生成”`绑定ETH地址按钮。
+
+绑定成功以后，网关页面便会自动生成一个和您的SEER账户绑定的`以太坊地址`，请勿充入非SEER资产。
+
+在交易所或imtoken等处，`提币或转账`到您SEER账号绑定的以太坊地址，即可完成Erc-20版SEER 至 SEER主网的自动兑换，建议先小额转账进行测试。
+
+#### 主网至Erc-20
+
+在SEER主网，点击`“网关”`选项卡，选择`转出（ERC20）`，转账到交易所生成的SEER充值地址或是您的imtoken等以太坊钱包地址，即可完成SEER主网至Erc-20版SEER的自动兑换，建议先小额转账进行测试。
+
+
+

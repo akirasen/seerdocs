@@ -135,7 +135,7 @@ bin备份文件文件名类似：`seer_default_20180705.bin`。bin文件十分�
 
 #### 在命令行钱包导入私钥
 
-此步骤参考 <a router-link="./cli?id=_5-import_key"> ***通过私钥导入账户*** </a> 相关文档请点击这里。
+此步骤参考 <a router-link="./cli?id=_5-import_key"> **通过私钥导入账户** </a> 相关文档请点击这里。
 
 ### 网关
 

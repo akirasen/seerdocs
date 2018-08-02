@@ -159,7 +159,7 @@ bin备份文件文件名类似：`seer_default_20180705.bin`。bin文件十分�
 
 #### Erc-20至主网
 
-持有`Erc-20`版SEERBitfinex、Aex、Lbank等交易所内SEER和imtoken等以太坊钱包内SEER）的用户可以直接使用此网关兑换和主网SEER进行兑换。
+持有`Erc-20`版SEER（Bitfinex、Aex、Lbank等交易所内SEER和imtoken等以太坊钱包内SEER）的用户可以直接使用此网关兑换和主网SEER进行兑换。
 
 在SEER主网，点击`“网关”`选项卡，选择`转入（ERC20）`，`“点击生成”`绑定ETH地址按钮。
 

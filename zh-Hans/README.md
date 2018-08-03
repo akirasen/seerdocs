@@ -547,7 +547,7 @@ Apis.instance().db_api().exec("get_house_by_account", [this.props.account.get("i
 
 #### 创建平台
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountHouseCreate.jsx#L20
 
 ```js
 createHouse() {

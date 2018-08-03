@@ -329,6 +329,457 @@ LMSR玩法的优势：参与预测的过程可以伴随自由的买卖，用户�
 
 房主
 
+#### 开启预测
+
+当房间状态为`“关闭”`状态时,可开启预测。
+
+![开启预测](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/05.jpg)
+
+##### 前置条件
+
+钱包当前账号为平台账号
+
+##### 操作入口
+
+钱包右上角菜单->平台->对指定房间点“开启”
+
+##### 说明
+
+开始时间/结束时间：玩家只可以在该时间段内参与预测
+
+结束时间/结束时间+开奖时长：该时间内房主/预言机可对该预测输入结果
+
+结束时间+开奖时长—：在此时间之后，任何人均可以触发该预测的结算和派奖
+
+##### 操作者
+
+房主
+
+#### 参与预测
+
+![参与预测](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/06.jpg)
+
+##### 前置条件
+
+钱包当前账号为SEER用户账号
+
+##### 操作入口
+
+钱包首页的平台->选择平台->选择房间->参与预测
+
+##### 操作者
+
+任何SEER用户
+
+#### 提前停止预测
+
+![提前停止预测](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/06.jpg)
+
+##### 前置条件
+
+钱包当前账号为平台账号
+
+##### 操作入口
+
+钱包右上角菜单->平台->对指定房间点`“停止参加”`
+
+房主可提前停止预测，使用户无法再参与预测，此时可重新设置`“开奖时长”`。
+
+##### 操作者
+
+房主
+
+#### 输入预测结果
+
+##### 操作入口
+
+钱包右上角菜单->平台->对指定房间点“输入结果”
+
+##### 预言机输入
+
+平台->进入指定平台->对指定房间点"Oracle输入"
+
+当时间到达结束时间，并在开奖时长范围内时，可以对房间输入结果。
+
+##### 操作者
+
+预言机和房主
+
+#### 结算
+
+##### 前置操作
+
+当前账号为自己账号
+
+##### 房主操作入口
+
+钱包右上角菜单->平台->对指定房间点“结算"
+
+##### 普通用户操作入口
+
+平台->进入指定平台->对指定房间点"结算"
+
+##### 可结算前提
+
+开奖时间结束以后，并且有人输入了预测结果（房主及预言机）
+
+##### 所做操作
+
+计算预言机和房主的输入统计出最终结果，并惩罚作恶的预言机/奖励诚实的预言机
+
+##### 操作者
+
+任何SEER用户
+
+#### 派奖
+
+##### 前置操作
+
+当前账号为自己账号
+
+##### 房主操作入口
+
+钱包右上角菜单->平台->对指定房间点“派奖"
+
+##### 普通用户操作入口
+
+平台->进入指定平台->对指定房间点"派奖"
+
+##### 可结算前提
+
+已经完成结算
+
+##### 所做操作
+
+给中奖者派发奖励并将剩余余额返给房间创建者
+
+##### 操作者
+
+任何SEER用户
+
+## 前端开发接口说明
+
+### 查询数据接口
+
+前端通过websocket连接至witness_node,已经提供了一个开发包为seerjs，前端开发者只需要调用该接口即可。
+
+#### 示例一
+
+```js
+var Apis= require("seerjs-ws").Apis;
+Apis.instance().db_api().exec("get_seer_room", [this.props.params.room_id, 0, 500]).then(r => {
+  this.setState({room: r});
+});
+```
+说明：Apis.instance().db_api().exec为执行接口，get_seer_room为底层提供的API名字，[]内数据为参数集
+
+#### 示例二
+
+```js
+Apis.instance().db_api().exec("get_oracles", [this.state.room.option.allowed_oracles]).then(houses => {
+  var ret = [];
+  houses.forEach(function(item,index){
+    ret.push(item.owner);
+  });
+  this.setState({oracles:ret});
+});
+```
+
+### 交易操作的接口
+
+绝大多数操作的接口均进行了初步封装，开发者可至以下目录参考：`Seer-UI\app\actions`
+
+代码示例：
+
+```js
+import SeerActions from"../../actions/SeerActions";
+let args = {
+  issuer: user_id,
+  room: this.state.room.id,
+  type: 0,
+  input: [this.state.checked_item],
+  input1: [],
+  input2: [],
+  amount: parseInt(this.state.amount * this.state.precision)
+};
+SeerActions.participate(args);
+
+```
+
+而在SeerActions.js中：
+
+```js
+participate(args) {
+  let tr = WalletApi.new_transaction();
+  tr.add_type_operation("seer_room_participate",args);
+  return (dispatch) => {
+    return WalletDb.process_transaction(tr, null, true).then(result => {
+      dispatch(true);
+    }).catch(error=> {
+      console.log("seer_room_participate error----->",error);
+      dispatch(false);
+    });
+  };
+}
+```
+
+对不同操作的数据序列化，均在`seerjs`完成，应用开发者可以不用关心这一层级，只需要在将各种操作(如创建房间、转账、创建资产、创建预测、开启预测等等…)所需参数传递进去即可。
+
+### 常用查询接口
+
+#### 读取指定用户的平台和房间
+
+代码示例：
+
+```js
+Apis.instance().db_api().exec("get_house_by_account", [this.props.account.get("id")]).then((results) => {
+  this.setState({house: results,rooms:[]});
+  if(results)
+  results.rooms.forEach(room=> {
+    Apis.instance().db_api().exec("get_seer_room", [room, 0, 10]).then(r => {
+      this.state.rooms.push(r);
+      this.forceUpdate();
+    });
+  });
+});
+```
+### 常用操作参数列表
+
+#### 创建平台
+
+代码示例：
+
+```js
+createHouse() {
+  let guaranty= parseInt(this.state.guaranty*100000)
+  let args = {
+      issuer: this.props.account.get("id"),
+      guaranty: guaranty,
+      description: this.state.description,
+      script: this.state.script
+  };
+  SeerActions.createHouse(args);
+}
+
+```
+
+#### 更新平台
+
+代码示例：
+
+```js
+updateHouse() {
+  let core_asset = ChainStore.getAsset("1.3.0");
+  let guaranty = parseInt(this.state.guaranty) * Math.pow(10,core_asset.get("precision"));
+  let args = {
+    issuer: this.props.account.get("id"),
+    guaranty: guaranty,
+    claim_fees: 0,
+    description: this.state.description,
+    script: this.state.script,
+    house: this.props.house.get("id")
+  };
+  SeerActions.updateHouse(args);
+}
+```
+#### 创建房间
+
+代码示例：
+
+```js
+_createRoom() {
+  let args = {
+    issuer: this.props.account.get("id"),
+    label: this.state.label.filter(l => {return l.trim() != "";}),
+    description: this.state.description,
+    script: this.state.script,
+    room_type: this.state.room_type,
+    option: {
+      result_owner_percent: parseInt(this.state.result_owner_percent*100),
+      reward_per_oracle: parseInt(this.state.reward_per_oracle*100000),
+      accept_asset: this.state.accept_asset,
+      minimum: parseInt(this.state.min*this.state.accept_asset_precision),
+      maximum: parseInt(this.state.max*this.state.accept_asset_precision),
+      start: newDate(),
+      stop: newDate(),
+      input_duration_secs: 60,
+      filter: {
+        reputation: this.state.reputation,
+        guaranty: parseInt(this.state.guaranty*100000),
+        volume: this.state.volume
+      },
+      allowed_oracles:[],
+      allowed_countries:[],
+      allowed_authentications:[]
+    },
+    initial_option:{
+      room_type: this.state.room_type,
+      selection_description: this.state.selections,
+      range: this.state.selections.length
+    }
+  };
+  if (this.state.room_type == 0) {
+    args.initial_option.lmsr = {
+      L: parseInt(this.state.L)
+    };
+  } else if (this.state.room_type == 2) {
+    args.initial_option.advanced= {
+      pool: parseInt(this.state.pool),
+      awards: this.state.awards.map(a => {return parseInt(a*10000);})
+    };
+  }
+  SeerActions.createRoom(args);
+}
+```
+#### 更新房间
+
+##### 更新高级玩法的赔率
+
+代码示例：
+
+```js
+_updateRoomAward() {
+  let args = {
+    issuer: this.props.account.get("id"),
+    room:this.props.room.get("id"),
+    new_awards: (this.props.room.get("room_type") == 2)?this.state.awards.map(a => {return parseInt(a*10000);}):null
+  };
+  SeerActions.updateRoom(args);
+}
+```
+##### 房间未开启时可更新房间
+
+代码示例：
+
+```js
+_updateRoom() {
+  let args = {
+    issuer: this.props.account.get("id"),
+    room:this.props.room.get("id"),
+    description: this.state.description,
+    script: this.state.script,
+    option: {
+      result_owner_percent: parseInt(this.state.result_owner_percent*100),
+      reward_per_oracle: parseInt(this.state.reward_per_oracle*100000),
+      accept_asset: this.state.accept_asset,
+      minimum: parseInt(this.state.min*this.state.accept_asset_precision),
+      maximum: parseInt(this.state.max*this.state.accept_asset_precision),
+      start: newDate(),
+      stop: newDate(),
+      input_duration_secs: 60,
+      filter: {
+        reputation: this.state.reputation,
+        guaranty: parseInt(this.state.guaranty*100000),
+        volume: this.state.volume
+      },
+      allowed_countries:[],
+      allowed_authentications:[]
+    },
+    initial_option:{
+      room_type: this.state.room_type,
+      selection_description: this.state.selections,
+      range: this.state.selections.length
+    }
+  };
+  if (this.state.room_type == 0) {
+    args.initial_option.lmsr = {
+      L: parseInt(this.state.L)
+    };
+  } else if (this.state.room_type == 2) {
+      args.initial_option.advanced= {
+        pool: parseInt(this.state.pool),
+        awards: this.state.awards.map(a => {return parseInt(a*10000);})
+      };
+    }
+  SeerActions.updateRoom(args);
+}
+```
+#### 输入预测结果
+
+代码示例：
+
+```js
+onSubmit() {
+  let args = {
+    issuer: this.props.account.get("id"),
+    room: this.state.room.id,
+    input: [this.state.input]
+  };
+  SeerActions.inputRoom(args);
+}
+```
+#### 结算
+
+代码示例：
+
+```js
+finalRoom(room) {
+  var args = {
+    issuer: this.props.account.get("id"),
+    room: room.id,
+  };
+  SeerActions.finalRoom(args);
+}
+```
+#### 派奖
+
+代码示例：
+
+```js
+settleRoom(room) {
+  var args = {
+    issuer: this.props.account.get("id"),
+    room: room.id,
+  };
+  SeerActions.settleRoom(args);
+}
+```
+#### 创建预言机
+
+代码示例：
+
+```js
+_createOracle() {
+  let args = {
+    issuer: this.props.account.get("id"),
+    guaranty: parseInt(this.state.guaranty*100000),
+    description: this.state.description,
+    script: this.state.script
+  }
+  SeerActions.createOracle(args);
+}
+```
+#### 更新预言机
+
+代码示例：
+
+```js
+_updateOracle() {
+  let args = {
+    issuer: this.props.account.get("id"),
+    guaranty: parseInt(this.state.guaranty*100000),
+    description: this.state.description,
+    script: this.state.script,
+    oracle: this.props.oracle.get("id")
+  };
+  SeerActions.updateOracle(args);
+}
+```
+#### 预言机输入结果
+
+代码示例：
+
+```js
+onSubmit() {
+  let args = {
+    issuer: this.props.account.get("id"),
+    oracle: this.state.oracle.id,
+    room: this.state.room.id,
+    input: [this.state.input]
+  };
+  SeerActions.inputOracle(args);
+}
+```
 
 ## SEER网页钱包使用指南
 

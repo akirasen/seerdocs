@@ -63,7 +63,7 @@ SEER的账号又分`普通会员`和`终身会员`：
 
 ##### 示例一
 
-![示例一](./img/01.jpg)
+![示例一](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/01.jpg)
 
 此例中，资金权限的阈值为`1`
 
@@ -73,7 +73,7 @@ SEER的账号又分`普通会员`和`终身会员`：
 
 ##### 示例二
 
-![示例二](./img/02.jpg)
+![示例二](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/02.jpg)
 
 账户权限的阀值为`50`
 
@@ -212,66 +212,123 @@ Seer允许用户创建各种自定义资产(UIA)。自定义资产的应用场�
 
 需要注意的事，以上权限也是可以关闭的。一旦关闭某项权限，便不可重新打开。权限需要激活才会生效。
 
-### SEER相关程序说明
+### SEER相关程序
 
-#### 下载网址
+例如witness_node和cli_wallet 下载网址：https://github.com/seer-project/seer-core-package/releases
 
-##### node/cli
+Seer-UI安装包下载网址：https://github.com/seer-project/seer-UI-package/releases
 
-https://github.com/seer-project/seer-core-package/releases
+#### witness_node启动方式
 
-##### Seer-UI安装包
+witness_node即为SEER重钱包，`命令行方式运行`，运行witness_node的计算机可从p2p网络中同步完整的区块链数据，同步完成后该计算机成为一个全数据节点（具有完整的区块数据）。
 
-https://github.com/seer-project/seer-UI-package/releases
+##### windows运行示例
 
-#### 启动方式
-
-##### witness_node
-命令行方式运行
-witness_node为重钱包
-运行witness_node的计算机可从p2p网络中同步完整的区块链数据，同步完成后该计算机成为一个全数据节点（具有完整的区块数据）。
-运行示例:
-A,windows
 witness_node.exe --p2p-endpoint=0.0.0.0:1888 --rpc-endpoint=0.0.0.0:8002
-B,ubuntu
+
+##### ubuntu运行示例
+
 ./witness_node --p2p-endpoint=0.0.0.0:1888 --rpc-endpoint=0.0.0.0:8002
-其中8002为提供给cli_wallet和GUI钱包连接的端口
-2,cli_wallet
-witness_node为轻钱包
-命令行方式运行
-运行cli_wallet连接至witness_node，可进行各种操作（纯粹的功能比GUI前端钱包丰富），包括注册用户、升级会员、创建资产、升级资
-产、投票、查询余额、查询账号历史、查询区块、查询区块参数…
 
-运行示例：
-A,windows
+(其中1888为和其它节点通信的端口，8002为提供给cli_wallet和GUI钱包连接的端口)
+
+
+#### cli_wallet启动方式
+
+witness_node为轻钱包，`命令行方式运行`，运行cli_wallet连接至witness_node，可进行各种操作（纯粹的功能比GUI前端钱包丰富），包括注册用户、升级会员、创建资产、升级资产、投票、查询余额、查询账号历史、查询区块、查询区块参数…
+
+##### windows运行示例
+
 cli_wallet.exe -s ws://127.0.0.1:8002
-B,ubuntu
+
+##### ubuntu运行示例
+
 ./cli_wallet -s ws://127.0.0.1:8002
-其中127.0.0.1为witness_node程序的IP，这里为本机，8002为witness_node开放的端口
-3,Seer-UI
-GUI版本轻钱包，可至https://wallet.seer.best 或下载GUI安装包进行体验
 
+（其中127.0.0.1为witness_node程序的IP，这里为本机，8002为witness_node开放的端口）
 
+#### Seer-UI
 
-五、SEER预测类型介绍
-1，LMSR
-LMSR类型的预测，用户的参与量可以是负数，负数即卖出。
-LMSR参与量的单位为“份”，价格是需要根据份数即时计算的，比如卖出1份价格为1，但卖出2份价格未必是2，前端可对相应数量的买卖
-价格做初步计算。
-LMSR玩法的优势：参与预测的过程可以伴随自由的买卖，用户可以在预测结果出来之前卖出获利或者止损。预测的参与量的买卖可以使
-预测倾向流动加快，即更快的向概率最大的选项倾斜。
-2，PVP
+GUI版本轻钱包，可至https://wallet.seer.best 或下载GUI安装包进行体验。基本操作方式请参考：<a router-link="/zh-Hans/?id=seer网页钱包使用指南">`SEER网页钱包使用指南`</a> 相关文档。
+
+### SEER预测市场类型
+
+#### LMSR（PVD）模式
+
+LMSR类型的预测，用户的参与量可以是负数，`负数即卖出`。
+
+LMSR参与量的单位为“份”，价格是需要根据份数即时计算的，比如卖出1份价格为1，但卖出2份价格未必是2，前端可对相应数量的买卖价格做初步计算。
+
+LMSR玩法的优势：参与预测的过程可以伴随自由的买卖，用户可以在预测结果出来之前卖出获利或者止损。预测的参与量的买卖可以使预测倾向流动加快，即更快的向概率最大的选项倾斜。
+
+#### PVP模式
+
 用户自由参与预测，该预测类型没有庄家，预测参与资金全部分给预测正确者。
 
-3，Advanced
-高级预测类型
-A，房主可设置各个选项的赔率
-B，房主可随时修改赔率
-C，用户预测以参与时间点的赔率计算中奖回报
-D，房间有预设资金池的概念
-E，在预测进程过程中，房主可往资金池添加资金，不可提取资金
-F，预测未开启时，房主可添加或提取资金池资金
-G，用户参与时，若当前总资金（含资金池和用户参与资金）可能不够派奖，则参与失败
+#### Advanced高级模式
+
+1. 房主可设置各个选项的赔率
+
+2. 房主可随时修改赔率
+
+3. 用户预测以参与时间点的赔率计算中奖回报
+
+4. 房间有预设资金池的概念
+
+5. 在预测进程过程中，房主可往资金池添加资金，不可提取资金
+
+6. 预测未开启时，房主可添加或提取资金池资金
+
+7. 用户参与时，若当前总资金（含资金池和用户参与资金）可能不够派奖，则参与失败
+
+### UI预测市场流程说明
+
+#### 创建平台
+
+![创建平台](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/03.jpg)
+
+##### 前置条件
+
+钱包当前账号为平台账号
+
+##### 操作入口
+
+钱包右上角菜单->平台
+
+##### 说明
+
+保证金的金额关系到可同时创建的房间的数量。当前为：每10万保证金可创建1个房间。
+
+##### 操作者
+
+房主
+
+#### 创建房间/更新房间
+
+![创建房间](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/04.jpg)
+
+##### 前置条件
+
+钱包当前账号为自己的账号
+
+##### 操作入口
+
+钱包右上角菜单->平台/房间->创建/更新房间
+
+##### 注意事项
+
+1. 关闭状态时，可随时更新房间
+
+2. 接受资产一旦设定即不可修改
+
+3. 房间类型一旦设定即不可修改
+
+4. 如果房间类型为Advanced，任何时间均可修改赔率
+
+##### 操作者
+
+房主
+
 
 ## SEER网页钱包使用指南
 

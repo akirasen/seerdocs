@@ -565,7 +565,7 @@ createHouse() {
 
 #### 更新平台
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountHouseUpdate.jsx#L31
 
 ```js
 updateHouse() {
@@ -584,7 +584,7 @@ updateHouse() {
 ```
 #### 创建房间
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountRoomCreate.jsx#L136
 
 ```js
 _createRoom() {
@@ -635,7 +635,7 @@ _createRoom() {
 
 ##### 更新高级玩法的赔率
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountRoomCreate.jsx#L81
 
 ```js
 _updateRoomAward() {
@@ -649,7 +649,7 @@ _updateRoomAward() {
 ```
 ##### 房间未开启时可更新房间
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountRoomCreate.jsx#L91
 
 ```js
 _updateRoom() {
@@ -696,7 +696,7 @@ _updateRoom() {
 ```
 #### 输入预测结果
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/RoomInput.jsx#L41
 
 ```js
 onSubmit() {
@@ -710,7 +710,7 @@ onSubmit() {
 ```
 #### 结算
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountHouse.jsx#L123
 
 ```js
 finalRoom(room) {
@@ -723,7 +723,7 @@ finalRoom(room) {
 ```
 #### 派奖
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountHouse.jsx#L131
 
 ```js
 settleRoom(room) {
@@ -736,7 +736,7 @@ settleRoom(room) {
 ```
 #### 创建预言机
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountOracleCreate.jsx#L20
 
 ```js
 _createOracle() {
@@ -751,7 +751,7 @@ _createOracle() {
 ```
 #### 更新预言机
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountOracleUpdate.jsx#L29
 
 ```js
 _updateOracle() {
@@ -767,7 +767,7 @@ _updateOracle() {
 ```
 #### 预言机输入结果
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/OracleInput.jsx#L45
 
 ```js
 onSubmit() {

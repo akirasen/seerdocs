@@ -1,6 +1,8 @@
 ---
 nav: zh-Hans
-search: zh-Hans
+search: 
+  - zh-Hans
+  - zh-Hant
 ---
 
 <img width="200" height="70" src="https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/001.png"/>

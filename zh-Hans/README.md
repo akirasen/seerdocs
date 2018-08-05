@@ -3,7 +3,7 @@ nav: zh-Hans
 search: zh-Hans
 ---
 
-<img width="200" height="80" src="https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/001.png"/>
+<img width="200" height="70" src="https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/001.png"/>
 
 # 赛亚技术文档
 

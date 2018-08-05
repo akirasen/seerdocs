@@ -104,13 +104,13 @@ docute.init({
     }
   ],
   plugins: [
-    docsearch({
+    /*docsearch({
       appId: 'VCYQ2HSX55',
       apiKey: 'a97f6f989c2354e556c5e094f2a1e31f',
       indexName: 'seerdocs',
       tags: ['english', 'zh-Hans', 'zh-Hant', 'ja'],
       url: 'https://docs.seerchain.org'
-    }),
+    }),*/
     evanyou()/*,
     disqus({
             shortname: 'wxa'

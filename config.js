@@ -106,7 +106,7 @@ docute.init({
   plugins: [
     docsearch({
       appId: 'VCYQ2HSX55',
-      apiKey: 'a9fd50fbf9c6662b78e1d49bbf390053',
+      apiKey: 'a97f6f989c2354e556c5e094f2a1e31f',
       indexName: 'seerdocs',
       tags: ['english', 'zh-Hans', 'zh-Hant', 'ja'],
       url: 'https://docs.seerchain.org'

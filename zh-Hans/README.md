@@ -249,7 +249,7 @@ cli_wallet.exe -s ws://127.0.0.1:8002
 
 #### Seer-UI
 
-GUI版本轻钱包，可至https://wallet.seer.best 或下载GUI安装包进行体验。基本操作方式请参考：<a router-link="./zh-Hans/?id=seer网页钱包使用指南">`SEER网页钱包使用指南`</a> 相关文档。
+GUI版本轻钱包，可至https://wallet.seer.best 或下载GUI安装包进行体验。基本操作方式请参考：<a href="/zh-Hans/?id=seer网页钱包使用指南">`SEER网页钱包使用指南`</a> 相关文档。
 
 ### SEER预测市场类型
 

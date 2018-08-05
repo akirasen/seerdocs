@@ -2,7 +2,7 @@
 nav: zh-Hans
 search: zh-Hans
 ---
-![SEERCHAIN](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/001.png)
+![SEERCHAIN](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/001.png =200x)
 
 # 赛亚技术文档
 

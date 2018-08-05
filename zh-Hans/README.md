@@ -463,8 +463,7 @@ LMSR玩法的优势：参与预测的过程可以伴随自由的买卖，用户�
 
 前端通过websocket连接至witness_node,已经提供了一个开发包为seerjs，前端开发者只需要调用该接口即可。
 
-#### 示例一
-
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/RoomParticipate.jsx#L53
 ```js
 var Apis= require("seerjs-ws").Apis;
 Apis.instance().db_api().exec("get_seer_room", [this.props.params.room_id, 0, 500]).then(r => {
@@ -473,23 +472,11 @@ Apis.instance().db_api().exec("get_seer_room", [this.props.params.room_id, 0, 50
 ```
 说明：Apis.instance().db_api().exec为执行接口，get_seer_room为底层提供的API名字，[]内数据为参数集
 
-#### 示例二
-
-```js
-Apis.instance().db_api().exec("get_oracles", [this.state.room.option.allowed_oracles]).then(houses => {
-  var ret = [];
-  houses.forEach(function(item,index){
-    ret.push(item.owner);
-  });
-  this.setState({oracles:ret});
-});
-```
-
 ### 交易操作的接口
 
 绝大多数操作的接口均进行了初步封装，开发者可至以下目录参考：`Seer-UI\app\actions`
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/RoomParticipate.jsx#L85
 
 ```js
 import SeerActions from"../../actions/SeerActions";
@@ -506,7 +493,7 @@ SeerActions.participate(args);
 
 ```
 
-而在SeerActions.js中：
+而在SeerActions.js中：https://github.com/seer-project/Seer-UI/blob/master/app/actions/SeerActions.js#L67
 
 ```js
 participate(args) {
@@ -529,7 +516,7 @@ participate(args) {
 
 #### 读取指定用户的平台和房间
 
-代码示例：
+代码示例：https://github.com/seer-project/Seer-UI/blob/master/app/components/Account/AccountHouse.jsx#L81
 
 ```js
 Apis.instance().db_api().exec("get_house_by_account", [this.props.account.get("id")]).then((results) => {

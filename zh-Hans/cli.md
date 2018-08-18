@@ -2416,7 +2416,69 @@ room_create abc ["football","basketball","games"] "test room create" "show me"  
 
 返回信息示例：
 ```json
-
+{
+      "ref_block_num": 8574,
+      "ref_block_prefix": 1502983025,
+      "expiration": "2018-08-15T19:34:26",
+      "operations": [[
+          43,{
+            "fee": {
+              "amount": 20017089,
+              "asset_id": "1.3.0"
+            },
+            "issuer": "1.2.37",
+            "label": [],
+            "description": "涓秴 鍖椾含浜哄拰 vs 鍖椾含鍥藉畨",
+            "script": "",
+            "room_type": 2,
+            "option": {
+              "result_owner_percent": 9000,
+              "reward_per_oracle": 0,
+              "accept_asset": "1.3.1",
+              "minimum": 1000000,
+              "maximum": 1000000000,
+              "start": "2018-08-15T19:32:24",
+              "stop": "2018-08-15T19:32:24",
+              "input_duration_secs": 60,
+              "filter": {
+                "reputation": 0,
+                "guaranty": 0,
+                "volume": 0
+              },
+              "allowed_oracles": [],
+              "allowed_countries": [],
+              "allowed_authentications": []
+            },
+            "initial_option": {
+              "room_type": 2,
+              "selection_description": [
+                "home",
+                "draw",
+                "guest"
+              ],
+              "range": 3,
+              "advanced": {
+                "pool": "500000000000",
+                "awards": [
+                  84600,
+                  47400,
+                  13200
+                ]
+              }
+            },
+            "extensions": []
+          }
+        ]
+      ],
+      "extensions": [],
+      "signatures": [
+        "1f22944de2ab45fcc0e7ccb2d8ad697e3fd4100de8ce893052cd0ffbb52c7b61433a3a30ca7f219fa8ddae8898ff3aaf4389ff396c4a3064c242d33ca4d258ae41"
+      ],
+      "operation_results": [[
+          0,{}
+        ]
+      ]
+    }
 ```
 #### 15. room_update
 signed_transaction `room_update`(string account, seer_room_id_type  room,  optional<string>   description,  optional<string>  script,  optional<room_option>  option,  optional<vector<uint64_t>>  new_awards,  bool broadcast );

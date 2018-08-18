@@ -2426,9 +2426,9 @@ room_create abc ["football","basketball","games"] "test room create" "show me"  
               "amount": 20017089,
               "asset_id": "1.3.0"
             },
-            "issuer": "1.2.37",
+            "issuer": "1.2.6",
             "label": [],
-            "description": "涓秴 鍖椾含浜哄拰 vs 鍖椾含鍥藉畨",
+            "description": "test1 vs test2",
             "script": "",
             "room_type": 2,
             "option": {

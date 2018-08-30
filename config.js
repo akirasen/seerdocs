@@ -5,6 +5,10 @@ const langs = [
   { title: '日本語', path: '/ja/', matchPath: /^\/ja/ , source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/ja/README.md'}
 ]
 
+const others = [
+  { title: 'DAPP开发', path: '/zh-Hans/knowledge', matchPath: /^\/zh-Hans/knowledge , source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/knowledge.md'}
+]
+
 docute.init({
   landing: 'landing.html',
   announcement(route) {
@@ -55,6 +59,9 @@ docute.init({
       },
       {
         title: '见证人', path: '/zh-Hans/witness', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/witness.md'
+      },
+      {
+        title: '其它资料', type: 'dropdown', items: others
       },
       {
         title: '选择语言', type: 'dropdown', items: langs

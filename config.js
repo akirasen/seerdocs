@@ -3,11 +3,11 @@ const langs = [
   { title: '简体中文', path: '/zh-Hans/', matchPath: /^\/zh-Hans/ , source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/README.md'},
   { title: '繁體中文', path: '/zh-Hant/', matchPath: /^\/zh-Hant/ , source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hant/README.md'},
   { title: '日本語', path: '/ja/', matchPath: /^\/ja/ , source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/ja/README.md'}
-]
+];
 
 const others = [
   { title: 'DAPP开发', path: '/zh-Hans/knowledge', matchPath: /^\/zh-Hans/knowledge , source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/knowledge.md'}
-]
+];
 
 docute.init({
   landing: 'landing.html',

@@ -88,6 +88,14 @@ SEER的账号又分`普通会员`和`终身会员`：
 
 修改账户时注意：最好将备注密钥设成成资金密钥相同。
 
+#### 查看您的私钥
+
+菜单-权限-资金权限-点击公钥-点击`显示`-输入钱包解锁密码，即可显示当前账号的资金权限私钥，请勿在不懂的情况下修改账号的权限，否则有可能永久性失去对账号资金的操作权限。
+
+![点击公钥](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/WX20180830-164652@2x.png)
+
+![复制私钥](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/WX20180830-164524@2x.png)
+
 ### SEER见证人
 
 SEER的见证人分成两部分：主力见证人和获息见证人。详细设计思想及操作方式见：<a router-link="./witness">`见证人`</a> 相关文档。

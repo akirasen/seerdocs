@@ -57,6 +57,10 @@ docute.init({
         title: '见证人', path: '/zh-Hans/witness', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/witness.md'
       },
       {
+        title: 'DAPP开发', path: '/zh-Hans/knowledge', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/knowledge.md'
+      
+      },
+      {
         title: '选择语言', type: 'dropdown', items: langs
       }
     ],

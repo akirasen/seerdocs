@@ -346,9 +346,11 @@ update_witness abc "http://www.google.com" SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2t
 
 ##### windows服务器配置节点参数
 
+使用windows服务器，则使用远程桌面连接软件输入ISP提供的服务器地址和账号密码，连接到服务器，如操作一台普通windows系统PC一样的操作远程服务器，比较简单。
+
 成为SEER见证人，需要使用命令行钱包和见证人节点软件进行操作：https://github.com/seer-project/seer-core-package/releases
 
-在上面的页面中，下载windows版本的软件，并解压缩。
+在上面的页面中，下载windows版本的软件，并解压缩到服务器端。
 
 **方法1** 命令启动
 
@@ -373,15 +375,50 @@ witness_node.exe --enable-stale-production --p2p-endpoint=0.0.0.0:1888 --witness
 ```
 其中的见证人id、签名公钥、签名私钥参数需要您替换。
 
-3. 点击`witness.cmd`即可运行。
+3. 每次点击`witness.cmd`即可运行。
 
 ##### linux服务器配置节点参数
 
 连接linux服务器，建议使用termius终端软件。termius不仅有windows版本，也有Mac甚至IOS和安卓版本，让您随时随地都能管理服务器。
 
+若使用termius终端软件，则进入该软件后点击`new host`，新建一个服务器连接，在设置页面的`address`填入ISP提供的服务器IP，port端口用默认的`22`，username填入ISP提供的账号，一般为`root`，密码也是由ISP提供。填入后点`save`保存。双击或点connect便可连接到您的远程服务器。
+
+部分ISP可能会要求您首次登陆服务器时修改初始密码，照提示操作即可。
+
+登陆服务器后，分别输入以下指令：
+
+1、新建一个名叫seer的窗口；
+
+```linux
+screen -S seer
+```
+
+2、在root目录下新建一个名叫seer的目录，复制`v0.0.4版本`的程序包到此目录，并更名为`seer.tar.gz`。（此处注意，若有了更新的程序包版本，则到SEER软件发布页https://github.com/seer-project/seer-core-package/releases 复制最新的ubuntu版本程序包链接替换掉此下载链接。）
+
+```linux
+mkdir seer
+curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.04/seer-ubuntu-0.0.4.tar.gz 
+```
+
+3、解压此软件包。
+
+```linux
+tar xzvf seer/seer.tar.gz
+```
+
+4、带参数启动witness_node，其中的见证人id、签名公钥、签名私钥参数需要您替换。
+
+```linux
+seer/witness_node --enable-stale-production --p2p-endpoint=0.0.0.0:1888 --witness-id=\"1.5.8\" --rpc-endpoint=0.0.0.0:9090 --private-key=[\""SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"\",\""5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci\""] 
+
+```
+
+5、观察节点运行正常后，ctrl+A d隐藏screen，断开服务器。之后要再打开运行有节点的Sreeen，则使用 `screen -R` ，或 `screen -r seer`。 
 
 
 ##### 节点正常启动的状态
+
+节点正常启动后，会显示像下面一样的3秒一个的见证人出块。申请见证人的第二天，如果您的见证人节点成功出块，出块时会显示“......block_production_loo ] Generated block......”表示这个块由当前见证人节点确认打包生产。
 
 ![节点正常启动的状态](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/640.gif)
 
@@ -395,12 +432,27 @@ SEER区块链的维护周期为24小时，对主网参数的修改会在下一�
 
 丢块是见证人应该避免的问题，见证人丢块不光影响区块链效率，损失该块的奖励，还会被记录到区块链上对外显示，影响见证人的可靠程度。
 
-如果见证人在一天内丢块数量丢块超过50%，将被系统判定停止出块2天，由候选见证人替补，丢块过多的见证人损失2天的出块收益。
+如果见证人在一天内丢块数量丢块超过50%，将被系统判定停止出块2天，由候选见证人替补，丢块过多的见证人将损失2天的出块收益。
 
-见证人节点启动成功后，请观察节点和其他节点之前的同步时间，一般不得超过200ms，否则容易因延时过大而丢块频繁。
+见证人节点启动成功后，请观察节点和其他节点之前的同步时间，一般不得超过300ms，否则容易因延时过大而丢块频繁。
 
 ### 见证人节点更新
 
+#### windows版本节点更新
+
+#### linux版本节点更新
+
+```linux
+
+```
+
+```linux
+
+```
+
+```linux
+
+```
 ### 见证人领取收益
 
 #### 领取抵押收益

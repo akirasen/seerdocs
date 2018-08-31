@@ -346,13 +346,58 @@ update_witness abc "http://www.google.com" SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2t
 
 ##### windows服务器配置节点参数
 
+成为SEER见证人，需要使用命令行钱包和见证人节点软件进行操作：https://github.com/seer-project/seer-core-package/releases
 
+在上面的页面中，下载windows版本的软件，并解压缩。
+
+**方法1** 命令启动
+
+1. 启动windows命令提示符: 打开`“我的电脑”`->在地址栏里输入`”cmd”`并确定；
+
+2. 在弹出的cmd窗口切换到`witness_node.exe`所在目录,比如说`d:\seer\`，通过以下命令可以切换命令路径：`”d:\”`->`”cd seer”`；
+
+3. 带参数启动`witness_node.exe`:
+
+```cmd
+witness_node.exe --enable-stale-production --p2p-endpoint=0.0.0.0:1888 --witness-id=\"1.5.8\" --rpc-endpoint=0.0.0.0:9090 --private-key=[\""SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"\",\""5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci\""]
+```
+其中`1.5.8`为您的见证人id，在命令行钱包操作中可以获取，`SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5`为您的见证人签名公钥，`5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci`为您的见证人签名公钥对应的私钥，皆需要替换为您自己的参数。`1888`为和其他节点连接的p2p监听端口，`9090`为rpc监听端口，用于钱包连接，此两个端口如果和其他程序发生冲突，或需要在同一服务器运行两个节点进行热切换可以修改，下同。
+
+**方法2** 预设命令启动
+
+1. 在`witness_node.exe`所在目录创建文件`”witness.cmd”`；
+
+2. 用记事本打开`witness.cmd`，输入以下内容后保存退出:
+```cmd
+witness_node.exe --enable-stale-production --p2p-endpoint=0.0.0.0:1888 --witness-id=\"1.5.8\" --rpc-endpoint=0.0.0.0:9090 --private-key=[\""SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"\",\""5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci\""]
+```
+其中的见证人id、签名公钥、签名私钥参数需要您替换。
+
+3. 点击`witness.cmd`即可运行。
 
 ##### linux服务器配置节点参数
 
 连接linux服务器，建议使用termius终端软件。termius不仅有windows版本，也有Mac甚至IOS和安卓版本，让您随时随地都能管理服务器。
 
 
+
+##### 节点正常启动的状态
+
+![节点正常启动的状态](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/640.gif)
+
+##### 首次创建见证人的生效时间
+
+SEER区块链的维护周期为24小时，对主网参数的修改会在下一个周期开始时生效。每个周期开始于格林尼治时间0点整（GMT+0）,即新加坡时间早上8点。
+
+您的见证人如果参数设置无误，将在第二天早上8点正常出块，如果设置有误，将在第二天早上8点开始丢块。
+
+##### 解决造成见证人丢块的一些问题
+
+丢块是见证人应该避免的问题，见证人丢块不光影响区块链效率，损失该块的奖励，还会被记录到区块链上对外显示，影响见证人的可靠程度。
+
+如果见证人在一天内丢块数量丢块超过50%，将被系统判定停止出块2天，由候选见证人替补，丢块过多的见证人损失2天的出块收益。
+
+见证人节点启动成功后，请观察节点和其他节点之前的同步时间，一般不得超过200ms，否则容易因延时过大而丢块频繁。
 
 ### 见证人节点更新
 

@@ -182,17 +182,17 @@ signed_transaction  `upgrade_account`(string name, bool broadcast);
 ```json
 upgrade_account abc true
 {
-  "ref_block_num": 50465,//引用的区块号
-  "ref_block_prefix": 3987236035,//引用的区块头
-  "expiration": "2018-07-30T14:25:12",//交易过期时间
+  "ref_block_num": 50465,
+  "ref_block_prefix": 3987236035,
+  "expiration": "2018-07-30T14:25:12",
   "operations": [[
-      7,{//升级
-        "fee": {//手续费
-          "amount": 1000000000,//金额
-          "asset_id": "1.3.0"//资产
+      7,{
+        "fee": {
+          "amount": 1000000000,
+          "asset_id": "1.3.0"
         },
-        "account_to_upgrade": "1.2.108",//升级的账户
-        "upgrade_to_lifetime_member": true,//是否升级到终生会员
+        "account_to_upgrade": "1.2.108",
+        "upgrade_to_lifetime_member": true,
         "extensions": []
       }
     ]
@@ -438,29 +438,208 @@ SEER区块链的维护周期为24小时，对主网参数的修改会在下一�
 
 ### 见证人节点更新
 
+SEER的区块链底层目前还处于不断完善中，节点版本更换将会比较频繁。一些新的完善更新会为区块链的基础设施——节点软件添加新的功能。理事会将会就是否接受新的节点版本进行共识投票，如果提案投票通过，将要求所有见证人在指定时间前将节点软件切换到新的版本，未升级的主力见证人节点将会离线。这种设计也是SEER保护区块链不分叉的共识机制。
+
+每次节点发布更新后，理事会将通过提案，要求所有见证人在指定时间前切换到新的节点软件版本，未切换的见证人节点将离线。未按要求更新的见证人节点将大量丢块，损失出块收益。
+
+每次更新的最新版本节点软件请在以下页面下载：
+
+https://github.com/seer-project/seer-core-package/releases
+
 #### windows版本节点更新
+
+1、首先下载当次更新的软件包到服务器；
+
+2、解压缩zip文件；
+
+3、ctrl+C 关闭现在的见证人节点；
+
+使用压缩包内的witness_node.exe替换掉当前见证人节点目录下的witness_node.exe文件；
+
+使用原参数重新启动见证人节点。正常出块后断开服务器。
+
+若新的节点不能正常同步，重启后仍不能正常启动的话，则关闭节点，删除节点目录下的 `witness_node_data_dir`、`object_database` 和 `data` 文件夹，并重启节点，以重新同步启动节点。
 
 #### linux版本节点更新
 
+1、切换到见证人节点的screen，例如  `screen -R` ，或 `screen -r seer`，ctrl+C 关闭节点，然后用cd切换到根目录。
+
+输入以下命令：
+
+2、在`root`目录创建一个`temp`目录，用来存放临时文件。
+
 ```linux
+mkdir temp
+```
+
+3、下载最新的节点软件包到temp目录（此例中最新的节点软件包是v0.04，若有了更新的程序包版本，则到SEER软件发布页https://github.com/seer-project/seer-core-package/releases 复制最新的ubuntu版本程序包链接替换掉此下载链接），重命名，并解压缩：
+
+```linux
+curl -Lo temp/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.04/seer-ubuntu-0.0.4.tar.gz 
+tar xzvf temp/seer.tar.gz
+```
+4、复制temp目录中的witness_node到seer目录。（seer目录为您存放见证人节点的目录，若您放在其他目录请自行修改）
+
+```linux
+cp witness_node seer/witness_node
+```
+
+5、使用原参数启动witness_node，例子中的见证人id、签名公钥、签名私钥参数需要您替换。
+
+```linux
+seer/witness_node --enable-stale-production --p2p-endpoint=0.0.0.0:1888 --witness-id=\"1.5.8\" --rpc-endpoint=0.0.0.0:9090 --private-key=[\""SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"\",\""5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci\""] 
 
 ```
 
-```linux
+6、观察节点运行正常后，ctrl+A d 隐藏screen，断开服务器。
 
-```
-
-```linux
-
-```
 ### 见证人领取收益
+
+见证人收益分为抵押收益和出块收益，可以分别通过命令行钱包和网页钱包领取。
 
 #### 领取抵押收益
 
+领取抵押收益需要从命令行钱包操作，平时您可以在https://wallet.seer.best/explorer/witnesses 查看自己的抵押利息收入。
+
+##### 启动命令行钱包
+
+从cmd启动或点击之前创建的run.cmd。详情 <a router-link="./witness?id=命令行钱包操作">`点击这里`</a> 了解。
+
+##### 输入领取见证人利息命令 witness_claim_collateral
+signed_transaction `witness_claim_collateral`(string account, string 	collateral_id, bool broadcast = false);
+
+参数：account为见证人id或者账户名或账户id, collateral_id抵押项的id
+
+作用：领取抵押利息，<a router-link="./witness?id=将解锁的抵押领回余额 witness_claim_collateral">`领取已经撤销抵押余额`</a> 也是同一个命令。
+
+示例：
+
+领取抵押利息：`witness_claim_collateral`  abc  "" true
+
+返回信息示例：
+```json
+witness_claim_collateral abc  "" true
+{
+  "ref_block_num": 22273,
+  "ref_block_prefix": 2876124369,
+  "expiration": "2018-07-31T07:39:51",
+  "operations": [[
+      18,{
+        "fee": {
+          "amount": 20000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "2052bc058ea6f7125b5c2baf935ff9332cd43f352b4efe986fd8d776004164249110ac2e171698ca5a867ba1629c6b080f35027ec23c2b1ea66cddcf69cc492b1d"
+  ]
+}
+```
 #### 领取出块收益
+
+领取出块收益，最简单的方法是，在网页钱包，点击`菜单`-`待解冻余额`，第一栏约几千SEER，解锁周期一年的是您的终身会员折扣待解锁余额。
+
+第二栏，99.99%都可以即时领取的，便是您的出块收益，点击`立即领取`，即可将出块收益领取到余额。
 
 ### 取回见证人抵押
 
-#### 解锁见证人抵押
+取回见证人抵押分为三步，首先需查询到您的抵押项id，然后要解除抵押，解锁周期为15天，解锁后，需要领取，已将解锁的抵押领取到余额。
 
-#### 将解锁的抵押领回余额
+#### 查询抵押项id list_witness_collaterals
+vector<witness_collateral_object>  `list_witness_collaterals`(string account); 
+
+参数：account为见证人id或者账户名或账户id
+
+作用：列出指定见证人的抵押清单
+
+示例：`list_witness_collaterals` abc
+
+返回信息示例：
+```json
+list_witness_collaterals abc
+[{
+    "id": "2.16.0",
+    "owner": "1.2.6",
+    "amount": 100000000,
+    "status": 0,
+    "start": "2018-07-31T07:30:15",
+    "expiration": "1970-01-01T00:00:00"
+  }
+]
+```
+
+#### 解锁见证人抵押 witness_cancel_collateral
+signed_transaction  `witness_cancel_collateral`(string account, string 	collateral_id, bool broadcast = false);
+
+参数：account为见证人id或者账户名或账户id, collateral_id抵押项的id
+
+作用：撤销指定的抵押项
+
+示例：`witness_cancel_collateral`  abc  2.16.0  true
+
+返回信息示例：
+```json
+witness_cancel_collateral  abc  2.16.0  true
+{
+  "ref_block_num": 5517,
+  "ref_block_prefix": 1913095735,
+  "expiration": "2018-07-31T07:34:45",
+  "operations": [[
+      17,{
+        "fee": {
+          "amount": 10000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6",
+        "collateral_id": "2.16.0"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "2014b4b48c9c789ae2f5da5e0bb11875e21232b00fd9b38642bd500cf7ade08aad789dffcc54a023ae41559f452fbc6f27b54481ba7c4b591ab03c9da8c8d7cc6d"
+  ]
+}
+```
+#### 将解锁的抵押领回余额 witness_claim_collateral
+signed_transaction `witness_claim_collateral`(string account, string 	collateral_id, bool broadcast = false);
+
+参数：account为见证人id或者账户名或账户id, collateral_id抵押项的id
+
+作用：领取已经撤销抵押余额，<a router-link="./witness?id=输入领取见证人利息命令 witness_claim_collateral">`领取抵押利息`</a> 也是他同一个命令。
+
+示例：
+
+领取已撤销抵押余额：`witness_claim_collateral`  abc  "2.16.0" true
+
+返回信息示例：
+```json
+witness_claim_collateral abc  "" true
+{
+  "ref_block_num": 22273,
+  "ref_block_prefix": 2876124369,
+  "expiration": "2018-07-31T07:39:51",
+  "operations": [[
+      18,{
+        "fee": {
+          "amount": 20000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "2052bc058ea6f7125b5c2baf935ff9332cd43f352b4efe986fd8d776004164249110ac2e171698ca5a867ba1629c6b080f35027ec23c2b1ea66cddcf69cc492b1d"
+  ]
+}
+```
+

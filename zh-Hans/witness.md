@@ -239,20 +239,120 @@ create_witness abc  "http://www.baidu.com" true
 }
 ```
 
-##### 创建抵押
+##### 创建抵押 witness_create_collateral
+signed_transaction `witness_create_collateral`(string account,  string amount, bool broadcast = false);
 
+说明：若您不竞争抵押排名前21位的主力见证人，到这一步即可，不用继续修改签名公钥和服务器端操作。您的抵押数量不要超过目前排名第21位的见证人。另外，SEER见证人抵押是以笔计算的，建议分批抵押，日后解锁也是按笔解锁。例如，抵押400万SEER，您可以分为两次，每次抵押200万SEER，日后若需要解锁200万SEER则解锁其中一笔即可；若一次性抵押400万，日后想只解锁200万的话，则需要将400万一起解锁，解锁周期到以后，才能重新将其中200万抵押。解锁周期为15天。
 
+参数：account为见证人id或者账户名或账户id, amount为抵押的SEER数量
+
+作用：增加见证人抵押项
+
+示例：`witness_create_collateral` abc 1000 true
+
+返回信息示例：
+```json
+witness_create_collateral abc 1000 true
+{
+  "ref_block_num": 5437,
+  "ref_block_prefix": 347254870,
+  "expiration": "2018-07-31T07:30:45",
+  "operations": [[
+      16,{
+        "fee": {
+          "amount": 1000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6",
+        "amount": 100000000
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "206a08b57ff8bff588bb812dd07a0e90a6ebacf749d9600a241c4033bbd39cfaae1d55ae3fc6977f5486b4c09c51f31b9609801e7c0aa3d8e16b2c67ebb7ff6fc9"
+  ]
+}
+```
+
+##### 生成一对用于见证人签名的秘钥对 suggest_brain_key
+brain_key_info  `suggest_brain_key`()const;
+
+参数：无
+
+作用：随机生成脑钱包密钥
+
+示例：`suggest_brain_key`
+
+返回信息示例：
+```json
+suggest_brain_key
+{
+  "brain_priv_key": "UNLISTY BLOOMER ANGSTER ENOLIC PILE EVEQUE STRE LECTERN CITRON GARETTA FRECKLE TELEDU JOKE AUNT OFT FOUNDRY",//脑钱包秘钥（助记词）
+  "wif_priv_key": "5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci",//私钥
+  "pub_key": "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"//公钥
+}
+```
+
+##### 将生成的公钥设置为见证人签名 update_witness
+signed_transaction `update_witness`(string witness_name,  string url, string block_signing_key, bool broadcast);
+
+参数：witness_name为账户名或id，url为网址, block_signing_key为出块时签名的公钥
+
+作用：更新见证人资料
+
+示例：`update_witness` abc "http://www.google.com"  SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 true
+
+返回信息示例：
+```json
+update_witness abc "http://www.google.com" SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5 true
+{
+  "ref_block_num": 4870,
+  "ref_block_prefix": 1016406219,
+  "expiration": "2018-07-31T07:02:24",
+  "operations": [[
+      15,{
+        "fee": {
+          "amount": 10000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6",
+        "new_url": "http://www.google.com",
+        "new_signing_key": "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f677827fc57e4628e8cf61a25d40eecee120860e6d5a7fee6e1c6998b52c792fc28a977bcdefd87de3af5c754912a7766f69d6a376ace6b6b8dba042b9e0a05a6"
+  ]
+}
+```
+##### 需要在以上两步中记录的信息
+
+1、见证人id：此例中为"witness": "1.5.8"，1.5.8就是在下一步操作中需要填入见证人节点参数的；
+
+2、见证人公私钥：即您suggest_brain_key生成，并在update_witness时填入的公钥和该公钥对应的私钥。本例中为 "SEER6xtsMY5DyhRokjGh6QbBhJ9aHNoY1UB2tFUZmMdKr8uN55j5q5"和"5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci"。
 
 #### 服务器端操作
 
 ##### 从ISP租用云服务器
 
+根据目前SEER见证人节点的需求，您需要租用一台2核心4G内存的服务器，此配置的windows主机报价约为每月36美元，同样配置的linux（ubuntu）主机配置约为每月20美元。
 
-##### windows服务器配置参数
+推荐以下ISP的服务器：阿里云 aliyun.com / 腾讯云 cloud.tencent.com / GCP cloud.google.com / AWS aws.amazon.com / Azure azure.microsoft.com / Vultr.com / Linode.com / Digitalocean.com
 
-##### linux服务器配置参数
+##### windows服务器配置节点参数
 
-连接linux服务器，建议使用termius终端软件。
+
+
+##### linux服务器配置节点参数
+
+连接linux服务器，建议使用termius终端软件。termius不仅有windows版本，也有Mac甚至IOS和安卓版本，让您随时随地都能管理服务器。
+
+
 
 ### 见证人节点更新
 

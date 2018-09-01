@@ -506,7 +506,7 @@ tar xzvf temp/seer.tar.gz
 4、复制temp目录中的witness_node到seer目录。（seer目录为您存放见证人节点的目录，若您放在其他目录请自行修改）
 
 ```linux
-cp witness_node seer/witness_node
+cp temp/witness_node seer/witness_node
 ```
 
 5、使用原参数启动witness_node，例子中的见证人id、签名公钥、签名私钥参数需要您替换。

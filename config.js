@@ -48,7 +48,7 @@ docute.init({
         title: '首页', path: '/zh-Hans/', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/README.md'
       },
       {
-        title: '工具', path: '/zh-Hans/tools', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/tools.md'
+        title: '工具和使用指南', path: '/zh-Hans/tools', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/tools.md'
       },
       {
         title: '命令行', path: '/zh-Hans/cli', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/cli.md'

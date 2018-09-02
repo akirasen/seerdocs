@@ -15,7 +15,9 @@ search:
 
 <a router-link="./witness">`见证人`</a> 相关文档请点击这里；
 
-<a router-link="./tools">`开发工具`</a> 相关文档请点击这里；
+<a router-link="./tools">`开发工具和使用指南`</a> 相关文档请点击这里；
+
+<a router-link="./knowledge">`DAPP开发基础知识`</a> 相关文档请点击这里；
 
 <p class="danger">
   此文档站各种资料适合有一定技术基础的用户，若要进行开发体验，请使用 <a href="http://123.206.78.97/"> **测试网络** </a> 进行体验，以免误操作造成资金损失。

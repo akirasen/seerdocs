@@ -76,13 +76,222 @@ cli_wallet.exe -s ws://localhost:9090
 
 1. 为了访问安全，SEER网页钱包和大部分服务都采取了HTTPS协议，因此也要求API使用WSS协议，同时WSS不支持IP访问，所以需要开发者提供域名，并申请SSL证书；
 
-2. 此教程演示的是建立一个单点的SEER API节点，对于DAPP级API设立者来说，需要考虑DAPP的阶段并发用户数，提供更高带宽和设备条件，并配置多节点负载均衡；
+2. 此教程演示的是建立一个单点的SEER API节点，对于DAPP级API设立者来说，需要考虑DAPP的阶段并发用户数，提供更高带宽和设备条件，并配置多节点负载均衡，同时进行防火墙等安全配置；
 
-3. 搭建一个公共SEER API节点，你需要租用一台linux服务器、设置一个指向该服务器的域名或二级域名、架设见证人全节点、配置nginx、申请SSL证书等几个必要步骤。
+3. 搭建一个公共SEER API节点，你需要租用一台linux服务器、设置一个指向该服务器的域名或二级域名、架设见证人全节点、配置nginx、申请SSL证书等几个必要步骤；
+
+4. 当理事会通过一次见证人节点版本更新的提案后，API全节点也应该进行同步更新。
 
 ### 架设见证人全节点
 
-租用服务器和域名解析的步骤在这里就省略了，和其它网站的配置是一样的。
+租用服务器和域名解析的步骤在这里就省略了，和其它网站的配置是一样的。本例中，笔者使用api.seerchain.org二级域名指向Ubuntu 18.04 x64的测试服务器。
+
+登陆服务器后，分别输入以下指令：
+
+1. 新建一个名叫seer的窗口；
+
+```linux
+screen -S seer
+```
+
+2. 在root目录下新建一个名叫seer的目录，复制`v0.0.5版本`的程序包到此目录，并更名为`seer.tar.gz`。（此处注意，若有了更新的程序包版本，则到SEER软件发布页https://github.com/seer-project/seer-core-package/releases 复制最新的ubuntu版本程序包链接替换掉此下载链接。）
+
+```linux
+mkdir seer
+curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.05/witness_node-ubuntu-0.0.5.tar.gz 
+```
+
+3. 切换到seer目录，解压此软件包。
+
+```linux
+cd seer
+tar xzvf seer.tar.gz
+```
+
+4. 带参数启动witness_node，其中`./data`是指定区块链数据的存放目录，`127.0.0.1:9090`是设置是节点对外的Websocket RPC服务地址和端口。
+
+```linux
+./witness_node  --data-dir ./data --rpc-endpoint=127.0.0.1:9090
+```
+
+5. 观察节点运行正常，显示3秒一个出块后，ctrl+A d隐藏screen，之后要再打开运行有节点的Sreeen，则使用 `screen -R` ，或 `screen -r seer`。 
+
+6. 在服务器上安装使用wscat测试ws。
+
+安装：
+```linux
+ apt install node-ws
+```
+测试：
+```linux
+wscat -c ws://127.0.0.1:9090
+> {"jsonrpc": "2.0", "method": "get_block", "params": [1], "id": 1}
+< {"id":1,"jsonrpc":"2.0","result":{"previous":"0000000000000000000000000000000000000000","timestamp":"2018-05-18T12:00:03","witness":"1.5.2","transaction_merkle_root":"5fbe404a5640f6f070884d7a7e480ce2ae686f3d","extensions":[],"witness_signature":"1f722606de6dc7fcdd258744e9f2c42983fdbbfecabe8e597fb9c90b6e2298e51a79f19b3fef34a9706b2fe186f6a5174c081538d750b92ae9842c89ea75079ec7","transactions":[{"ref_block_num":0,"ref_block_prefix":0,"expiration":"2018-05-18T12:00:30","operations":[[33,{"fee":{"amount":0,"asset_id":"1.3.0"},"deposit_to_account":"1.2.13","balance_to_claim":"1.12.1","balance_owner_key":"SEER71d7yHA7KgW8qkHYv4hX2WT4X1FariKbjWCqAfegjGr8B2LowE","total_claimed":{"amount":"100000000000","asset_id":"1.3.0"}}]],"extensions":[],"signatures":["2034bffb272ed20e482cb647685ae30f1a4b8b5cf6814495f3bc730aba83af7f771a72ae1e129f8e92419c0028177d837503226c67b35a3d818a7aabbfa9b19965","204a2219d727e097b1159e9d85db13d6dcfc98d9d9741866b2b4f4b3da28382245036282dd7fc504e50a4872aef215d7009cd6a190739d61545eee0b67bf00120d"],"operation_results":[[0,{}]]},{"ref_block_num":0,"ref_block_prefix":0,"expiration":"2018-05-18T12:00:30","operations":[[4,{"fee":{"amount":514453,"asset_id":"1.3.0"},"registrar":"1.2.13","referrer":"1.2.13","referrer_percent":0,"name":"test001","owner":{"weight_threshold":1,"account_auths":[],"key_auths":[["SEER5YaXn6iaZ14RuzmGQkbVQwU6VS4A9wWzA5P4JpkhiYdNah3KnF",1]],"address_auths":[]},"active":{"weight_threshold":1,"account_auths":[],"key_auths":[["SEER7pGpLgPDAKtvEPx9gTnNcFvKaWyKWSHCiysn2fyryCtVaRBBTJ",1]],"address_auths":[]},"options":{"memo_key":"SEER7pGpLgPDAKtvEPx9gTnNcFvKaWyKWSHCiysn2fyryCtVaRBBTJ","voting_account":"1.2.5","num_committee":0,"num_authenticator":0,"num_supervisor":0,"votes":[],"extensions":[]},"extensions":{}}]],"extensions":[],"signatures":["1f7be5f6dc2c6fffab9841491a3fe729293d7f8d57fb7c0e62a368a88977ad3f35384498b846eb1c0215a76608760f54e496aada7673e1b6f2969985987c722bf5"],"operation_results":[[1,"1.2.14"]]}]}}                                             
+```
+正常的话，会返回SEER的区块#1的信息，现在和此节点同一台设备上的命令行钱包和轻钱包都能用`ws://127.0.0.1:9090`这个API和区块链交互了，下面我们将配置nginx，让此API能通过公网访问。
+
+### 配置服务器nginx
+
+nginx在服务器上负责反向代理、SSL等服务，如果要配置多节点负载均衡也是对nginx进行配置。
+
+#### 安装nginx
+
+```linux
+sudo apt update
+sudo apt install nginx
+```
+出现`Do you want to continue? [Y/n] `的时候Y就可以了。
+
+#### 配置nginx
+
+1. 在`/etc/nginx/sites-available/`目录新建一个名为`apifile`的nginx配置文件
+```linux
+ sudo nano /etc/nginx/sites-available/apifile
+```
+2. 打开文件后，以下面内容为例，写入配置文件（`#`是注释行）：
+```nginx
+
+map $http_upgrade $connection_upgrade {
+        default upgrade;
+        '' close;
+    }
+
+upstream nodeapi {
+# 127.0.0.1:9090 是节点启动时配置的rpc服务地址和端口，修改为你的
+    server 127.0.0.1:9090 fail_timeout=0;
+}
+
+server {
+# 监听80端口
+        listen 80;
+        root /var/www/html;
+
+        index index.html index.htm index.nginx-debian.html;
+# api.seerchain.org 修改为你的域名
+        server_name api.seerchain.org;
+
+        location / {
+                proxy_set_header Host $http_host;
+                proxy_redirect off;
+                proxy_http_version 1.1;
+                proxy_pass http://nodeapi;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+        }
+}
+
+```
+3. 修改完成后，使用nano的写入和退出快捷键，即`control`+`O`-`ENTER`，`control`+`X`。
+
+4. 将`apifile`软链接到配置目录
+
+```linux
+sudo ln -s /etc/nginx/sites-available/apifile /etc/nginx/sites-enabled/
+```
+5. 测试nginx配置是否有错，如果有错根据提示修改
+
+```linux
+sudo nginx -t
+```
+6. 重新载入nginx
+
+```linux
+sudo systemctl reload nginx
+```
+
+7. 此时，若配置正确，你可以使用`wscat -c ws://api.seerchain.org`在任意联网设备测试成功。同时，`ws://api.seerchain.org`已经可用于桌面版钱包、任何未使用HTTPS的网页钱包和DAPP以及命令行钱包连接区块链网络。（api.seerchain.org改为您的域名）
+
+8. 若要在SEER主网网页钱包或任何采用了HTTPS协议的应用中使用此API，需要申请SSL证书，并对nginx进行更多配置。
+
+### 申请SSL证书
+
+SSL证书网上有很多，收费的和免费的都有，这里笔者推荐最简单的`certbot`一键注册免费证书并自动续期的服务。
+
+#### 安装certbot并申请ssl证书
+
+1. 首先，添加存储库：
+
+```linux
+sudo add-apt-repository ppa:certbot/certbot
+```
+2. 安装Certbot的Nginx软件包：
+```linux
+sudo apt install python-certbot-nginx
+```
+3. 使用Certbot自动完成SSL证书申请和配置，Certbot会自动修改你的nginx配置文件，替换seerchain.org和api.seerchain.org为你的域名和二级域名。
+
+```linux
+sudo certbot --nginx -d seerchain.org -d api.seerchain.org
+```
+按照英文的提示配置吧，有几个地方要填和选择，比如邮箱等，其它有(A)gree的选择输入A，有(Y)es的选择输入Y即可，需要注意的是：
+```
+Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 
+```
+在这一步时，您可能会需要选择`1`，如果选择`2`的话，Certbot会自动修改你的nginx配置文件，所有的非SSL请求都会被自动转发到SSL，如果您希望同一个域名既能用于WS，例如命令行钱包，也能用于HTTPS的网页钱包等，则选`1`，否则选择`2`。
+
+4. 完成后，打开您之前创建的nginx配置文件:
+
+```linux
+sudo nano /etc/nginx/sites-available/apifile
+```
+可以查看到certbot对配置文件的修改，最终配置好的文件如下：
+```
+map $http_upgrade $connection_upgrade {
+        default upgrade;
+        '' close;
+    }
+upstream nodeapi {
+    server 127.0.0.1:9090 fail_timeout=0;
+}
+
+server {
+        listen 80;
+        root /var/www/html;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name api.seerchain.org;
+
+        location / {
+                proxy_set_header Host $http_host;
+                proxy_redirect off;
+                proxy_http_version 1.1;
+                proxy_pass http://nodeapi;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+        }
+# 以下为certbot添加内容，当然，相应目录存放了您的证书文件
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/api.seerchain.org/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/api.seerchain.org/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+```
+
+#### 设置certbot自动续约
+
+证书使用周期有限，需要设置certbot自动续约证书：
+
+```linux
+sudo certbot renew --dry-run
+
+```
+### 结语
+
+至此，一个独立API节点就配置完成了。在`https://wallet.seer.best/settings/access`：`设置`-`接入点`页面点击`添加 API 服务器节点`，在`ADDRESS`一栏填入您的API地址并确认，即可在网页钱包中使用您的API来访问区块链网络。这里因为是做测试，并且笔者和测试服务器所在地不在同一个国家的原因，所以延迟较高。在实际使用中，开发者需要根据用户分布，就近设置高效率的API节点，以提高用户体验。
+
+![添加API](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/WX20180920-154950%402x.png)
+
 
 
 ## SEER公链余额快照功能和批量转账功能使用指南

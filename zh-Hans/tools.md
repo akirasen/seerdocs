@@ -34,15 +34,15 @@ cli_wallet.exe -s ws://123.207.146.191:9999
 
 以windows为例，下载最新版的节点和钱包：https://github.com/seer-project/seer-core-package/releases 并解压缩。
 
-1. 在`witness_node.exe`所在目录创建文件`”node.cmd”`；
+1、 在`witness_node.exe`所在目录创建文件`”node.cmd”`；
 
-2. 用记事本打开`node.cmd`，输入以下内容后保存退出:
+2、 用记事本打开`node.cmd`，输入以下内容后保存退出:
 ```cmd
 witness_node.exe --data-dir ./data  --p2p-endpoint=0.0.0.0:1888 --rpc-endpoint=0.0.0.0:9090
 ```
 `1888`为和其他节点连接的p2p监听端口，`9090`为rpc监听端口，用于钱包连接。运行过见证人节点的用户可能发现了，此处并没有添加见证人参数。当然，若本地已有见证人节点，也不需要再运行此节点，直接用钱包连接见证人节点即可。
 
-3. 每次点击`node.cmd`即可运行。
+3、 每次点击`node.cmd`即可运行。
 
 节点和区块链网络数据同步需要一段时间，同步完成后，会显示像下面一样的3秒一个的见证人出块。
 
@@ -74,13 +74,13 @@ cli_wallet.exe -s ws://localhost:9090
 
 ### 准备
 
-1. 为了访问安全，SEER网页钱包和大部分服务都采取了HTTPS协议，因此也要求API使用WSS协议，同时WSS不支持IP访问，所以需要开发者提供域名，并申请SSL证书；
+1、 为了访问安全，SEER网页钱包和大部分服务都采取了HTTPS协议，因此也要求API使用WSS协议，同时WSS不支持IP访问，所以需要开发者提供域名，并申请SSL证书；
 
-2. 此教程演示的是建立一个单点的SEER API节点，对于DAPP级API设立者来说，需要考虑DAPP的阶段并发用户数，提供更高带宽和设备条件，并配置多节点负载均衡，同时进行防火墙等安全配置；
+2、 此教程演示的是建立一个单点的SEER API节点，对于DAPP级API设立者来说，需要考虑DAPP的阶段并发用户数，提供更高带宽和设备条件，并配置多节点负载均衡，同时进行防火墙等安全配置；
 
-3. 搭建一个公共SEER API节点，你需要租用一台linux服务器、设置一个指向该服务器的域名或二级域名、架设见证人全节点、配置nginx、申请SSL证书等几个必要步骤；
+3、 搭建一个公共SEER API节点，你需要租用一台linux服务器、设置一个指向该服务器的域名或二级域名、架设见证人全节点、配置nginx、申请SSL证书等几个必要步骤；
 
-4. 当理事会通过一次见证人节点版本更新的提案后，API全节点也应该进行同步更新。
+4、 当理事会通过一次见证人节点版本更新的提案后，API全节点也应该进行同步更新。
 
 ### 架设见证人全节点
 
@@ -88,35 +88,35 @@ cli_wallet.exe -s ws://localhost:9090
 
 登陆服务器后，分别输入以下指令：
 
-1. 新建一个名叫seer的窗口；
+1、 新建一个名叫seer的窗口；
 
 ```linux
 screen -S seer
 ```
 
-2. 在root目录下新建一个名叫seer的目录，复制`v0.0.5版本`的程序包到此目录，并更名为`seer.tar.gz`。（此处注意，若有了更新的程序包版本，则到SEER软件发布页https://github.com/seer-project/seer-core-package/releases 复制最新的ubuntu版本程序包链接替换掉此下载链接。）
+2、 在root目录下新建一个名叫seer的目录，复制`v0.0.5版本`的程序包到此目录，并更名为`seer.tar.gz`。（此处注意，若有了更新的程序包版本，则到SEER软件发布页https://github.com/seer-project/seer-core-package/releases 复制最新的ubuntu版本程序包链接替换掉此下载链接。）
 
 ```linux
 mkdir seer
 curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.05/witness_node-ubuntu-0.0.5.tar.gz 
 ```
 
-3. 切换到seer目录，解压此软件包。
+3、 切换到seer目录，解压此软件包。
 
 ```linux
 cd seer
 tar xzvf seer.tar.gz
 ```
 
-4. 带参数启动witness_node，其中`./data`是指定区块链数据的存放目录，`127.0.0.1:9090`是设置是节点对外的Websocket RPC服务地址和端口。
+4、 带参数启动witness_node，其中`./data`是指定区块链数据的存放目录，`127.0.0.1:9090`是设置是节点对外的Websocket RPC服务地址和端口。
 
 ```linux
 ./witness_node  --data-dir ./data --rpc-endpoint=127.0.0.1:9090
 ```
 
-5. 观察节点运行正常，显示3秒一个出块后，ctrl+A d隐藏screen，之后要再打开运行有节点的Sreeen，则使用 `screen -R` ，或 `screen -r seer`。 
+5、 观察节点运行正常，显示3秒一个出块后，ctrl+A d隐藏screen，之后要再打开运行有节点的Sreeen，则使用 `screen -R` ，或 `screen -r seer`。 
 
-6. 在服务器上安装使用wscat测试ws。
+6、 在服务器上安装使用wscat测试ws。
 
 安装：
 ```linux
@@ -144,11 +144,11 @@ sudo apt install nginx
 
 #### 配置nginx
 
-1. 在`/etc/nginx/sites-available/`目录新建一个名为`apifile`的nginx配置文件
+1、 在`/etc/nginx/sites-available/`目录新建一个名为`apifile`的nginx配置文件
 ```linux
  sudo nano /etc/nginx/sites-available/apifile
 ```
-2. 打开文件后，以下面内容为例，写入配置文件：
+2、 打开文件后，以下面内容为例，写入配置文件：
 
 ```linux
 
@@ -182,27 +182,27 @@ server {
 }
 
 ```
-3. 修改完成后，使用nano的写入和退出快捷键，即`control`+`O`-`ENTER`，`control`+`X`。
+3、 修改完成后，使用nano的写入和退出快捷键，即`control`+`O`-`ENTER`，`control`+`X`。
 
-4. 将`apifile`软链接到配置目录
+4、 将`apifile`软链接到配置目录
 
 ```linux
 sudo ln -s /etc/nginx/sites-available/apifile /etc/nginx/sites-enabled/
 ```
-5. 测试nginx配置是否有错，如果有错根据提示修改
+5、 测试nginx配置是否有错，如果有错根据提示修改
 
 ```linux
 sudo nginx -t
 ```
-6. 重新载入nginx
+6、 重新载入nginx
 
 ```linux
 sudo systemctl reload nginx
 ```
 
-7. 此时，若配置正确，你可以使用`wscat -c ws://api.seerchain.org`在任意联网设备测试成功。同时，`ws://api.seerchain.org`已经可用于桌面版钱包、任何未使用HTTPS的网页钱包和DAPP以及命令行钱包连接区块链网络。（api.seerchain.org改为您的域名）
+7、 此时，若配置正确，你可以使用`wscat -c ws://api.seerchain.org`在任意联网设备测试成功。同时，`ws://api.seerchain.org`已经可用于桌面版钱包、任何未使用HTTPS的网页钱包和DAPP以及命令行钱包连接区块链网络。（api.seerchain.org改为您的域名）
 
-8. 若要在SEER主网网页钱包或任何采用了HTTPS协议的应用中使用此API，需要申请SSL证书，并对nginx进行更多配置。
+8、 若要在SEER主网网页钱包或任何采用了HTTPS协议的应用中使用此API，需要申请SSL证书，并对nginx进行更多配置。
 
 ### 申请SSL证书
 
@@ -210,16 +210,16 @@ SSL证书网上有很多，收费的和免费的都有，这里笔者推荐最�
 
 #### 安装certbot并申请ssl证书
 
-1. 首先，添加存储库：
+1、 首先，添加存储库：
 
 ```linux
 sudo add-apt-repository ppa:certbot/certbot
 ```
-2. 安装Certbot的Nginx软件包：
+2、 安装Certbot的Nginx软件包：
 ```linux
 sudo apt install python-certbot-nginx
 ```
-3. 使用Certbot自动完成SSL证书申请和配置，Certbot会自动修改你的nginx配置文件，替换seerchain.org和api.seerchain.org为你的域名和二级域名。
+3、 使用Certbot自动完成SSL证书申请和配置，Certbot会自动修改你的nginx配置文件，替换seerchain.org和api.seerchain.org为你的域名和二级域名。
 
 ```linux
 sudo certbot --nginx -d seerchain.org -d api.seerchain.org
@@ -237,7 +237,7 @@ Select the appropriate number [1-2] then [enter] (press 'c' to cancel):
 ```
 在这一步时，您可能会需要选择`1`，如果选择`2`的话，Certbot会自动修改你的nginx配置文件，所有的非SSL请求都会被自动转发到SSL，如果您希望同一个域名既能用于WS，例如命令行钱包，也能用于HTTPS的网页钱包等，则选`1`，否则选择`2`。
 
-4. 完成后，打开您之前创建的nginx配置文件:
+4、 完成后，打开您之前创建的nginx配置文件:
 
 ```linux
 sudo nano /etc/nginx/sites-available/apifile

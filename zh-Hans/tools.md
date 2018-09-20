@@ -153,11 +153,12 @@ sudo apt install nginx
 
 ```linux
 
+# WebSocket 配置
 map $http_upgrade $connection_upgrade {
         default upgrade;
         '' close;
     }
-
+    
 upstream nodeapi {
 # 127.0.0.1:9090 是节点启动时配置的rpc服务地址和端口，修改为你的
     server 127.0.0.1:9090 fail_timeout=0;
@@ -177,6 +178,7 @@ server {
                 proxy_redirect off;
                 proxy_http_version 1.1;
                 proxy_pass http://nodeapi;
+ # WebSocket 配置
                 proxy_set_header Upgrade $http_upgrade;
                 proxy_set_header Connection "upgrade";
         }

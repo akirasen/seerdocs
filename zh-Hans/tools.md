@@ -159,17 +159,17 @@ map $http_upgrade $connection_upgrade {
     }
 
 upstream nodeapi {
-
+# 127.0.0.1:9090 是节点启动时配置的rpc服务地址和端口，修改为你的
     server 127.0.0.1:9090 fail_timeout=0;
 }
 
 server {
-
+# 监听80端口
         listen 80;
         root /var/www/html;
 
         index index.html index.htm index.nginx-debian.html;
-
+# api.seerchain.org 修改为你的域名
         server_name api.seerchain.org;
 
         location / {

@@ -145,6 +145,7 @@ sudo apt install nginx
 #### 配置nginx
 
 1、 在`/etc/nginx/sites-available/`目录新建一个名为`apifile`的nginx配置文件
+
 ```linux
  sudo nano /etc/nginx/sites-available/apifile
 ```

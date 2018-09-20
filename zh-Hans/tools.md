@@ -149,7 +149,8 @@ sudo apt install nginx
  sudo nano /etc/nginx/sites-available/apifile
 ```
 2. 打开文件后，以下面内容为例，写入配置文件（`#`是注释行）：
-```
+
+```linux
 
 map $http_upgrade $connection_upgrade {
         default upgrade;

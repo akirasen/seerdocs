@@ -61,6 +61,10 @@ docute.init({
       
       },
       {
+        title: '对接指南', path: '/zh-Hans/gatewayinstruction', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/gatewayinstruction.md'
+      
+      },
+      {
         title: '选择语言', type: 'dropdown', items: langs
       }
     ],

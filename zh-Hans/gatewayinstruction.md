@@ -265,7 +265,7 @@ wscat -c ws://127.0.0.1:9191
 ```
 充提业务需关注`asset_id`为1.3.0(即SEER)的`amount` (余额)是否足够并支付网络手续费，若涉及SEER链上其他资产的充提业务，则还需要关注相应资产的余额是否足够。
 
-### transfer
+### transfer2
 
 格式：`transfer2` from to amount asset_symbol memo broadcast(true/false)
 

@@ -6,15 +6,15 @@ https://github.com/seer-project/Seer-UI 提供了一个自己搭建SEERUI的指�
 
 `主网链号（chain-id）`："cea4fdf4f5c2278f139b22e782b308928f04008b0fc2c79970a58974a2a28f91"；
 
-`主网API`："wss://www.seertalk.org","wss://www.seerapi.org"；
+`主网API`："wss://www.seertalk.org ","wss://www.seerapi.org" ；
 
-`主网水龙头（faucet）`："https://www.seerapi.com"；
+`主网水龙头（faucet）`："https://www.seerapi.com" ；
 
 `测试网链号（chain-id）`："da68a9c5f2fd9ed48e626ea301db1c77505523884ba0dd409e779246c6ea26cf"；
 
-`测试网API`： "ws://192.144.171.138:8002"；
+`测试网API`： "ws://192.144.171.138:8002" ；
 
-`社区提供的测试网水龙头（faucet）`："http://faucet.seerchain.org"。(配置SEER水龙头服务:https://github.com/akirasen/seerdocs/blob/master/zh-Hans/tools.md#%E9%85%8D%E7%BD%AEseer%E6%B0%B4%E9%BE%99%E5%A4%B4%E6%9C%8D%E5%8A%A1)
+`社区提供的测试网水龙头（faucet）`："http://faucet.seerchain.org "。(配置SEER水龙头服务:https://github.com/akirasen/seerdocs/blob/master/zh-Hans/tools.md#%E9%85%8D%E7%BD%AEseer%E6%B0%B4%E9%BE%99%E5%A4%B4%E6%9C%8D%E5%8A%A1)
 
 需要修改的文件包括：`Seer-ui/app/api/apiConfig.js`、`Seer-ui/app/lib/chain/chainIds.js`;
 

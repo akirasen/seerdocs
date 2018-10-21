@@ -65,9 +65,11 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 
 #### 区块信息页面
 
-1、该区块所包含的`所有操作信息`列表：包括`类型` `发起ID（链接）` `内容` `被操作ID（链接，如果有并便于排版）` `时间` `交易ID（链接）`；
+1、显示该区块块号，时间，出块见证人。
 
-2、格式化后的该区块json信息。
+2、该区块所包含的`所有操作信息`列表：包括`类型` `发起ID（链接）` `内容` `被操作ID（链接，如果有并便于排版）` `时间` `交易ID（链接）`；
+
+3、格式化后的该区块json信息。
 
 链接格式为：https://seerscan.com/block/723091
 
@@ -278,35 +280,191 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 7、参与预测图表：参数包括时间、参与人次、参与数额、预测选项、选项赔率（PVD为单份成本）；
 
 
-
 链接格式为：https://seerscan.com/pm/3427 （PM = prediction market）
 
 #### 交易详细信息页面
+
+1、显示该交易时间、所属区块。
+
+2、显示该交易id下所有操作列表；
+
+| 类型 | 说明 | 
+| - | - |
+| [转账] | okok 转账 1000ABC 给 else |
+| [转账] | okok 转账 1000ABC 给 alice | 
+| [转账] | okok 转账 1000ABC 给 bob | 
+
+3、显示格式化后的该交易json信息。
 
 链接格式为：https://seerscan.com/tx/160d9a381a2152d55719b0e7e4aea4aaecce06e3 
 
 #### 资产介绍页面
 
 1、该资产持有人列表（链接），持有占比；
-2、持有分布统计图表；
-3、该资产的属性：资产代号、资产类型（CORE/UIA）、当前供应量、发行人（链接）、Object_ID、资产精度、最大供应量等。
+2、持有分布统计饼图；
+3、该资产的属性：资产代号、资产类型（CORE/UIA）、当前供应量、发行人（链接）、Object_ID、小数位数、最大供应量等（侧边栏）。
 4、SEER的资产介绍页面可以作为SEER持仓分布页面在首页提供链接；
+
+| 排名 | 账户 | 数额 |
+| - | - | - |
+| 1 | init0 | 8000000000.00000 |
+| 2 | okok | 100000000.00000 |
+| 3 | else | 300000.00000 |
+| 4 | alice | 5400000.00000 |
+
+属性：
+
+| 资产代号 | ABC |
+| - | - |
+| Object_ID | 1.3.10 |
+| 资产类型 | UIA |
+| 当前供应量 | 8046234175 |
+| 最大供应量 | 10000000000 |
+| 发行人 | okok |
+| 小数位数 | 5 |
+
+| 手续费汇率 | 0.56 SEER/ABC |
+| 资金池余额 | 88838 |
+| 发行人未申领收入 | 171419 |
 
 链接格式为：https://seerscan.com/assets/SEER 
 
 #### 见证人信息页面
 
+1、显示本轮活跃见证人列表：包括排名、账户名、上一个区块、上次生成块、缺失块数、抵押金、利息收入；
 
+| 排名 | 账户名 | 上一个区块 | 上次生成块 | 缺失块数 | 抵押金 | 利息收入 |
+| - | - | - | - | - | - | - |
+| 1 | okok | 1分钟前 | 456123 | 2 | 1205616145 | 1353345 |
+| 2 | else | 1分钟前 | 456121 | 1 | 21456283 | 64562 |
+| 3 | alice | 20秒前 | 456126 | 1 | 5981236 | 345343 |
+| 4 | bob | 现在 | 456129 | 0 | 8123012 | 4081236 |
+
+2、区块生产状态：包括当前见证人、活跃见证人、参与率、每块奖励、剩余预算、计票更新时间（侧边栏显示）；
+
+| 当前见证人 | bob |
+| - | - |
+| 活跃见证人 | 21 |
+| 参与率 | 100% |
+| 每块奖励 | 3SEER |
+| 剩余预算 | 23127SEER |
+| 计票更新时间 | 8小时后 |
+
+3、可切换主力见证人、主力及候选见证人（获息见证人）、所有见证人（所有注册见证人资格的用户，包括未入选获息见证人的用户）。
 
 #### 理事会信息页面
 
+显示排名、账户名、得票数、竞选网页。
+
+| 排名 | 账户名 | 得票数 | 竞选网页 |
+| - | - | - | - |
+| 1 | okok | 65115531 | http://baidu.com |
+| 2 | else | 54234798 | http://baidu.com |
+| 3 | alice | 68633872 | http://baidu.com |
+
 ## 调用区块链上的信息
 
-### 自建一个SEER全节点
+以下指南以Ubuntu 16.04.4 x64 系统为例。
 
-### WS-RPC方式同步区块链数据
+### 配置一个SEER全节点
 
+1、在服务器新建一个名叫seer的窗口；
 
+```linux
+screen -S seer
+```
+
+2、在root目录下新建一个名叫seer的目录，下载`v0.0.5版本`的程序包到此目录，并更名为`seer.tar.gz`。（请到SEER软件发布页https://github.com/seer-project/seer-core-package/releases 复制最新的ubuntu版本程序包链接替换掉此下载链接。）
+
+```linux
+mkdir seer
+curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.05/seer-ubuntu-0.0.5.tar.gz 
+```
+
+3、进入seer目录，解压此软件包。
+
+```linux
+cd seer
+tar xzvf seer.tar.gz
+```
+
+4、带websocket参数启动witness_node：
+
+```linux
+witness_node --rpc-endpoint=127.0.0.1:9090 max-ops-per-account=1000 
+```
+其中的`--rpc-endpoint`参数为节点监听的websocket RPC IP地址和端口号，需要您替换，此处`127.0.0.1`为本机，`9090`是为节点指定的WS端口。
+
+`--max-ops-per-account`参数设定内存中保留账户的多少条操作记录，此处`1000`表示保留追踪账户的`1000`条操作记录，需要您按需求填写。
+
+5、观察节点运行正常后，ctrl+A d隐藏screen，断开服务器。之后要再打开运行有节点的Sreeen，则使用 `screen -R` ，或 `screen -r seer`。 
+
+节点正常启动后，会显示像下面一样的3秒一个的出块信息。
+
+![节点正常启动的状态](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/640.gif)
+
+如果要关闭节点，则使用`control` + `C` 。
+
+### 配置一个SEER命令行钱包
+
+1、在服务器新建一个名叫cli的窗口，运行seer目录中的命令行钱包程序；
+
+```linux
+screen -S cli
+cd~
+seer/cli_wallet -s ws://127.0.0.1:9090 -r 127.0.0.1:9191 -H 127.0.0.1:9192
+```
+
+`-s`参数可以设置要连接的节点api地址及端口，此处`ws://127.0.0.1:9090`为上一步中运行的本地节点的websocket RPC地址和端口，您也可以在此处使用局域网或公网中的其他公共api地址，不过有因外部api无法提供服务而导致命令行钱包异常退出的风险；
+
+`-r`参数可以设置命令行钱包要监听的websocket RPC地址和端口，此处设为`127.0.0.1:9191`，负责充提业务的程序可以使用此端口调用命令行钱包进行操作；
+
+`-H`参数可以设置命令行钱包要监听的Http-RPC地址和端口，此处设为`127.0.0.1:9192`，负责充提业务的程序也可以使用此端口调用命令行钱包进行操作。
+
+2、钱包启动成功后，会显示：
+```cmd
+Please use the set_password method to initialize a new wallet before continuing
+3564395ms th_a       main.cpp:227                  main                 ] Listening for incoming RPC requests on 127.0.0.1:9191
+3564396ms th_a       main.cpp:252                  main                 ] Listening for incoming HTTP RPC requests on 127.0.0.1:9192
+new >>> 
+```
+### 接入命令行钱包
+
+可以使用Http-RPC或websocket RPC方式接入命令行钱包。使用JSON-RPC远程调用协议传入相应的指令，即可让命令行钱包进行相关操作或返回需要的信息。
+
+格式如下（实际使用时不换行无注释）：
+
+```json
+{ 
+    "jsonrpc" : 2.0,//定义JSON-RPC版本
+    "method" : "get_block",//调用的方法名，例如转账 transfer ，列出账户余额 list_account_balances 等，此处get_block为返回指令块号的区块信息
+    "params" : [1], //方法传入的参数，若无参数则为null，此处1表示块号
+    "id" : 1//调用标识符
+} 
+```
+
+#### Http-RPC接入示例
+
+可以使用curl命令来测试Http-RPC连接命令行钱包实现获取指定账户的各资产余额:
+
+```linux
+ curl http://127.0.0.1:9192 -d '{"jsonrpc": "2.0", "method": "list_account_balances", "params": ["seerdex-withdraw"], "id": 1}'
+
+ {"id":1,"result":[{"amount":"7861151753754","asset_id":"1.3.0"},{"amount":97099800,"asset_id":"1.3.8"}]}
+```
+
+#### websocket RPC接入示例
+
+首先在服务器上安装使用wscat测试ws：
+```linux
+ apt install node-ws
+```
+测试通过websocket RPC连接命令行钱包实现获取指定账户的各资产余额:
+```json
+wscat -c ws://127.0.0.1:9191
+> {"jsonrpc": "2.0", "method": "list_account_balances", "params": ["seerdex-withdraw"], "id": 1}
+< {"id":1,"result":[{"amount":"7861151753754","asset_id":"1.3.0"},{"amount":97099800,"asset_id":"1.3.8"}]}                                      
+```
 
 ### 常用指令
 
@@ -316,7 +474,36 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 
 #### get_transaction_id
 
-#### 
+#### get_dynamic_global_properties
+
+作用：列出链的当前全局动态参数
+
+示例：`{"jsonrpc": "2.0", "method": "get_dynamic_global_properties", "params": [], "id": 1}`
+
+返回信息示例：
+```json
+{
+		"id": 1,
+		"result": {
+			"id": "2.1.0",
+			"head_block_number": 3678309,//当前区块高度
+			"head_block_id": "00382065d1057b13415518f913ce26e46fe45cac",//当前块号
+			"time": "2018-10-12T16:37:30",//链上时间（格林尼治时间）
+			"current_witness": "1.5.4",//当前出块的见证人
+			"next_maintenance_time": "2018-10-13T00:00:00",//下次维护更新时间
+			"last_budget_time": "2018-10-12T00:00:00",//上次维护时间
+			"witness_budget": 3398400000,//本期见证人预算总额
+			"accounts_registered_this_interval": 1,//账户注册间隔
+			"recently_missed_count": 0,//最近缺失区块数
+			"current_aslot": 4762199,//当前总块（丢掉的块加实际块高）
+			"recent_slots_filled": "340240787892099949526793007880921399231",//用于计算见证人参与度的参数
+			"dynamic_flags": 0,
+			"last_irreversible_block_num": 3678305//最近一个不可逆块块号
+		}
+}
+```
+
+`见证人信息页面`需关注 "witness_budget" `本期见证人预算总额`，
 
 ## 操作信息翻译
 

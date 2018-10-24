@@ -509,7 +509,7 @@ get_block 2090482
 
 `get_relative_account_history`中获取到的`op.id`也是该转账操作的唯一id；
 
-可以通过`get_object` `op.block_num` 获取该转账操作所在块的信息，再通过`op.trx_in_block`的数值来获取到块信息中`transaction_ids`数组里该转账操作对应的txid，同一个txid可能对应多个操作。
+可以通过`get_block` `op.block_num` 获取该转账操作所在块的信息，再通过`op.trx_in_block`的数值来获取到块信息中`transaction_ids`数组里该转账操作对应的txid，同一个txid可能对应多个操作。
 
 6、如果有充值的MEMO或资产类型不正确，建议不要直接退回，而是等待用户主动联系确认退回路径，因为用户可能是通过交易所或第三方平台提现过来充值的，直接退回但没有对方MEMO可能会造成处理困难甚至资产损失。
 

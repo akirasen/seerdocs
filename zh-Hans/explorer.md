@@ -43,18 +43,18 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 
 先检测填入的数据类型，若为纯数字，则检测相应的区块和房间是否存在，若存在则下拉提示[预测市场]321416和[区块]321416（只提示存在的）；
 
-分别通过`get_block`、`get_account`、`list_assets`、`get_seer_room`，以及查询本地存储交易信息中交易id获得。
+分别通过`get_block`、`list_accounts`、`list_assets`、`get_seer_room`，以及查询本地存储交易信息中交易id获得。
 
 若输入的是字符串，则检测相应的帐号、交易id、资产名是否存在，若存在则下拉提示[帐号]opc、[帐号]opc002和[资产]opc，或[交易id]160d9a381a2152d55719b0e7e4aea4aaecce06e3（只提示存在的）。
 
-| OPC |  |
+| his |  |
 | - | - |
-| OPC（UIA） | 1.3.1 |
-| IOU.OPC（UIA） | 1.3.21 |
-| opc（终身会员） | 1.2.59 |
-| opc01(账号) | 1.2.8872 |
-| hello-opc(账号) | 1.2.10231 |
-| sopc1(账号) | 1.2.56782 |
+| HIS（UIA） | 1.3.1 |
+| IOU.HIS（UIA） | 1.3.21 |
+| hiseer（账号员） | 1.2.59 |
+| hise01(账号) | 1.2.8872 |
+| hello-his(账号) | 1.2.10231 |
+| shis1(账号) | 1.2.56782 |
 | 160d9a381a2152d55719b0e7e4aea4aaecce06e3(交易) | 856782块高 |
 
 用户点击后跳转到相应的页面。
@@ -103,6 +103,8 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 | OPC | 120000 |
 | PFC | 8700 |
 
+通过`list_account_balances`获取
+
 | 账户属性 |  |
 | - | - |
 | 帐户名 | okok |
@@ -111,15 +113,13 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 | 推荐人 | seer |
 | 注册人 | seer |
 
-| 支持的理事会成员 | init0 |
-| - | - |
-| 投票代理 | else |
-
 | 权限|  |
 | - | - |
 | OwnerKey | SEER7SQVh85z8N38jvcmYTtE7JifoRsGH5DEea6HixVdxVHTezDfHv |
 | ActiveKey | SEER7WyPH3aCQkGfWZkQnXuYPQNZ4ppC2n3tfA87hpAVtoqzXFh5gx |
 | MemoKey | SEER7WyPH3aCQkGfWZkQnXuYPQNZ4ppC2n3tfA87hpAVtoqzXFh5gx |
+
+通过`get_account`获取
 
 3、`预测市场设立者`属性包括：Object_ID、描述、脚本、保证金、信誉度、参与量，以及当前正在进行的房间和历史房间前N位（信息格式见预测市场列表）；
 例如：
@@ -132,6 +132,8 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 | 保证金 | 300000 |
 | 信誉度 | 2 |
 | 参与量 | 2 |
+
+通过`get_house_by_account`获取以上信息，同时可以用`rooms`、`finished_rooms`作为`get_seer_room`的参数获得以下数据：
 
 正在进行的房间
 
@@ -157,9 +159,12 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 | 信誉度 | 3 |
 | 参与量 | 3 |
 
+通过`get_oracle_by_account`获取
+
 5、`见证人`属性包括：Object_ID、抵押数、待领取抵押收益、抵押清单（抵押ID+数额）、待领取出块收益、最近出块号、链接、丢块数、见证人签名公钥。
 
 分别通过`get_witness`和`get_vesting_balances`获取，其中`get_vesting_balances`返回信息中，object_id为`1.11.90`的即出块收益。
+
 例如：
 
 | 见证人信息 |  |
@@ -182,6 +187,8 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 | Object_ID | 1.4.7 |
 | 总得票数 | 189765425 |
 | 链接 | https://baidu.com |
+
+通过`get_committee_member`获取
 
 链接格式为：https://seerscan.com/account/okok
 

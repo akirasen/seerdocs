@@ -1058,5 +1058,104 @@ DAPP开发者可以依据开发者钱包的示例将`“人人房主”`功能�
 
 现在就开启您的探索之旅吧。
 
+## 用提议方式修改资金权限
 
+<p class="warning">
+  涉及权限相关，请谨慎操作，以免永久失去账号控制权。）
+</p>
 
+### 背景介绍
+
+SEER的账户权限体系由 `资金权限active key`、`账户权限 owner key`、`备注密钥`组成。其中 `资金权限`、`账户权限`包含阈值和授权列表中的各自权重。权限可授权给公钥或账号。 要进行相关操作，需要拥有相应的私钥，并且授权的权重达到阈值。
+
+SEER钱包模式中。一般情况下会同时有active key和owner key，链上的任何操作必须具有active key，而修改权限则需要owner key。
+
+有时，用户为了账号安全，会将active key和owner key分别保存，同时也可能对active key进行修改等操作。
+
+总之，有各种各样的可能性导致粗心的用户遗失了active key，但还保留了owner key。
+
+区块链上的任何操作都需要支付手续费，修改权限也不利例外。
+
+在通常情况下，修改权限操作的手续费由active key权限通过本帐户支付，但在active key缺失的情况下，由于不能支付修改权限手续费，导致无法重设active key。
+
+这时候，我们可以通过`提议`的方式修改active key。
+
+### 准备材料
+
+1、SEER网页钱包；
+
+2、SEER命令行钱包；
+
+3、active key遗失账号（被修改账号）的owner public key；
+
+4、active key遗失账号的owner private key；
+
+5、资金充足的另一账号（手续费支付账号）的active private key。
+
+### 操作步骤
+
+本例中，我们将让被修改账号的active key和owner key一致，以恢复active权限。
+
+#### 在网页钱包的操作
+
+1、在SEER网页钱包`菜单`-`设置`-`恢复/导入`页面的下拉菜单中选择`导入私钥`，分别导入被修改账号的owner private key和手续费支付账号的active private key；
+
+2、被修改账号`菜单`-`权限`-`资金权限`页面，在`输入账户名/公钥以及权重`中填入被修改账号的owner public key，`权重`填`1`（等于阈值），然后点击`添加`；
+
+3、点击右上角`保存修改`；
+
+4、在`请确认交易`页面，点击右下角`提议`，随后提交页面会出现一行新的`发起账户`，在列表中选择你的手续费支付账号，然后点击`提议`，`确认`；
+
+5、在`账户总览`-`提案`页面，可以看到刚刚发起的提案编号，例如`1.8.xx`，需要记下此提案编号，下面的操作需要在命令行钱包操作。
+
+#### 在命令行钱包的操作
+
+1、解锁后，在命令行钱包中使用`import_key`分别导入被修改账号的owner private key和手续费支付账号的active private key；
+
+2、使用`approve_proposal`命令通过此提议：
+
+```cmd
+approve_proposal fee_paying_account "proposal_id" {"active_approvals_to_add":[],"active_approvals_to_remove":[],"owner_approvals_to_add":[],"owner_approvals_to_remove":[],"key_approvals_to_add":["OWNER PUBLIC KEY"],"key_approvals_to_remove":[]} true
+```
+例如：(else是手续费支付账号)
+```json
+unlocked >>>  approve_proposal else "1.8.7"  {"active_approvals_to_add":[],"active_approvals_to_remove":[],"owner_approvals_to_add":[],"owner_approvals_to_remove":[],"key_approvals_to_add":["SEER5vhLky3Yg7YLAnvrFa2twftUCxZ8zz8PHtyCVTKSWw4JzAM7DY"],"key_approvals_to_remove":[]}  true
+ approve_proposal else "1.8.7"  {"active_approvals_to_add":[],"active_approvals_to_remove":[],"owner_approvals_to_add":[],"owner_approvals_to_remove":[],"key_approvals_to_add":["SEER5vhLky3Yg7YLAnvrFa2twftUCxZ8zz8PHtyCVTKSWw4JzAM7DY"],"key_approvals_to_remove":[]}  true
+{
+  "ref_block_num": 63863,
+  "ref_block_prefix": 1776902125,
+  "expiration": "2018-10-25T06:46:33",
+  "operations": [[
+      20,{
+        "fee": {
+          "amount": 2000000,
+          "asset_id": "1.3.0"
+        },
+        "fee_paying_account": "1.2.106",
+        "proposal": "1.8.7",
+        "active_approvals_to_add": [],
+        "active_approvals_to_remove": [],
+        "owner_approvals_to_add": [],
+        "owner_approvals_to_remove": [],
+        "key_approvals_to_add": [
+          "SEER5vhLky3Yg7YLAnvrFa2twftUCxZ8zz8PHtyCVTKSWw4JzAM7DY"
+        ],
+        "key_approvals_to_remove": [],
+        "extensions": []
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "204dfe3c8aa4ca73110d62403a576afc6d68ecf0f055b7e8b8991b887cc6c566c179f43ef566750cd3d237a99fa95d4a540ec32093ff4a46da7842fb1ff3c25f67",
+    "2071ecf4f68338e96f9c00b6c713dc356191612ce5b88dd6a89945895222962d8541683d6f9845ad52efa93261d2266eab15a4ebfa6bfd470ac2a50d725d284a24"
+  ]
+}
+```
+
+修改完成，显示如下：
+
+| 账户名/公钥 | 权重 | 操作 |
+| - | - | - |
+| *SEER5vhLky3Yg7YLAnvrFa2twftUCxZ8zz8PHtyCVTKSWw4JzAM7DY* | 1 |  移除 |
+| SEER7koTVbyMKNyXuBSSeNSNVTiv1bn55D9dRsSiBe3yJqNJx2avxh | 1 | 移除 |

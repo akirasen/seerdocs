@@ -40,6 +40,10 @@ docute.init({
         title: 'Changelog', path: '/changelog', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/log.md'
       },
       {
+        title: 'gateway', path: '/gatewayinstruction', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/gatewayinstruction.md'
+      
+      },
+      {
         title: 'Languages', type: 'dropdown', items: langs
       }
     ],

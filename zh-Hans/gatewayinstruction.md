@@ -1,3 +1,8 @@
+---
+nav: zh-Hans
+search: zh-Hans
+---
+
 # SEER交易所及第三方平台充提网关接入指南
 
 本指南主要目的是帮助交易所和其它第三方平台（包括但不限于非SEER DAPPs应用、中心化应用等）搭建充提网关接入SEER主网，上线SEER主资产及基于SEER区块链发行的token，例如PFC、OPC等。

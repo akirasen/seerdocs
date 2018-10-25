@@ -360,46 +360,44 @@ wscat -c ws://127.0.0.1:9191
 返回信息示例：
 ```json
 {
-		"id": 1,
-		"result": [
-			{
-			"memo": "give you 980 SEER",//解锁并有相应私钥的钱包方能显示MEMO
-			"description": "Transfer 980 SEER from alice to okok -- Memo: give you 980 SEER   (Fee: 21.05468 SEER)",//钱包一般只显示此内容
-			"op": {
-				"id": "1.9.703568",//该操作的对象id，可通过get_object 1.9.703568查看此操作
-				"op": [
-					0, //操作类型，0表示转账
-					{
-					"fee": {//手续费
-						"amount": 2105468,//数额
-						"asset_id": "1.3.0"//资产类型
-					},
-					"from": "1.2.109",//转出id
-					"to": "1.2.105",//接收id
-					"amount": {
-						"amount": 98000000,//转账数额
-						"asset_id": "1.3.0"//资产类型
-					},
-					"memo": {//MEMO权限相关
-						"from": "SEER6sJwPuSSayEzHXLbVgw9HJsDnGBk5Dup5bq3ns1YziZEDMKMgU",
-						"to": "SEER8UAbnsAnXY1qr3CD6uzKaRuewsyPF9ynYJJGrdvSfDANxsGNxH",
-						"nonce": "394073041834538",
-						"message": "485e630438b9a38c94c12afd9b15007845484d7f0c8c2c29c135f4f9a155a1ee"
-					},
-					"extensions": []
-				}],
-				"result": [//操作返回结果
-					0, 
-					{
-
-					}
-				],
-				"block_num": 3674099,//入块高度
-				"trx_in_block": 0,//操作所属交易在区块内的位置
-				"op_in_trx": 0,//操作在交易内的位置
-				"virtual_op": 52924//虚拟操作编号
-			}
-		}]
+	"id": 1,
+	"result": [
+		{
+		"memo": "give you 980 SEER",//解锁并有相应私钥的钱包方能显示MEMO
+		"description": "Transfer 980 SEER from alice to okok -- Memo: give	ou 980 SEER   (Fee: 21.05468 SEER)",//钱包一般只显示此内容
+		"op": {
+			"id": "1.9.703568",//该操作的对象id，可通过get_object	.9.703568查看此操作
+			"op": [
+				0, //操作类型，0表示转账
+				{
+				"fee": {//手续费
+					"amount": 2105468,//数额
+					"asset_id": "1.3.0"//资产类型
+				},
+				"from": "1.2.109",//转出id
+				"to": "1.2.105",//接收id
+				"amount": {
+					"amount": 98000000,//转账数额
+					"asset_id": "1.3.0"//资产类型
+				},
+				"memo": {//MEMO权限相关
+					"from": "SEER6sJwPuSSayEzHXLbVgw9HJsDnGBk5Dup5bq3ns1Yzi	DMKMgU",
+					"to": "SEER8UAbnsAnXY1qr3CD6uzKaRuewsyPF9ynYJJGrdvSfDAN	GNxH",
+					"nonce": "394073041834538",
+					"message": "485e630438b9a38c94c12afd9b15007845484d7f0c8	c29c135f4f9a155a1ee"
+				},
+				"extensions": []
+			}],
+			"result": [//操作返回结果
+				0, 
+				{				}
+			],
+			"block_num": 3674099,//入块高度
+			"trx_in_block": 0,//操作所属交易在区块内的位置
+			"op_in_trx": 0,//操作在交易内的位置
+			"virtual_op": 52924//虚拟操作编号
+		}
+	}]
 }
 ```
 `get_relative_account_history`会列出和此账户有关的所有操作，例如自己转账给别人（包括提现）、别人转账给自己（包括充值）、账号注册、参与预测等；

@@ -509,13 +509,55 @@ wscat -c ws://127.0.0.1:9191
 
 ### 常用指令
 
+按上一部分的首次出现顺序排列：
+
 #### get_block
+
+#### info
+
+#### get_global_properties
+
+#### list_accounts
+
+#### list_assets
+
+#### get_seer_room
 
 #### get_relative_account_history
 
+#### list_account_balances
+
+#### get_account
+
+#### get_house_by_account
+
+#### get_oracle_by_account
+
+#### get_witness
+
+#### get_vesting_balances
+
+#### get_committee_member
+
+#### lookup_house_accounts
+
+#### get_houses
+
+#### get_rooms_by_label
+
 #### get_transaction_id
 
+#### transfer2
+
+#### get_asset
+
+#### list_witnesses
+
+#### get_global_properties
+
 #### get_dynamic_global_properties
+
+#### list_committee_members
 
 作用：列出链的当前全局动态参数
 
@@ -591,5 +633,35 @@ wscat -c ws://127.0.0.1:9191
 | 53 | seer_house_create_operation | 创建平台 |
 | 54 | seer_house_update_operation | 更新平台 |
 
+#### 转账操作
 
+操作信息：
 
+```json
+0,{
+	"fee": 
+	{
+	  "amount": 200000,//手续费 2
+	  "asset_id": "1.3.0"//手续费类型 1.3.0指SEER
+	},
+	"from": "1.2.1250",//发起用户ID
+	"to": "1.2.1292",//接收用户ID
+	"amount":
+	 {
+	  "amount": 1000000000,//金额10000
+	  "asset_id": "1.3.1"//金额类型 1.3.1即OPC
+	},
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [转账] | okok 转账 10000ABC 给 else |
+```
+取数据格式：
+get_account[get_block N.result.transactions.operations.from].result.name 转账 get_block N.result.transactions.operations.amount.amount/100000 get_asset[get_block N.result.transactions.operations.amount.asset_id].result.symbol 给 get_account[get_block N.result.transactions.operations.to].result.name
+
+#### 创建委单

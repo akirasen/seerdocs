@@ -8,6 +8,8 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 
 区块浏览器需要预先考虑到多语言版本的需求。
 
+时间显示：区块链时间为GMT/UTC，即英国格林尼治时间/世界标准时，考虑到SEER的用户遍及世界各地，以年月日时分秒显示时间时需考虑到用户所在时区的问题，使用N分钟前、N小时前、N天前的表达形式也是一个不错的选择。
+
 ### 区块浏览器的页面
 
 #### 首页
@@ -599,9 +601,9 @@ wscat -c ws://127.0.0.1:9191
 | N | operations | 类型 |  
 | - | - | - |
 | 0 | Transfer | 转账 |
-| 1 | limit_order_create_operation | 创建委单 |
+| 1 | limit_order_create_operation | 委单 |
 | 2 | limit_order_cancel_operation | 取消委单 |
-| 3 | fill_order_operation | 订单撮合 |
+| 3 | fill_order_operation | 委单撮合 |
 | 4 | Create Account | 注册账户 |
 | 5 | Update Account | 更新账户 |
 | 7 | account_upgrade_operation | 升级账户 |
@@ -659,9 +661,156 @@ wscat -c ws://127.0.0.1:9191
 ```
 | 类型 | 说明 | 
 | - | - |
-| [转账] | okok 转账 10000ABC 给 else |
+| [转账] | okok 转账 10000.00000 ABC 给 else |
+```
+取数据格式：
+get_account[get_block N.result.transactions.operations.from].result.name "转账" get_block N.result.transactions.operations.amount.amount/100000 get_asset[get_block N.result.transactions.operations.amount.asset_id].result.symbol "给" get_account[get_block N.result.transactions.operations.to].result.name
+
+#### 委单操作
+
+操作信息：
+
+```json
+1,{
+	"fee": {
+	  "amount": 500000,//手续费 5
+	  "asset_id": "1.3.0"//手续费类型 1.3.0指SEER
+	},
+	"seller": "1.2.150",//发起用户ID
+	"amount_to_sell": {
+	  "amount": 95500000,//出售金额995
+	  "asset_id": "1.3.7"//出售资产类型
+	},
+	"min_to_receive": {
+	  "amount": 95500000,//购买金额995
+	  "asset_id": "1.3.0"//出售资产类型
+	},
+	"expiration": "2023-10-26T05:09:08",
+	"fill_or_kill": false,
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [委单] | tomato 提交委单，以 1.00000 ABC/SEER 的价格求购 955.00000 SEER |
+```
+取数据格式：
+
+get_account[get_block N.result.transactions.operations.seller].result.name + "提交委单，以" + get_block N.result.transactions.operations.amount_to_sell.amount / get_block N.result.transactions.operations.min_to_receive.amount + get_asset[get_block N.result.transactions.operations.amount_to_sell.amount.asset_id].result.symbol + "/" + get_asset[get_block N.result.transactions.operations.min_to_receive.amount.asset_id].result.symbol + "的价格买入" + get_block N.result.transactions.operations.min_to_receive.amount/100000 + get_asset[get_block N.result.transactions.operations.min_to_receive.amount.asset_id].result.symbol
+
+#### 取消委单操作
+
+操作信息：
+
+```json
+2,{
+	"fee": {
+	  "amount": 0,
+	  "asset_id": "1.3.0"
+	},
+	"fee_paying_account": "1.2.105",//发起用户ID
+	"order": "1.6.11",//要取消的委单id
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| 取消委单 | tomato 取消了委单 #11 |
+```
+取数据格式：
+
+get_account[get_block N.result.transactions.operations.fee_paying_account].result.name + "取消了委单 #" + get_block N.result.transactions.operations.order
+
+#### 委单撮合提示
+
+此提示仅显示在`get_relative_account_history`RPC方式返回的用户相关历史信息中。
+
+显示用户提交的委单实际成交情况，例如：
+
+A、用户挂单，未即时成交的，当有用户以高于此委单下单，使此委单成交时，显示实际成交量和成交价格（小明挂单以10 SEER/ABC 求购 1000 ABC，当有用户挂单9 SEER/ABC 求购 100 SEER时，小明的订单部分撮合成交，显示小明以9 SEER/ABC的价格购买了11.11111 ABC）；
+
+B、用户挂单时，市场内有低于用户挂单价格的委单，将优先以低价委单的委单价成交低价单，显示实际成交金额和成交价格，小明挂单以10 SEER/ABC 求购 100 ABC，此时市场内有用户挂单9 SEER/ABC 求购 100 SEER时，还有用户8SEER/ABC 求购 100SEER，小明的订单部分撮合成交，显示小明以9 SEER/ABC的价格购买了11.11111 ABC；以8 SEER/ABC的价格购买了12.5 ABC）；
+
+C、当`is_maker`为true时，
+
+操作信息：
+
+```json
+3, {
+	"fee": {
+		"amount": 0,
+		"asset_id": "1.3.7"
+	},
+	"order_id": "1.6.34",
+	"account_id": "1.2.106",
+	"pays": {
+		"amount": 10000000,
+		"asset_id": "1.3.0"
+	},
+	"receives": {
+		"amount": 1000000,
+		"asset_id": "1.3.7"
+	},
+	"fill_price": {
+		"base": {
+			"amount": 10000000,
+			"asset_id": "1.3.0"
+		},
+		"quote": {
+			"amount": 1000000,
+			"asset_id": "1.3.7"
+		}
+	},
+	"is_maker": true
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| 委单撮合 | tomato 以 0.10000 ABC/SEER 的价格卖出了 100.00000 SEER |
+```
+取数据格式：
+
+get_account[get_block N.result.transactions.operations.account_id].result.name + "以" + get_block N.result.transactions.operations.receives.amount / get_block N.result.transactions.operations.pays.amount + get_asset[get_block N.result.transactions.operations.receives.asset_id].result.symbol + "/" + get_asset[get_block N.result.transactions.operations.pays.asset_id].result.symbol + "的价格卖出了" + get_block N.result.transactions.operations.pays.amount / 100000 + get_asset[get_block N.result.transactions.operations.pays.asset_id].result.symbol
+
+#### 
+
+操作信息：
+
+```json
+
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| - | - |
 ```
 取数据格式：
 get_account[get_block N.result.transactions.operations.from].result.name 转账 get_block N.result.transactions.operations.amount.amount/100000 get_asset[get_block N.result.transactions.operations.amount.asset_id].result.symbol 给 get_account[get_block N.result.transactions.operations.to].result.name
 
-#### 创建委单
+#### 
+
+操作信息：
+
+```json
+
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| - | - |
+```
+取数据格式：
+get_account[get_block N.result.transactions.operations.from].result.name 转账 get_block N.result.transactions.operations.amount.amount/100000 get_asset[get_block N.result.transactions.operations.amount.asset_id].result.symbol 给 get_account[get_block N.result.transactions.operations.to].result.name

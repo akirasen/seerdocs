@@ -4,6 +4,8 @@
 
 区块链浏览器是浏览区块链信息的主要窗口，每一个区块所记载的内容都可以从区块链浏览器上进行查阅。用户可以使用区块链浏览器查询记录在区块中的交易信息，包括转账、预测、账户管理和社区治理操作等。
 
+DAPP内的信息展示部分，和区块浏览器的作用相似。
+
 SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（operations）`。每个`区块(block)`里可能有多个`交易(transactions)`，每个`交易`里可能包含多个`操作`。
 
 区块浏览器需要预先考虑到多语言版本的需求。
@@ -515,6 +517,8 @@ wscat -c ws://127.0.0.1:9191
 
 #### get_block
 
+
+
 #### info
 
 #### get_global_properties
@@ -664,7 +668,7 @@ wscat -c ws://127.0.0.1:9191
 | [转账] | okok 转账 10000.00000 ABC 给 else |
 ```
 取数据格式：
-get_account[result.transactions.operations.from].result.name "转账" result.transactions.operations.amount.amount/100000 get_asset[result.transactions.operations.amount.asset_id].result.symbol "给" get_account[result.transactions.operations.to].result.name
+get_account[result.transactions.operations.from].result.name + "转账" + result.transactions.operations.amount.amount/100000 + get_asset[result.transactions.operations.amount.asset_id].result.symbol + "给" + get_account[result.transactions.operations.to].result.name
 
 #### 委单操作
 
@@ -721,7 +725,7 @@ get_account[result.transactions.operations.seller].result.name + "提交委单�
 ```
 | 类型 | 说明 | 
 | - | - |
-| 取消委单 | tomato 取消了委单 #11 |
+| [取消委单] | tomato 取消了委单 #11 |
 ```
 取数据格式：
 
@@ -736,8 +740,6 @@ get_account[result.transactions.operations.fee_paying_account].result.name + "�
 A、用户挂单，未即时成交的，当有用户以高于此委单下单，使此委单成交时，显示实际成交量和成交价格（小明挂单以10 SEER/ABC 求购 1000 ABC，当有用户挂单9 SEER/ABC 求购 100 SEER时，小明的订单部分撮合成交，显示小明以9 SEER/ABC的价格购买了11.11111 ABC）；
 
 B、用户挂单时，市场内有低于用户挂单价格的委单，将优先以低价委单的委单价成交低价单，显示实际成交金额和成交价格，小明挂单以10 SEER/ABC 求购 100 ABC，此时市场内有用户挂单9 SEER/ABC 求购 100 SEER时，还有用户8SEER/ABC 求购 100SEER，小明的订单部分撮合成交，显示小明以9 SEER/ABC的价格购买了11.11111 ABC；以8 SEER/ABC的价格购买了12.5 ABC）；
-
-C、当`is_maker`为true时，
 
 操作信息：
 
@@ -775,11 +777,11 @@ C、当`is_maker`为true时，
 ```
 | 类型 | 说明 | 
 | - | - |
-| 委单撮合 | tomato 以 0.10000 ABC/SEER 的价格卖出了 100.00000 SEER |
+| [委单撮合] | tomato 以 0.10000 ABC/SEER 的价格卖出了 100.00000 SEER |
 ```
 取数据格式：
 
-get_account[result.transactions.operations.account_id].result.name + "以" + result.transactions.operations.receives.amount / result.transactions.operations.pays.amount + get_asset[result.transactions.operations.receives.asset_id].result.symbol + "/" + get_asset[result.transactions.operations.pays.asset_id].result.symbol + "的价格卖出了" + result.transactions.operations.pays.amount / 100000 + get_asset[result.transactions.operations.pays.asset_id].result.symbol
+get_account[result.op.account_id].result.name + "以" + result.op.receives.amount / result.op.pays.amount + get_asset[result.op.receives.asset_id].result.symbol + "/" + get_asset[result.op.pays.asset_id].result.symbol + "的价格卖出了" + result.op.pays.amount / 100000 + get_asset[result.op.pays.asset_id].result.symbol
 
 #### 创建账户操作
 
@@ -832,25 +834,1004 @@ get_account[result.transactions.operations.account_id].result.name + "以" + res
 ```
 | 类型 | 说明 | 
 | - | - |
-| 创建账户 | okok 注册了账户 tomato |
+| [创建账户] | okok 注册了账户 tomato |
 ```
 取数据格式：
 
 get_account[result.transactions.operations.registrar].result.name + "注册了账户" + result.transactions.operations.name
 
-#### 
+#### 更新账户操作
 
 操作信息：
 
 ```json
-
+5, {
+	"fee": {
+		"amount": 2000000,
+		"asset_id": "1.3.0"
+	},
+	"account": "1.2.140",
+	"active": {
+		"weight_threshold": 1,
+		"account_auths": [
+			[
+				"1.2.105",
+				1
+			]
+		],
+		"key_auths": [
+			[
+				"SEER8UAbnsAnXY1qr3CD6uzKaRuewsyPF9ynYJJGrdvSfDANxsGNxH",
+				1
+			],
+			[
+				"SEER584id6xbk9mGeKhMK6o2ouz3mptP1u4uHR748S4c29qpb94aBQ",
+				1
+			]
+		],
+		"address_auths": []
+	},
+	"extensions": {}
+}
 ```
 显示效果：
 
 ```
 | 类型 | 说明 | 
 | - | - |
-| - | - |
+| [更新账户] | tomato 更新了账户信息 |
 ```
 取数据格式：
-get_account[result.transactions.operations.from].result.name 转账 result.transactions.operations.amount.amount/100000 get_asset[result.transactions.operations.amount.asset_id].result.symbol 给 get_account[result.transactions.operations.to].result.name
+
+get_account[result.transactions.operations.account].result.name + "更新了账户信息" 
+
+#### 升级账户操作
+
+操作信息：
+
+```json
+7,{
+	"fee": {
+	"amount": 1000000000,
+	"asset_id": "1.3.0"
+	},
+	"account_to_upgrade": "1.2.140",
+	"upgrade_to_lifetime_member": true,
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [升级账户] | tomato 升级到终身会员 |
+```
+取数据格式：
+
+get_account[result.transactions.operations.account_to_upgrade].result.name + "升级到终身会员" 
+
+#### 创建资产操作
+
+操作信息：
+
+```json
+9, {
+	"fee": {
+		"amount": "30000000000",
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.140",
+	"symbol": "ABC",
+	"precision": 4,
+	"common_options": {
+		"max_supply": 1000000000,
+		"market_fee_percent": 0,
+		"max_market_fee": 0,
+		"issuer_permissions": 31,
+		"flags": 0,
+		"core_exchange_rate": {
+			"base": {
+				"amount": 100000,
+				"asset_id": "1.3.0"
+			},
+			"quote": {
+				"amount": 10000,
+				"asset_id": "1.3.1"
+			}
+		},
+		"whitelist_authorities": [],
+		"blacklist_authorities": [],
+		"whitelist_markets": [],
+		"blacklist_markets": [],
+		"description": "{\"main\":\"\",\"market\":\"\"}",
+		"extensions": []
+	},
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [创建资产] | tomato 创建了资产 ABC |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "创建了资产" + result.transactions.operations.symbol
+
+#### 更新资产操作
+
+操作信息：
+
+```json
+10, {
+	"fee": {
+		"amount": 50000000,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.140",
+	"asset_to_update": "1.3.10",
+	"new_options": {
+		"max_supply": "10000000000",
+		"market_fee_percent": 0,
+		"max_market_fee": 0,
+		"issuer_permissions": 31,
+		"flags": 0,
+		"core_exchange_rate": {
+			"base": {
+				"amount": 100000,
+				"asset_id": "1.3.0"
+			},
+			"quote": {
+				"amount": 10000,
+				"asset_id": "1.3.10"
+			}
+		},
+		"whitelist_authorities": [],
+		"blacklist_authorities": [],
+		"whitelist_markets": [
+			"1.3.0"
+		],
+		"blacklist_markets": [],
+		"description": "{\"main\":\"\",\"market\":\"\"}",
+		"extensions": []
+	}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [更新资产] | tomato 更新了资产 ABC |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "更新了资产" + get_asset[result.transactions.operations.asset_to_update].result.symbol
+
+#### 资产发行操作
+
+操作信息：
+
+```json
+11, {
+	"fee": {
+		"amount": 2000097,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.140",
+	"asset_to_issue": {
+		"amount": 11110000,
+		"asset_id": "1.3.10"
+	},
+	"issue_to_account": "1.2.140",
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [资产发行] | tomato 将 1,111.0000 ABC 发行给 alice |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "将" + result.transactions.operations.asset_to_issue.amount/100000 get_asset[result.transactions.operations.asset_to_issue.asset_id].result.symbol+ "发行给" + get_account[result.transactions.operations.issue_to_account].result.name
+
+#### 销毁资产操作
+
+操作信息：
+
+```json
+12, {
+	"fee": {
+		"amount": 2000000,
+		"asset_id": "1.3.0"
+	},
+	"payer": "1.2.140",
+	"amount_to_reserve": {
+		"amount": 1110000,
+		"asset_id": "1.3.10"
+	},
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [销毁资产] | tomato 销毁了 111.0000 ABC |
+```
+取数据格式：
+
+get_account[result.transactions.operations.payer].result.name + "销毁了" + result.transactions.operations.amount_to_reserve.amount/100000 + get_asset[result.transactions.operations.amount_to_reserve.asset_id].result.symbol
+
+#### 注资资产手续费池操作
+
+操作信息：
+
+```json
+13, {
+	"fee": {
+		"amount": 100000,
+		"asset_id": "1.3.0"
+	},
+	"from_account": "1.2.140",
+	"asset_id": "1.3.10",
+	"amount": 100000000,
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [注资资产手续费池] | tomato 向 ABC 的手续费池注资了 1,000.00000 SEER |
+```
+取数据格式：
+
+get_account[result.transactions.operations.from_account].result.name + "向" + get_asset[result.transactions.operations.asset_id].result.symbol + "的手续费池注资了" + result.transactions.operations.amount/100000 + get_asset[result.transactions.operations.asset_id].result.symbol
+
+#### 创建见证人操作
+
+操作信息：
+
+```json
+14, {
+	"fee": {
+		"amount": 2000000000,
+		"asset_id": "1.3.0"
+	},
+	"witness_account": "1.2.151",
+	"url": "",
+	"block_signing_key": "SEER7GQxZj2DecxkN3jMfJaHap3U5yYzW21AQ94StwG5rmMsdnGs97"
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [创建见证人] | bob 升级到见证人 |
+```
+取数据格式：
+
+get_account[result.transactions.operations.witness_account].result.name + "升级到见证人"
+
+#### 更新见证人操作
+
+操作信息：
+
+```json
+15, {
+	"fee": {
+		"amount": 10000000,
+		"asset_id": "1.3.0"
+	},
+	"witness": "1.5.9",
+	"witness_account": "1.2.151",
+	"new_signing_key": "SEER7GQxZj2DecxkN3jMfJaHap3U5yYzW21AQ94StwG5rmMsdnGs97"
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [更新见证人] | bob 更新了见证人信息 |
+```
+取数据格式：
+
+get_account[result.transactions.operations.witness_account].result.name + "更新了见证人信息"
+
+#### 见证人创建抵押项操作
+
+操作信息：
+
+```json
+16, {
+	"fee": {
+		"amount": 1000000,
+		"asset_id": "1.3.0"
+	},
+	"witness": "1.5.9",
+	"witness_account": "1.2.151",
+	"amount": 100000000
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [创建抵押项] | bob 创建了新抵押项，金额 1000 SEER |
+```
+取数据格式：
+
+get_account[result.transactions.operations.witness_account].result.name + "创建了新抵押项，金额" + result.transactions.operations.amount / 100000 + “SEER”
+
+#### 见证人解锁抵押项操作
+
+操作信息：
+
+```json
+17, {
+	"fee": {
+		"amount": 10000000,
+		"asset_id": "1.3.0"
+	},
+	"witness": "1.5.9",
+	"witness_account": "1.2.151",
+	"collateral_id": "2.16.1"
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [解锁抵押] | bob 解锁抵押项 2.16.1，15天后可领取。 |
+```
+取数据格式：
+
+get_account[result.transactions.operations.witness_account].result.name + "解锁抵押项" + result.transactions.operations.collateral_id + "，15天后可领取。"
+
+
+#### 见证人领取抵押项余额/抵押收益操作
+
+操作信息：
+
+```json
+"operations": [
+	[
+		18, {
+			"fee": {
+				"amount": 10000000,
+				"asset_id": "1.3.0"
+			},
+			"witness": "1.5.9",
+			"witness_account": "1.2.151"
+		}
+	]
+],
+"extensions": [],
+"signatures": [
+	"1f248b....097baa0"
+],
+"operation_results": [
+	[
+		2, {
+			"amount": "26928724460",
+			"asset_id": "1.3.0"
+		}
+	]
+]
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| 领取抵押余额 | bob 领取抵押项余额/抵押收益 169,587.54460 SEER |
+```
+取数据格式：
+
+get_account[result.transactions.operations.witness_account].result.name + "领取抵押项余额/抵押收益" + result.transactions.operation_results.amount / 100000 + "SEER"
+
+#### 创建交易提议操作
+
+操作信息：
+
+```json
+19, {
+	"fee": {
+		"amount": 2000000,
+		"asset_id": "1.3.0"
+	},
+	"fee_paying_account": "1.2.140",
+	"expiration_time": "2018-10-27T14:20:15",
+	"proposed_ops": [{
+		"op": [
+			5, {
+				"fee": {
+					"amount": 2000000,
+					"asset_id": "1.3.0"
+				},
+				"account": "1.2.151",
+				"active": {
+					"weight_threshold": 1,
+					"account_auths": [
+						[
+							"1.2.105",
+							1
+						]
+					],
+					"key_auths": [
+						[
+							"SEER7js4ot7oPXrNEZaejvyagNG4mJtCtUxhX8t3Qi7H6ABjcBXqx3",
+							1
+						]
+					],
+					"address_auths": []
+				},
+				"extensions": {}
+			}
+		]
+	}],
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [创建提议] | tomato 创建了交易提议:更新账户 bob 的信息  |
+```
+取数据格式：
+
+get_account[result.transactions.operations.fee_paying_account].result.name + "创建了交易提议:" + “更新账户” + get_account[result.transactions.operations.proposed_ops.op.account].result.name + "的信息"
+
+此例的提议内容为更新账户操作，若提议为其他操作，则替换`proposed_ops`部分。
+
+#### 更新交易提议操作
+
+操作信息：
+
+```json
+20, {
+	"fee": {
+		"amount": 2000000,
+		"asset_id": "1.3.0"
+	},
+	"fee_paying_account": "1.2.106",
+	"proposal": "1.8.7",
+	"active_approvals_to_add": [],
+	"active_approvals_to_remove": [],
+	"owner_approvals_to_add": [],
+	"owner_approvals_to_remove": [],
+	"key_approvals_to_add": [
+		"SEER5vhLky3Yg7YLAnvrFa2twftUCxZ8zz8PHtyCVTKSWw4JzAM7DY"
+	],
+	"key_approvals_to_remove": [],
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [更新提议] | tomato 更新了交易提议: 1.8.7 |
+```
+取数据格式：
+
+get_account[result.transactions.operations.fee_paying_account].result.name + "更新了交易提议:" + result.transactions.operations.proposal
+
+#### 创建理事会成员操作
+
+操作信息：
+
+```json
+26, {
+	"fee": {
+		"amount": 500000000,
+		"asset_id": "1.3.0"
+	},
+	"committee_member_account": "1.2.151",
+	"url": "https://baidu.com"
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [竞选理事] | bob 参加理事会成员竞选，竞选宣言地址：https://baidu.com |
+```
+取数据格式：
+
+get_account[result.transactions.operations.committee_member_account].result.name + "参加理事会成员竞选，竞选宣言地址:" + result.transactions.operations.url
+
+#### 提取解冻金额/出块收益操作
+
+操作信息：
+
+```json
+30, {
+	"fee": {
+		"amount": 1000000,
+		"asset_id": "1.3.0"
+	},
+	"vesting_balance": "1.11.11",
+	"owner": "1.2.151",
+	"amount": {
+		"amount": "20202300000",
+		"asset_id": "1.3.0"
+	}
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [提取解冻余额] | bob 提取了账户解冻金额/出块收益 202,023.00000 SEER |
+```
+取数据格式：
+
+get_account[result.transactions.operations.owner].result.name + "提取了账户解冻金额/出块收益" + result.transactions.operations.amount.amount / 100000 + "SEER"
+
+#### 创建预言机操作
+
+操作信息：
+
+```json
+40, {
+	"fee": {
+		"amount": 1000002246,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.140",
+	"guaranty": 1000000000,
+	"description": "xxxx",
+	"script": "xxxx"
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [创建预言机] | tomato 以 10,000.00000 SEER保证金创建预言机 |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "以" + result.transactions.operations.guaranty / 100000 + "SEER保证金创建预言机"
+
+#### 更新预言机操作
+
+操作信息：
+
+```json
+41, {
+	"fee": {
+		"amount": 100002539,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.140",
+	"oracle": "1.13.5",
+	"guaranty": 1000000,
+	"description": "xxxx",
+	"script": "xxxx"
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [更新预言机] | tomato 更新预言机 |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "更新预言机"
+
+#### 预言机输入结果操作
+
+操作信息：
+
+```json
+42, {
+	"fee": {
+		"amount": 1000000,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.140",
+	"oracle": "1.13.5",
+	"room": "1.15.70",
+	"input": [
+		0
+	]
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [预言机输入结果] | bob 为预测市场1.15.70 "比特币价格高于6810美元吗？以.." 输入预测结果0:高于6810美元 |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "为预测市场" + result.transactions.operations.room + """ + get_seer_room[result.transactions.operations.room].result.description + " "输入预测结果" + result.transactions.operations.input + “:” + get_seer_room[result.transactions.operations.room].result.running_option.selection_description.[result.transactions.operations.input]
+
+#### 创建房间操作
+
+操作信息：
+
+```json
+43, {
+	"fee": {
+		"amount": 1000010449,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.151",
+	"label": [
+		"BTC", 
+		"币圈",
+		"比特币",
+		"行情"
+	],
+	"description": "比特币价格高于6810美元吗？以新加坡时间2018年10月29日0时整，coinmarketcap.com显示价格为准。",
+	"script": "https://forum.seerchain.org/t/topic/345",
+	"room_type": 1,
+	"option": {
+		"result_owner_percent": 1000,
+		"reward_per_oracle": 0,
+		"accept_asset": "1.3.0",
+		"minimum": 1000000,
+		"maximum": 10000000,
+		"start": "2018-10-26T15:35:04",
+		"stop": "2018-10-26T15:35:04",
+		"input_duration_secs": 60,
+		"filter": {
+			"reputation": 0,
+			"guaranty": 0,
+			"volume": 0
+		},
+		"allowed_oracles": [],
+		"allowed_countries": [],
+		"allowed_authentications": []
+	},
+	"initial_option": {
+		"room_type": 1,
+		"selection_description": [
+			"高于6810美元",
+			"不高于6810美元"
+		],
+		"range": 2
+	},
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [创建预测市场] | tomato 创建预测市场“比特币价格高于6810美元吗？以...” |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "创建预测市场“" + result.transactions.operations.description + " "" 
+
+#### 更新房间操作
+
+操作信息：
+
+```json
+44, {
+	"fee": {
+		"amount": 10009960,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.151",
+	"room": "1.15.71",
+	"description": "比特币价格高于6810美元吗？以新加坡时间2018年10月29日0时整，coinmarketcap.com显示价格为准。",
+	"script": "https://forum.seerchain.org/t/topic/345",
+	"option": {
+		"result_owner_percent": 1000,
+		"reward_per_oracle": 0,
+		"accept_asset": "1.3.0",
+		"minimum": 1000000,
+		"maximum": 10000000,
+		"start": "2018-10-26T16:01:57",
+		"stop": "2018-10-26T16:01:57",
+		"input_duration_secs": 60,
+		"filter": {
+			"reputation": 0,
+			"guaranty": 0,
+			"volume": 0
+		},
+		"allowed_oracles": [],
+		"allowed_countries": [],
+		"allowed_authentications": []
+	},
+	"initial_option": {
+		"room_type": 1,
+		"selection_description": [
+			"高于6810美元",
+			"不高于6810美元"
+		],
+		"range": 2
+	},
+	"extensions": []
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [更新预测市场] | tomato 更新预测市场1.15.71“比特币价格高于6810美元吗？以...” |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "更新预测市场" + result.transactions.operations.room + " "" +result.transactions.operations.description + " "" 
+
+#### 创建者输入结果操作
+
+操作信息：
+
+```json
+45, {
+	"fee": {
+		"amount": 500000,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.151",
+	"room": "1.15.70",
+	"input": [
+		1
+	]
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [创建者输入结果] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.." 输入预测结果1:不高于6810美元 |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "为预测市场" + result.transactions.operations.room + """ + get_seer_room[result.transactions.operations.room].result.description + " "输入预测结果" + result.transactions.operations.input + “:” + get_seer_room[result.transactions.operations.room].result.running_option.selection_description.[result.transactions.operations.input]
+
+#### 开启房间操作
+
+操作信息：
+
+```json
+46, {
+	"fee": {
+		"amount": 10000000,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.151",
+	"room": "1.15.70",
+	"start": "2018-10-26T15:36:12",
+	"stop": "2018-10-26T15:37:12",
+	"input_duration_secs": 360
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [开启预测] | tomato 开启预测市场1.15.70 "比特币价格高于6810美元吗？以.." |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "开启预测市场" + result.transactions.operations.room + " "" +result.transactions.operations.description + " "" 
+
+#### 停止房间操作
+
+操作信息：
+
+```json
+47, {
+	"fee": {
+		"amount": 500000,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.151",
+	"room": "1.15.71",
+	"input_duration_secs": 360
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [提前终止预测] | tomato 提前终止预测市场1.15.71 "比特币价格高于6810美元吗？以.." |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "提前终止预测市场" + result.transactions.operations.room + " "" +result.transactions.operations.description + " "" 
+
+#### 预测结算操作
+
+操作信息：
+
+```json
+48, {
+	"fee": {
+		"amount": 1000000,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.151",
+	"room": "1.15.70"
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [预测结算] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.."结算 |
+| [预测结算] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.."结算，tomato 余额变动 -3000 SEER |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "为预测市场" + result.transactions.operations.room + " "" +result.transactions.operations.description + " "结算"
+
+在账号详情页通过`get_relative_account_history`获取指定账号参与过的房间房主结算时，除显示房主结算外，还应该显示该帐号余额的变动情况（例如房主的保证金预言机支出）。通过`op.result.deltas`获取；
+
+#### 派发奖励操作
+
+操作信息：
+
+```json
+49, {
+	"fee": {
+		"amount": 2000000,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.151",
+	"room": "1.15.70"
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [派发奖励] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.."派奖 |
+| [派发奖励] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.."派奖，bob 余额变动 3000 SEER |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "为预测市场" + result.transactions.operations.room + " "" + result.transactions.operations.description + " "派奖"
+
+在账号详情页通过`get_relative_account_history`获取指定账号参与过的房间房主派奖时，除显示房主派奖外，还应该显示该帐号余额的变动情况。通过`op.result.deltas`获取；
+
+
+#### 参与预测操作
+
+操作信息：
+
+```json
+"operations": [
+	[
+		50, {
+			"fee": {
+				"amount": 500000,
+				"asset_id": "1.3.0"
+			},
+			"issuer": "1.2.151",
+			"room": "1.15.70",
+			"type": 0,
+			"input": [
+				1
+			],
+			"input1": [],
+			"input2": [],
+			"amount": 1000000000
+		}
+	]
+],
+"extensions": [],
+"signatures": [
+	"20250.....e2931"
+],
+"operation_results": [
+	[
+		3, {
+			"asset_id": "1.3.0",
+			"deltas": [
+				[
+					"1.2.151", -1000000000
+				]
+			]
+		}
+	]
+]
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [参与预测] | bob 参与预测市场1.15.70"比特币价格高于6810美元吗？以.."预测,预测结果1:不高于6810美元 参与数额:10000,余额变动:-10,000.00000 SEER |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "参与预测市场" + result.transactions.operations.room + " "" + get_seer_room[result.transactions.operations.room].result.description + " "预测,预测结果" + result.transactions.operations.input + ":" + get_seer_room[result.transactions.operations.room].result.running_option.selection_description.[result.transactions.operations.input] + "参与数额:" + result.transactions.operations.amount + “,余额变动:” + result.transactions.operation_results.deltas[1] / 100000 + get_asset[result.transactions.operation_results.asset_id].result.symbol
+
+A result.transactions.operations.amount 在PVP和高级模式的房间中为资产金额，在PVD（LMSR）房间中为份数。
+
+B 在账号详情页通过`get_relative_account_history`获取指定账号参与预测时，除显示参与预测，该帐号余额的变动情况
+(通过`op.result.deltas`获取)、输入结果(通过`op.op.inputN`获取),同时显示房间号(通过`op.op.room` 获取，链接)
+
+#### 创建平台操作
+
+操作信息：
+
+```json
+53, {
+	"fee": {
+		"amount": 3000002050,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.151",
+	"guaranty": "10000000000",
+	"description": "",
+	"script": ""
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [升级市场设立者] | tomato 取得高级预测市场设立者身份 保证金1000000.00000 SEER |
+```
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "取得高级预测市场设立者身份 保证金" + result.transactions.operations.guaranty / 100000 + "SEER"
+
+#### 更新平台操作
+
+操作信息：
+
+```json
+54, {
+	"fee": {
+		"amount": 100003125,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.151",
+	"house": "1.14.15",
+	"guaranty": 1000000,
+	"claim_fees": 0,
+	"description": "",
+	"script": ""
+}
+```
+显示效果：
+
+```
+| 类型 | 说明 | 
+| - | - |
+| [更新市场设立者] | tomato 更新预测市场设立者信息 |
+```
+取数据格式：
+
+et_account[result.transactions.operations.issuer].result.name + "更新预测市场设立者信息"

@@ -1604,7 +1604,7 @@ wscat -c ws://127.0.0.1:9191
 操作信息：
 
 ```json
-0,{
+0,{//操作类型：转账
 	"fee": 
 	{
 	  "amount": 200000,//手续费 2
@@ -1634,7 +1634,7 @@ get_account[result.transactions.operations.from].result.name + "转账" + result
 操作信息：
 
 ```json
-1,{
+1,{//操作类型：委单
 	"fee": {
 	  "amount": 500000,//手续费 5
 	  "asset_id": "1.3.0"//手续费类型 1.3.0指SEER
@@ -1669,7 +1669,7 @@ get_account[result.transactions.operations.seller].result.name + "提交委单�
 操作信息：
 
 ```json
-2,{
+2,{//操作类型：取消委单
 	"fee": {
 	  "amount": 0,
 	  "asset_id": "1.3.0"
@@ -1702,20 +1702,20 @@ B、用户挂单时，市场内有低于用户挂单价格的委单，将优先�
 操作信息：
 
 ```json
-3, {
+3, {//操作类型：委单撮合
 	"fee": {
 		"amount": 0,
 		"asset_id": "1.3.7"
 	},
-	"order_id": "1.6.34",
-	"account_id": "1.2.106",
+	"order_id": "1.6.34",//委单ID
+	"account_id": "1.2.106",//发起用户ID
 	"pays": {
-		"amount": 10000000,
-		"asset_id": "1.3.0"
+		"amount": 10000000,//卖出数量
+		"asset_id": "1.3.0"//卖出资产类型
 	},
 	"receives": {
-		"amount": 1000000,
-		"asset_id": "1.3.7"
+		"amount": 1000000,//收到数量
+		"asset_id": "1.3.7"//收到资产类型
 	},
 	"fill_price": {
 		"base": {
@@ -1745,16 +1745,16 @@ get_account[result.op.account_id].result.name + "以" + result.op.receives.amoun
 操作信息：
 
 ```json
-4,{
+4,{//操作类型：创建账户
 	"fee": {
 	  "amount": 514160,
 	  "asset_id": "1.3.0"
 	},
-	"registrar": "1.2.105",
+	"registrar": "1.2.105",//发起用户ID
 	"referrer": "1.2.105",
 	"referrer_percent": 0,
-	"name": "hhh2",
-	"owner": {
+	"name": "tomato",//新注册用户账号名
+	"owner": {//账户权限
 	  "weight_threshold": 1,
 	  "account_auths": [],
 	  "key_auths": [[
@@ -1764,7 +1764,7 @@ get_account[result.op.account_id].result.name + "以" + result.op.receives.amoun
 	  ],
 	  "address_auths": []
 	},
-	"active": {
+	"active": {//资金权限
 	  "weight_threshold": 1,
 	  "account_auths": [],
 	  "key_auths": [[
@@ -1775,7 +1775,7 @@ get_account[result.op.account_id].result.name + "以" + result.op.receives.amoun
 	  "address_auths": []
 	},
 	"options": {
-	  "memo_key": "SEER584id6xbk9mGeKhMK6o2ouz3mptP1u4uHR748S4c29qpb94aBQ",
+	  "memo_key": "SEER584id6xbk9mGeKhMK6o2ouz3mptP1u4uHR748S4c29qpb94aBQ",//MEMO权限
 	  "voting_account": "1.2.5",
 	  "num_committee": 0,
 	  "num_authenticator": 0,
@@ -1801,12 +1801,12 @@ get_account[result.transactions.operations.registrar].result.name + "注册了�
 操作信息：
 
 ```json
-5, {
+5, {//操作类型：更新账户
 	"fee": {
 		"amount": 2000000,
 		"asset_id": "1.3.0"
 	},
-	"account": "1.2.140",
+	"account": "1.2.140",//发起用户ID
 	"active": {
 		"weight_threshold": 1,
 		"account_auths": [
@@ -1845,12 +1845,12 @@ get_account[result.transactions.operations.account].result.name + "更新了账�
 操作信息：
 
 ```json
-7,{
+7,{//操作类型：升级账户
 	"fee": {
 	"amount": 1000000000,
 	"asset_id": "1.3.0"
 	},
-	"account_to_upgrade": "1.2.140",
+	"account_to_upgrade": "1.2.140",//发起用户ID
 	"upgrade_to_lifetime_member": true,
 	"extensions": []
 }
@@ -1870,13 +1870,13 @@ get_account[result.transactions.operations.account_to_upgrade].result.name + "�
 操作信息：
 
 ```json
-9, {
+9, {//操作类型：创建资产
 	"fee": {
 		"amount": "30000000000",
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.140",
-	"symbol": "ABC",
+	"issuer": "1.2.140",//发起用户ID
+	"symbol": "ABC",//新资产代号
 	"precision": 4,
 	"common_options": {
 		"max_supply": 1000000000,
@@ -1919,13 +1919,13 @@ get_account[result.transactions.operations.issuer].result.name + "创建了资�
 操作信息：
 
 ```json
-10, {
+10, {//操作类型：更新资产
 	"fee": {
 		"amount": 50000000,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.140",
-	"asset_to_update": "1.3.10",
+	"issuer": "1.2.140",//发起用户ID
+	"asset_to_update": "1.3.10",//更新的资产ID
 	"new_options": {
 		"max_supply": "10000000000",
 		"market_fee_percent": 0,
@@ -1967,17 +1967,17 @@ get_account[result.transactions.operations.issuer].result.name + "更新了资�
 操作信息：
 
 ```json
-11, {
+11, {//操作类型：资产发行
 	"fee": {
 		"amount": 2000097,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.140",
+	"issuer": "1.2.140",//发起用户ID
 	"asset_to_issue": {
-		"amount": 11110000,
-		"asset_id": "1.3.10"
+		"amount": 11110000,//发行资产数额
+		"asset_id": "1.3.10"//发行资产ID
 	},
-	"issue_to_account": "1.2.140",
+	"issue_to_account": "1.2.140",//接收用户ID
 	"extensions": []
 }
 ```
@@ -1996,15 +1996,15 @@ get_account[result.transactions.operations.issuer].result.name + "将" + result.
 操作信息：
 
 ```json
-12, {
+12, {//操作类型：销毁资产
 	"fee": {
 		"amount": 2000000,
 		"asset_id": "1.3.0"
 	},
-	"payer": "1.2.140",
+	"payer": "1.2.140",//发起用户ID
 	"amount_to_reserve": {
-		"amount": 1110000,
-		"asset_id": "1.3.10"
+		"amount": 1110000,//销毁资产数额
+		"asset_id": "1.3.10"//销毁资产ID
 	},
 	"extensions": []
 }
@@ -2024,14 +2024,14 @@ get_account[result.transactions.operations.payer].result.name + "销毁了" + re
 操作信息：
 
 ```json
-13, {
+13, {//操作类型：注资资产手续费池
 	"fee": {
 		"amount": 100000,
 		"asset_id": "1.3.0"
 	},
-	"from_account": "1.2.140",
-	"asset_id": "1.3.10",
-	"amount": 100000000,
+	"from_account": "1.2.140",//发起用户ID
+	"asset_id": "1.3.10",//注资的资产ID
+	"amount": 100000000,//注资金额
 	"extensions": []
 }
 ```
@@ -2050,12 +2050,12 @@ get_account[result.transactions.operations.from_account].result.name + "向" + g
 操作信息：
 
 ```json
-14, {
+14, {//操作类型：创建见证人
 	"fee": {
 		"amount": 2000000000,
 		"asset_id": "1.3.0"
 	},
-	"witness_account": "1.2.151",
+	"witness_account": "1.2.151",//发起用户ID
 	"url": "",
 	"block_signing_key": "SEER7GQxZj2DecxkN3jMfJaHap3U5yYzW21AQ94StwG5rmMsdnGs97"
 }
@@ -2075,13 +2075,13 @@ get_account[result.transactions.operations.witness_account].result.name + "升�
 操作信息：
 
 ```json
-15, {
+15, {//操作类型：更新见证人
 	"fee": {
 		"amount": 10000000,
 		"asset_id": "1.3.0"
 	},
 	"witness": "1.5.9",
-	"witness_account": "1.2.151",
+	"witness_account": "1.2.151",//发起用户ID
 	"new_signing_key": "SEER7GQxZj2DecxkN3jMfJaHap3U5yYzW21AQ94StwG5rmMsdnGs97"
 }
 ```
@@ -2100,14 +2100,14 @@ get_account[result.transactions.operations.witness_account].result.name + "更�
 操作信息：
 
 ```json
-16, {
+16, {//操作类型：创建抵押项
 	"fee": {
 		"amount": 1000000,
 		"asset_id": "1.3.0"
 	},
 	"witness": "1.5.9",
-	"witness_account": "1.2.151",
-	"amount": 100000000
+	"witness_account": "1.2.151",//发起用户ID
+	"amount": 100000000//抵押项金额
 }
 ```
 显示效果：
@@ -2125,14 +2125,14 @@ get_account[result.transactions.operations.witness_account].result.name + "创�
 操作信息：
 
 ```json
-17, {
+17, {//操作类型：解锁抵押
 	"fee": {
 		"amount": 10000000,
 		"asset_id": "1.3.0"
 	},
 	"witness": "1.5.9",
-	"witness_account": "1.2.151",
-	"collateral_id": "2.16.1"
+	"witness_account": "1.2.151",//发起用户ID
+	"collateral_id": "2.16.1"//抵押项ID
 }
 ```
 显示效果：
@@ -2153,13 +2153,13 @@ get_account[result.transactions.operations.witness_account].result.name + "解�
 ```json
 "operations": [
 	[
-		18, {
+		18, {//操作类型：领取抵押余额
 			"fee": {
 				"amount": 10000000,
 				"asset_id": "1.3.0"
 			},
 			"witness": "1.5.9",
-			"witness_account": "1.2.151"
+			"witness_account": "1.2.151"//发起用户ID
 		}
 	]
 ],
@@ -2170,7 +2170,7 @@ get_account[result.transactions.operations.witness_account].result.name + "解�
 "operation_results": [
 	[
 		2, {
-			"amount": "26928724460",
+			"amount": "26928724460",//领取的余额/抵押收益数额
 			"asset_id": "1.3.0"
 		}
 	]
@@ -2191,21 +2191,21 @@ get_account[result.transactions.operations.witness_account].result.name + "领�
 操作信息：
 
 ```json
-19, {
+19, {//操作类型：创建提议
 	"fee": {
 		"amount": 2000000,
 		"asset_id": "1.3.0"
 	},
-	"fee_paying_account": "1.2.140",
+	"fee_paying_account": "1.2.140",//提议发起用户ID
 	"expiration_time": "2018-10-27T14:20:15",
-	"proposed_ops": [{
+	"proposed_ops": [{//交易提议内容
 		"op": [
-			5, {
+			5, {//操作类型：更新账户
 				"fee": {
 					"amount": 2000000,
 					"asset_id": "1.3.0"
 				},
-				"account": "1.2.151",
+				"account": "1.2.151",//被操作账户ID
 				"active": {
 					"weight_threshold": 1,
 					"account_auths": [
@@ -2246,13 +2246,13 @@ get_account[result.transactions.operations.fee_paying_account].result.name + "�
 操作信息：
 
 ```json
-20, {
+20, {//操作类型：更新提议
 	"fee": {
 		"amount": 2000000,
 		"asset_id": "1.3.0"
 	},
-	"fee_paying_account": "1.2.106",
-	"proposal": "1.8.7",
+	"fee_paying_account": "1.2.106",//发起用户ID
+	"proposal": "1.8.7",//要更新的提议ID
 	"active_approvals_to_add": [],
 	"active_approvals_to_remove": [],
 	"owner_approvals_to_add": [],
@@ -2279,13 +2279,13 @@ get_account[result.transactions.operations.fee_paying_account].result.name + "�
 操作信息：
 
 ```json
-26, {
+26, {//操作类型：竞选理事
 	"fee": {
 		"amount": 500000000,
 		"asset_id": "1.3.0"
 	},
-	"committee_member_account": "1.2.151",
-	"url": "https://baidu.com"
+	"committee_member_account": "1.2.151",//发起用户ID
+	"url": "https://baidu.com"//宣言地址
 }
 ```
 显示效果：
@@ -2303,15 +2303,15 @@ get_account[result.transactions.operations.committee_member_account].result.name
 操作信息：
 
 ```json
-30, {
+30, {//操作类型：提取解冻余额
 	"fee": {
 		"amount": 1000000,
 		"asset_id": "1.3.0"
 	},
-	"vesting_balance": "1.11.11",
-	"owner": "1.2.151",
+	"vesting_balance": "1.11.11",//解冻余额ID
+	"owner": "1.2.151",//发起用户ID
 	"amount": {
-		"amount": "20202300000",
+		"amount": "20202300000",//收益金额
 		"asset_id": "1.3.0"
 	}
 }
@@ -2331,15 +2331,15 @@ get_account[result.transactions.operations.owner].result.name + "提取了账户
 操作信息：
 
 ```json
-40, {
+40, {//操作类型：创建预言机
 	"fee": {
 		"amount": 1000002246,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.140",
-	"guaranty": 1000000000,
-	"description": "xxxx",
-	"script": "xxxx"
+	"issuer": "1.2.140",//发起用户ID
+	"guaranty": 1000000000,//保证金
+	"description": "xxxx",//描述
+	"script": "xxxx"//网址
 }
 ```
 显示效果：
@@ -2357,16 +2357,16 @@ get_account[result.transactions.operations.issuer].result.name + "以" + result.
 操作信息：
 
 ```json
-41, {
+41, {//操作类型：更新预言机
 	"fee": {
 		"amount": 100002539,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.140",
-	"oracle": "1.13.5",
-	"guaranty": 1000000,
-	"description": "xxxx",
-	"script": "xxxx"
+	"issuer": "1.2.140",//发起用户ID
+	"oracle": "1.13.5",//预言机ID
+	"guaranty": 1000000,//保证金
+	"description": "xxxx",//描述
+	"script": "xxxx"//网址
 }
 ```
 显示效果：
@@ -2384,15 +2384,15 @@ get_account[result.transactions.operations.issuer].result.name + "更新预言�
 操作信息：
 
 ```json
-42, {
+42, {//操作类型：预言机输入结果
 	"fee": {
 		"amount": 1000000,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.140",
-	"oracle": "1.13.5",
-	"room": "1.15.70",
-	"input": [
+	"issuer": "1.2.140",//发起用户ID
+	"oracle": "1.13.5",//预言机ID
+	"room": "1.15.70",//房间ID
+	"input": [//输入的结果
 		0
 	]
 }
@@ -2412,19 +2412,19 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 操作信息：
 
 ```json
-43, {
+43, {//操作类型：创建预测市场
 	"fee": {
 		"amount": 1000010449,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.151",
-	"label": [
+	"issuer": "1.2.151",//发起用户ID
+	"label": [//标签
 		"BTC", 
 		"币圈",
 		"比特币",
 		"行情"
 	],
-	"description": "比特币价格高于6810美元吗？以新加坡时间2018年10月29日0时整，coinmarketcap.com显示价格为准。",
+	"description": "比特币价格高于6810美元吗？以新加坡时间2018年10月29日0时整，coinmarketcap.com显示价格为准。",//房间描述
 	"script": "https://forum.seerchain.org/t/topic/345",
 	"room_type": 1,
 	"option": {
@@ -2471,14 +2471,14 @@ get_account[result.transactions.operations.issuer].result.name + "创建预测�
 操作信息：
 
 ```json
-44, {
+44, {//操作类型：更新预测市场
 	"fee": {
 		"amount": 10009960,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.151",
+	"issuer": "1.2.151",//发起用户ID
 	"room": "1.15.71",
-	"description": "比特币价格高于6810美元吗？以新加坡时间2018年10月29日0时整，coinmarketcap.com显示价格为准。",
+	"description": "比特币价格高于6810美元吗？以新加坡时间2018年10月29日0时整，coinmarketcap.com显示价格为准。",//房间描述
 	"script": "https://forum.seerchain.org/t/topic/345",
 	"option": {
 		"result_owner_percent": 1000,
@@ -2524,14 +2524,14 @@ get_account[result.transactions.operations.issuer].result.name + "更新预测�
 操作信息：
 
 ```json
-45, {
+45, {//操作类型：创建者输入结果
 	"fee": {
 		"amount": 500000,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.151",
-	"room": "1.15.70",
-	"input": [
+	"issuer": "1.2.151",//发起用户ID
+	"room": "1.15.70",//房间ID
+	"input": [//输入的结果
 		1
 	]
 }
@@ -2551,13 +2551,13 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 操作信息：
 
 ```json
-46, {
+46, {//操作类型：
 	"fee": {
 		"amount": 10000000,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.151",
-	"room": "1.15.70",
+	"issuer": "1.2.151",//发起用户ID
+	"room": "1.15.70",//房间ID
 	"start": "2018-10-26T15:36:12",
 	"stop": "2018-10-26T15:37:12",
 	"input_duration_secs": 360
@@ -2578,13 +2578,13 @@ get_account[result.transactions.operations.issuer].result.name + "开启预测�
 操作信息：
 
 ```json
-47, {
+47, {//操作类型：提前终止预测
 	"fee": {
 		"amount": 500000,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.151",
-	"room": "1.15.71",
+	"issuer": "1.2.151",//发起用户ID
+	"room": "1.15.71",//房间ID
 	"input_duration_secs": 360
 }
 ```
@@ -2603,13 +2603,13 @@ get_account[result.transactions.operations.issuer].result.name + "提前终止�
 操作信息：
 
 ```json
-48, {
+48, {//操作类型：预测结算
 	"fee": {
 		"amount": 1000000,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.151",
-	"room": "1.15.70"
+	"issuer": "1.2.151",//发起用户ID
+	"room": "1.15.70"//房间ID
 }
 ```
 显示效果：
@@ -2630,13 +2630,13 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 操作信息：
 
 ```json
-49, {
+49, {//操作类型：派发奖励
 	"fee": {
 		"amount": 2000000,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.151",
-	"room": "1.15.70"
+	"issuer": "1.2.151",//发起用户ID
+	"room": "1.15.70"//房间ID
 }
 ```
 显示效果：
@@ -2660,20 +2660,20 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 ```json
 "operations": [
 	[
-		50, {
+		50, {//操作类型：参与预测
 			"fee": {
 				"amount": 500000,
 				"asset_id": "1.3.0"
 			},
-			"issuer": "1.2.151",
-			"room": "1.15.70",
+			"issuer": "1.2.151",//发起用户ID
+			"room": "1.15.70",//房间ID
 			"type": 0,
 			"input": [
-				1
+				1//预测的选项
 			],
 			"input1": [],
 			"input2": [],
-			"amount": 1000000000
+			"amount": 1000000000//参与数额（金额或份数）
 		}
 	]
 ],
@@ -2687,7 +2687,7 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 			"asset_id": "1.3.0",
 			"deltas": [
 				[
-					"1.2.151", -1000000000
+					"1.2.151", -1000000000//资产变动金额
 				]
 			]
 		}
@@ -2714,13 +2714,13 @@ B 在账号详情页通过`get_relative_account_history`获取指定账号参与
 操作信息：
 
 ```json
-53, {
+53, {//操作类型：升级市场设立者
 	"fee": {
 		"amount": 3000002050,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.151",
-	"guaranty": "10000000000",
+	"issuer": "1.2.151",//发起用户ID
+	"guaranty": "10000000000",//保证金
 	"description": "",
 	"script": ""
 }
@@ -2740,12 +2740,12 @@ get_account[result.transactions.operations.issuer].result.name + "取得高级�
 操作信息：
 
 ```json
-54, {
+54, {//操作类型：更新市场设立者
 	"fee": {
 		"amount": 100003125,
 		"asset_id": "1.3.0"
 	},
-	"issuer": "1.2.151",
+	"issuer": "1.2.151",//发起用户ID
 	"house": "1.14.15",
 	"guaranty": 1000000,
 	"claim_fees": 0,

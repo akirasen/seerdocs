@@ -431,7 +431,7 @@ get_global_properties
     "maximum_transaction_size": 2048,//最大交易大小 2048K 即2M
     "maximum_block_size": 2000000,//最大单个块数据大小 2000000K 即约1.9G
     "maximum_time_until_expiration": 86400,//在到期之前，交易有效的最长生命周期（以秒为单位）
-    "maximum_proposal_lifetime": 2419200,//在到期之前，填案的交易的最长生命周期（以秒为单位）
+    "maximum_proposal_lifetime": 2419200,//在到期之前，提议的交易的最长生命周期（以秒为单位）
     "maximum_asset_whitelist_authorities": 50,//资产可列为白名单或黑名单权限的最大帐户数
     "maximum_authenticator_count": 1001,//最多认证者的数量
     "maximum_committee_count": 1001,//参与理事会最大人数

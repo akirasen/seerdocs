@@ -12,6 +12,8 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 
 时间显示：区块链时间为GMT/UTC，即英国格林尼治时间/世界标准时，考虑到SEER的用户遍及世界各地，以年月日时分秒显示时间时需考虑到用户所在时区的问题，使用N分钟前、N小时前、N天前的表达形式也是一个不错的选择。
 
+在提法上，有的地方称1.15.N为预测市场，有的地方又称为房间，其实是一样的。同时，1.14.N有时称为预测市场设立者，有的时候又称为平台或是房主资质，二者也是一样的，可根据场景来介绍。
+
 ### 区块浏览器的页面
 
 #### 首页
@@ -167,7 +169,7 @@ SEER基于石墨烯底层开发，区块链上记录的最小信息是`操作（
 
 5、`见证人`属性包括：Object_ID、抵押数、待领取抵押收益、抵押清单（抵押ID+数额）、待领取出块收益、最近出块号、链接、丢块数、见证人签名公钥。
 
-分别通过`get_witness`和`get_vesting_balances`获取，其中`get_vesting_balances`返回信息中，object_id为`1.11.90`的即出块收益。
+分别通过`get_witness`和`get_vesting_balances`获取，其中`get_vesting_balances`返回信息中，object_id为`1.11.N`的即出块收益,出块收益id通过`get_witness`的`pay_vb`获取。
 
 例如：
 
@@ -368,6 +370,30 @@ D 用户在使用RPC方式调用`get_relative_account_history`时，返回信息
 资产属性可通过`get_asset`获得。
 
 链接格式为：https://seerscan.com/assets/SEER 
+
+#### 预测市场排行榜页面
+
+1、显示预测市场设立者排行榜；
+
+| 排名 | 账户名 | 声誉 | 保证金 | 参与量 | 未领手续费分成奖励 | 链接 |
+| - | - | - | - | - | - | - |
+| 1 | okok | 135 | 1000000 | 135 | 345156 | http://baidu.com |
+| 2 | alice | 98 | 700000 | 98 | 142343 | http://google.com |
+| 3 | bob | 76 | 600000 | 76 | 267780 | http://facebook.com |
+
+默认通过声誉排序，通过`lookup_house_accounts`获得所有平台id，`get_houses`可获得平台的详细信息列表。
+
+2、显示预言机排行榜。
+
+| 排名 | 账户名 | 声誉 | 保证金 | 参与量  | 链接 |
+| - | - | - | - | - | - | - |
+| 1 | else | 95 | 100000 | 95 | http://baidu.com |
+| 2 | tomato | 65 | 80000 | 65 | http://google.com |
+| 3 | tom | 62 | 50000 | 62 | http://facebook.com |
+
+默认通过声誉排序，通过`lookup_oracle_accounts`获得所有预言机id，`get_oracles`可获得预言机的详细信息列表。
+
+链接格式为：https://seerscan.com/ranking
 
 #### 见证人信息页面
 
@@ -822,47 +848,62 @@ wscat -c ws://127.0.0.1:9191
 			"比特币",
 			"行情"
 		],//标签
-		"description": "SEER明天中午能到1毛吗？（以AEX明天中午12点整的价格为准）",
-		"script": "",
-		"room_type": 0,
-		"status": "opening",
+		"description": "比特币2018-10-30中午能高于6810美元吗？（以新加坡时间2018-10-30中午12点整feixiaohao.com的价格为准）",//描述
+		"script": "",//网址
+		"room_type": 0,//房间类型 0为LMSR
+		"status": "opening",//状态
 		"option": {
-			"result_owner_percent": 9000,
-			"reward_per_oracle": 0,
-			"accept_asset": "1.3.0",
-			"minimum": 100000,
-			"maximum": "10000000000",
-			"start": "2018-07-01T13:22:45",
-			"stop": "2018-07-01T13:33:45",
-			"input_duration_secs": 360,
-			"filter": {
-				"reputation": 0,
-				"guaranty": 0,
-				"volume": 0
+			"result_owner_percent": 9000,//创建者输入权重
+			"reward_per_oracle": 1000000,//每个预言机奖励
+			"accept_asset": "1.3.0",//接受资产类型
+			"minimum": 100000,//最小参与数量
+			"maximum": "10000000000",//最大参与数量
+			"start": "2018-07-01T13:22:45",//开始时间
+			"stop": "2018-07-01T13:33:45",//结束时间
+			"input_duration_secs": 360,//结果输入时间（秒）
+			"filter": {//预言机门槛
+				"reputation": 0,//声誉
+				"guaranty": 0,//保证金
+				"volume": 0//参与量
 			},
 			"allowed_oracles": [],
 			"allowed_countries": [],
 			"allowed_authentications": []
 		},
 		"running_option": {
-			"room_type": 0,
-			"selection_description": ["1", "2"],
+			"room_type": 0,//房间类型
+			"selection_description": [
+				"高于6810美元",//选项0
+				"不高于6810美元"//选项1
+			],
 			"range": 2,
 			"lmsr": {
-				"L": "100000000000"
+				"L": "100000000000"//L值
 			},
-			"participators": [
-				[],
+			"participators": [//参与记录
+				[{
+					"player": "1.2.106",//参与者id
+					"when": "2018-07-01T13:56:42",//参与时间
+					"amount": "100000000000",//参与数量
+					"paid": "62011450696",//参与金额
+					"sequence": 0
+				}, {
+					"player": "1.2.106",
+					"when": "2018-07-01T13:56:48",
+					"amount": "100000000000",
+					"paid": "81366632353",
+					"sequence": 1
+				}],
 				[]
 			],
-			"total_shares": "69314718055",
+			"total_shares": "69314718055",//总参与量
 			"settled_balance": 0,
 			"settled_row": -1,
 			"settled_column": -1,
-			"player_count": [0, 0],
-			"total_player_count": 0,
+			"player_count": [13, 4],//各选项参与人数
+			"total_player_count": 17,//总参与人数
 			"lmsr_running": {
-				"items": [0, 0],
+				"items": ["120000000000", "110000000000"],//各选项参与份数
 				"accelerator": []
 			},
 			"guaranty_alone": 0
@@ -879,6 +920,69 @@ wscat -c ws://127.0.0.1:9191
 ```
 
 #### get_relative_account_history
+
+格式：`get_relative_account_history` name start limit end
+
+参数：name可以是账户名或id,start为返回结果的最小编号，limit 为返回结果的数量上限，end为返回结果的最大编号；
+
+返回数据排序方式为按时间顺序，越新的越靠前；
+
+编号从1开始，若end = 0，则返回最新的limit条操作信息；
+
+若end - start > limit，则返回满足条件的最新的limit条操作信息。
+
+作用：列出账户name的操作历史记录
+
+<p class="tip">
+  请避免一次性返回超过100条数据，以免节点或钱包报错。同时，在命令行钱包中使用此命令时只会返回 "description"中的数据，用RPC调用方能返回完整数据。
+</p>
+
+示例：`{"jsonrpc": "2.0", "method": "get_relative_account_history", "params": ["seerdex-withdraw",15,1,30], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [
+		{
+		"memo": "give you 980 SEER",//解锁并有相应私钥的钱包方能显示MEMO
+		"description": "Transfer 980 SEER from alice to okok -- Memo: give	ou 980 SEER   (Fee: 21.05468 SEER)",//钱包一般只显示此内容
+		"op": {
+			"id": "1.9.703568",//该操作的对象id，可通过get_object	.9.703568查看此操作
+			"op": [
+				0, //操作类型，0表示转账
+				{
+				"fee": {//手续费
+					"amount": 2105468,//数额
+					"asset_id": "1.3.0"//资产类型
+				},
+				"from": "1.2.109",//转出id
+				"to": "1.2.105",//接收id
+				"amount": {
+					"amount": 98000000,//转账数额
+					"asset_id": "1.3.0"//资产类型
+				},
+				"memo": {//MEMO权限相关
+					"from": "SEER6sJwPuSSayEzHXLbVgw9HJsDnGBk5Dup5bq3ns1Yzi	DMKMgU",
+					"to": "SEER8UAbnsAnXY1qr3CD6uzKaRuewsyPF9ynYJJGrdvSfDAN	GNxH",
+					"nonce": "394073041834538",
+					"message": "485e630438b9a38c94c12afd9b15007845484d7f0c8	c29c135f4f9a155a1ee"
+				},
+				"extensions": []
+			}],
+			"result": [//操作返回结果
+				0, 
+				{				}
+			],
+			"block_num": 3674099,//入块高度
+			"trx_in_block": 0,//操作所属交易在区块内的位置
+			"op_in_trx": 0,//操作在交易内的位置
+			"virtual_op": 52924//虚拟操作编号
+		}
+	}]
+}
+```
+`get_relative_account_history`会列出和此账户有关的所有操作，例如自己转账给别人（包括提现）、别人转账给自己（包括充值）、账号注册、参与预测等。
 
 #### list_account_balances
 
@@ -906,23 +1010,356 @@ wscat -c ws://127.0.0.1:9191
 
 #### get_account
 
+格式：`get_account` account_name_or_id
+
+参数：account_name_or_id是账户名或id
+
+作用：列出账户account_name_or_id的详细情况
+
+示例：`{"jsonrpc": "2.0", "method": "get_account", "params": ["bob"], "id": 1}` 
+
+或 `{"jsonrpc": "2.0", "method": "get_account", "params": ["1.2.151"], "id": 1}` 
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": {
+		"id": "1.2.151",//此帐户id
+		"membership_expiration_date": "1969-12-31T23:59:59",//此帐户的会员资格到期的时间。
+		"registrar": "1.2.151",//注册人
+		"referrer": "1.2.151",//推荐人
+		"lifetime_referrer": "1.2.151",//终身会员推荐人
+		"network_fee_percentage": 6000,//手续费分配给网络的百分比
+		"lifetime_referrer_fee_percentage": 4000,//手续费分配给终身会员推荐人的百分比
+		"referrer_rewards_percentage": 0,//推荐人获得的比例
+		"name": "bob",//名称
+		"owner": {//账户权限 多签管理
+			"weight_threshold": 1,//阈值
+			"account_auths": [],
+			"key_auths": [
+				["SEER4v4wcrtnCCoo5S2THnLnLLKZDZ8ovRC5V2TnHKbHhjrh8oyz6L", 1]//账户权限公钥 权重
+			],
+			"address_auths": []
+		},
+		"active": {//资金权限 多签管理
+			"weight_threshold": 1,//阈值
+			"account_auths": [],
+			"key_auths": [
+				["SEER7js4ot7oPXrNEZaejvyagNG4mJtCtUxhX8t3Qi7H6ABjcBXqx3", 1]//资金权限公钥 权重
+			],
+			"address_auths": []
+		},
+		"options": {
+			"memo_key": "SEER7js4ot7oPXrNEZaejvyagNG4mJtCtUxhX8t3Qi7H6ABjcBXqx3",//MEMO(备注)权限公钥
+			"voting_account": "1.2.5",
+			"num_committee": 0,
+			"num_authenticator": 0,
+			"num_supervisor": 0,
+			"votes": [],
+			"extensions": []
+		},
+		"statistics": "2.5.151",
+		"whitelisting_accounts": [],
+		"blacklisting_accounts": [],
+		"whitelisted_accounts": [],
+		"blacklisted_accounts": [],
+		"owner_special_authority": [0, {}],
+		"active_special_authority": [0, {}],
+		"top_n_control_flags": 0,
+		"country": 0,
+		"status": 0,
+		"authentications": []
+	}
+}
+```
+
 #### get_house_by_account
+
+格式：`get_house_by_account` account
+
+参数：account为账户id
+
+作用：根据对方账户id查询平台
+
+示例：`{"jsonrpc": "2.0", "method": "get_house_by_account", "params": ["1.2.77"], "id": 1}` 
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": {
+		"id": "1.14.6",//平台id
+		"owner": "1.2.77",//拥有者账户id
+		"description": "最帅平台",//平台描述
+		"script": "https://baidu.com",//平台链接
+		"reputation": 2,//名誉
+		"guaranty": "10000000000",//保证金
+		"volume": 2,//参与量
+		"collected_fees": 1000000,//待领取手续费分成
+		"rooms": ["1.15.15"],//正在进行的房间
+		"finished_rooms": ["1.15.12", "1.15.13"]//已结束房间
+	}
+}
+```
 
 #### get_oracle_by_account
 
+格式：`get_oracle_by_account` account
+
+参数：account为账户id
+
+作用：根据对方账户id查询预言机
+
+示例：`{"jsonrpc": "2.0", "method": "get_oracle_by_account", "params": ["1.2.63"], "id": 1}` 
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": {
+		"id": "1.13.0",//预言机id
+		"owner": "1.2.63",//拥有者账户id
+		"guaranty": "200001000000",//保证金
+		"locked_guaranty": 0,//锁定中保证金
+		"reputation": 1,//名誉
+		"volume": 1,//参与量
+		"description": "超机预言机",//预言机描述
+		"script": "https://baidu.com"//预言机介绍链接
+	}
+}
+```
+
 #### get_witness
+
+格式：`get_witness` owner_account 
+
+参数：owner_account为账户名或者id
+
+作用：列出账户为owner_account的见证人
+
+示例：
+示例：`{"jsonrpc": "2.0", "method": "get_witness", "params": ["bob"], "id": 1}` 
+或 `{"jsonrpc": "2.0", "method": "get_witness", "params": ["1.2.151"], "id": 1}` 
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": {
+		"id": "1.5.9",//见证人id
+		"witness_account": "1.2.151",//拥有者账户id
+		"last_aslot": 4662280,
+		"signing_key": "SEER7GQxZj2DecxkN3jMfJaHap3U5yYzW21AQ94StwG5rmMsdnGs97",//见证人签名公钥
+		"pay_vb": "1.11.60",//出块收益id
+		"collaterals": ["2.16.1"],//抵押项列表
+		"collateral_profit": 189632156,//待领取抵押收益
+		"total_collateral": 5234000000000,//总抵押金额
+		"cancelling_collateral": 1000000000,//解锁中抵押项
+		"url": "",//见证人链接
+		"total_missed": 1049,//总丢块数
+		"last_confirmed_block_num": 4660381,//最后确认出块
+		"recent_maintenance_missed_blocks": [1049, 0]//本维护期内丢的块数
+	}
+}
+```
 
 #### get_vesting_balances
 
+格式：`get_vesting_balances` account_name 
+
+参数：account_name为账户名或id
+
+作用：列出用户的锁定余额详情
+
+示例：`{"jsonrpc": "2.0", "method": "get_vesting_balances", "params": ["bob"], "id": 1}` 或 `{"jsonrpc": "2.0", "method": "get_vesting_balances", "params": ["1.2.151"], "id": 1}` 
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [{
+		"id": "1.11.30",//待解冻余额id
+		"owner": "1.2.151",//所有人id
+		"balance": {
+			"amount": 77850000000,//待解冻余额金额
+			"asset_id": "1.3.0"//资产代号
+		},
+		"policy": [1, {
+			"vesting_seconds": 31536000,//解锁总时长 约365天，此项为终身会员返利
+			"start_claim": "1970-01-01T00:00:00",//
+			"coin_seconds_earned": "7466889574164855",
+			"coin_seconds_earned_last_update": "2018-10-18T00:00:00"
+		}],
+		"allowed_withdraw": {
+			"amount": 189847249,//可领取数量
+			"asset_id": "1.3.0"
+		},
+		"allowed_withdraw_time": "2018-10-27T08:36:15"
+	}, {
+		"id": "1.11.60",//待解冻余额id
+		"owner": "1.2.151",//所有人id
+		"balance": {
+			"amount": 7022400000,//待解冻余额金额
+			"asset_id": "1.3.0"//资产代号
+		},
+		"policy": [1, {
+			"vesting_seconds": 86400,//解锁总时长 约1天，此项为出块收益
+			"start_claim": "1970-01-01T00:00:00",
+			"coin_seconds_earned": "697509440000000",
+			"coin_seconds_earned_last_update": "2018-10-27T08:36:00"
+		}],
+		"allowed_withdraw": {
+			"amount": 6987100000,//可领取数量
+			"asset_id": "1.3.0"
+		},
+		"allowed_withdraw_time": "2018-10-27T08:36:15"
+	}]
+}
+```
+
 #### get_committee_member
+
+格式：`get_committee_member`(string owner_account); 
+
+参数：owner_account为账户名或者id
+
+作用：列出账户为owner_account的理事会成员
+
+示例：`{"jsonrpc": "2.0", "method": "get_committee_member", "params": ["bob"], "id": 1}` 或 `{"jsonrpc": "2.0", "method": "get_committee_member", "params": ["1.2.151"], "id": 1}`
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": {
+		"id": "1.4.8",//理事id
+		"committee_member_account": "1.2.151",//拥有者账户id
+		"vote_id": "0:8",//投票id
+		"total_votes": 13293995215,//得票数
+		"url": "https://baidu.com"//竞选链接
+	}
+}
+```
 
 #### lookup_house_accounts
 
+格式：`lookup_house_accounts` lower_bound_name limit
+
+参数：lowerbound为账户名的下标，limit为返回结果的数量上限
+
+作用：列出SEER平台列表
+
+示例：`{"jsonrpc": "2.0", "method": "lookup_house_accounts", "params": ["", 100], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [
+		["alice", "1.14.14"],//平台拥有者账号名和平台id
+		["asd123", "1.14.15"],
+		["cn-itata", "1.14.3"],
+		["da-keai", "1.14.11"],
+		["danilo3", "1.14.2"],
+		["das", "1.14.16"],
+		["else", "1.14.10"],
+		["null-account", "1.14.4294967295"],
+		["okok", "1.14.9"],
+		["q123456789", "1.14.1"],
+		["qwe111", "1.14.12"],
+		["seer", "1.14.0"],
+		["seer-go", "1.14.7"],
+		["seer-king", "1.14.8"],
+		["seer123", "1.14.13"],
+		["tnt123456", "1.14.5"],
+		["tnt23456", "1.14.6"],
+		["xianzhixianjue", "1.14.4"]
+	]
+}
+```
+
 #### get_houses
+
+格式：`get_houses` house_ids
+
+参数：house_ids为平台的id集
+
+作用：根据给定的id集列出平台列表
+
+示例：`{"jsonrpc": "2.0", "method": "get_houses", "params": [1.14.3,1.14.2,1.14.6], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [{
+		"id": "1.14.3",//平台id
+		"owner": "1.2.30",//平台拥有者账号名
+		"description": "test",//平台描述
+		"script": "",//平台链接
+		"reputation": 0,//声望值
+		"guaranty": "300000000000",//保证金
+		"volume": 0,//参与次数
+		"rooms": ["1.15.11"],//进行中的房间
+		"finished_rooms": []//已完成的房间
+	}, {
+		"id": "1.14.2",
+		"owner": "1.2.29",
+		"description": "test",
+		"script": "1",
+		"reputation": 0,
+		"guaranty": "10000000000",
+		"volume": 0,
+		"rooms": ["1.15.3"],
+		"finished_rooms": []
+	}, {
+		"id": "1.14.6",//平台id
+		"owner": "1.2.77",//平台拥有者账号名
+		"description": "",//平台描述
+		"script": "",//平台链接
+		"reputation": 2,//声望值
+		"guaranty": "10000000000",//保证金
+		"volume": 2,//参与次数
+		"rooms": ["1.15.15"],//进行中的房间
+		"finished_rooms": ["1.15.12", "1.15.13"]//已完成的房间
+	}]
+```
 
 #### get_rooms_by_label
 
+格式：`get_rooms_by_label`(const string& label, uint32_t limit)const;
+
+参数：label为需要查找的索引, limit为返回结果的最大数量
+
+作用：查询标签为label的房间
+
+示例：`{"jsonrpc": "2.0", "method": "get_rooms_by_label", "params": ["football",100], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": ["1.15.20", "1.15.22"]//含有指定标签的房间列表，包含已结束房间
+}
+```
+
 #### get_transaction_id
+
+格式：`get_transaction_id` signed_transaction(JSON)
+
+参数：signed_transaction为JSON格式的已签名的交易内容。
+
+作用：将压缩过的JSON格式的交易内容转换为其交易ID。
+
+示例：`{"jsonrpc": "2.0", "method": "get_transaction_id", "params": [{"ref_block_num":64292,"ref_block_prefix":1517346144,"expiration":"2018-10-12T07:33:12","operations":[[0,{"fee":{"amount":2136718,"asset_id":"1.3.0"},"from":"1.2.105","to":"1.2.138","amount":{"amount":"50000000000","asset_id":"1.3.0"},"memo":{"from":"SEER8UAbnsAnXY1qr3CD6uzKaRuewsyPF9ynYJJGrdvSfDANxsGNxH","to":"SEER6QbqUZF6xzjdceVoLHS7K1KwvLyszVTZS8bbsQQQXcAm8L3aZp","nonce":"4469110159915322318","message":"482a7d070d298fe2a79d5f528f55778c62584d242274a7d697dae1ec63d7038b5a0b80dc9ba524e3f5f528bc717c60a635f89ff8af1cccbd1b4189f8ddc92e39"},"extensions":[]}]],"extensions":[],"signatures":["204e8746aac14a05fb3c66ac653429dead34bddac58911c53346feb365f0c7b5767ea870c1e5da6a104d8364e42f504fc1bdcfc442652f5c2e9bb9b26a858b0ccd"]}], "id": 1}`
+
+```json
+{
+	"id": 1,
+	"result": "2b6eca1996c4456c1e235c68c0b3c3005e076630"
+}
+```
 
 #### transfer2
 
@@ -940,7 +1377,7 @@ wscat -c ws://127.0.0.1:9191
 	"id": 1,
 	"jsonrpc": "2.0",
 	"result":[
-		"7ab0e58b6391a770cb62f432e0f2aef93de4d18e",//交易id
+		"2b6eca1996c4456c1e235c68c0b3c3005e076630",//交易id
 		{
 		"ref_block_num": 64292,//引用的区块号
 		"ref_block_prefix": 1517346144,//引用的区块头
@@ -976,9 +1413,80 @@ wscat -c ws://127.0.0.1:9191
 
 #### get_asset
 
+格式：`get_asset` asset_name_or_id
+
+参数：asset_name_or_id是资产名或资产id
+
+作用：列出资产asset_name_or_id的详细情况
+
+示例：`{"jsonrpc": "2.0", "method": "get_asset", "params": ["SEER"], "id": 1}` 
+
+或 `{"jsonrpc": "2.0", "method": "get_asset", "params": ["1.3.0"], "id": 1}` 
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": {
+		"id": "1.3.0",//资产ID
+		"symbol": "SEER",//资产名
+		"precision": 5,//精度
+		"issuer": "1.2.3",//发行人
+		"options": {
+			"max_supply": "1000000000000000",//最大供给
+			"market_fee_percent": 0,
+			"max_market_fee": "1000000000000000",//最大市场手续费
+			"issuer_permissions": 0,
+			"flags": 0,
+			"core_exchange_rate": {
+				"base": {
+					"amount": 1,
+					"asset_id": "1.3.0"
+				},
+				"quote": {
+					"amount": 1,
+					"asset_id": "1.3.0"
+				}
+			},
+			"whitelist_authorities": [],
+			"blacklist_authorities": [],
+			"whitelist_markets": [],
+			"blacklist_markets": [],
+			"description": "",
+			"extensions": []
+		},
+		"dynamic_asset_data_id": "2.3.0"
+	}
+}
+```
+
 #### list_witnesses
 
-#### get_global_properties
+格式：`list_witnesses` lowerbound limit
+
+参数：lowerbound为账户名的下标，limit为返回结果的数量上限
+
+作用：列出见证人列表
+
+示例：`{"jsonrpc": "2.0", "method": "list_witnesses", "params": ["" ,100], "id": 1}` 
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [
+		["bob"/*竞选见证人的用户账号*/, "1.5.9"/*竞选见证人的竞选者ID*/],
+		["init0", "1.5.1"],
+		["init1", "1.5.2"],
+		["init2", "1.5.3"],
+		["init3", "1.5.4"],
+		["init4", "1.5.5"],
+		["init5", "1.5.6"],
+		["init6", "1.5.7"],
+		["seer-go", "1.5.8"]
+	]
+}
+```
 
 #### get_dynamic_global_properties
 
@@ -1010,6 +1518,32 @@ wscat -c ws://127.0.0.1:9191
 ```
 
 #### list_committee_members
+
+格式：`list_committee_members` lowerbound limit
+
+参数：lowerbound为账户名的下标，limit为返回结果的数量上限
+
+作用：列出理事会成员列表
+
+示例：`{"jsonrpc": "2.0", "method": "list_committee_members", "params": ["" ,100], "id": 1}` 
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [
+		["bob",/*竞选理事会的用户账号*/ "1.4.8"/*竞选理事会的理事竞选者ID*/],
+		["init0", "1.4.0"],
+		["init1", "1.4.1"],
+		["init2", "1.4.2"],
+		["init3", "1.4.3"],
+		["init4", "1.4.4"],
+		["init5", "1.4.5"],
+		["init6", "1.4.6"],
+		["seer-go", "1.4.7"]
+	]
+}
+```
 
 ## 操作信息翻译
 

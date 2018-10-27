@@ -2794,4 +2794,4 @@ get_account[result.transactions.operations.issuer].result.name + "取得高级�
 ```
 取数据格式：
 
-et_account[result.transactions.operations.issuer].result.name + "更新预测市场设立者信息"
+get_account[result.transactions.operations.issuer].result.name + "更新预测市场设立者信息"

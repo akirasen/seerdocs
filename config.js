@@ -69,6 +69,10 @@ docute.init({
       
       },
       {
+        title: '浏览器指南', path: '/zh-Hans/explorer', source: 'https://raw.githubusercontent.com/akirasen/seerdocs/master/zh-Hans/explorer.md'
+      
+      },
+      {
         title: '选择语言', type: 'dropdown', items: langs
       }
     ],

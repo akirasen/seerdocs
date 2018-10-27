@@ -1919,7 +1919,7 @@ lookup_oracle_accounts  "" 100
     "tnt123456",
     "1.13.0"
   ],
-  ......
+  //......
   ,[
     "tnt23456",
     "1.13.1"
@@ -2002,7 +2002,7 @@ lookup_house_accounts "" 100
     "danilo3",
     "1.14.2"
   ],
-  ......
+  //......
   ,[
     "tnt23456",
     "1.14.6"
@@ -2014,7 +2014,7 @@ lookup_house_accounts "" 100
 #### 5. get_houses
 seer_house_object `get_houses`(const vector<seer_house_id_type>& house_ids)const;
 
-参数：house _ids为平台的id集
+参数：house_ids为平台的id集
 
 作用：根据给定的id集列出平台列表
 
@@ -2158,7 +2158,7 @@ get_seer_room  1.15.236 0 100
           "paid": 400000000,
           "sequence": 0
         },
-	......
+	//......
 	,{
           "player": "1.2.11271",
           "when": "2018-07-31T04:55:57",

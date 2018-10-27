@@ -1,3 +1,10 @@
+---
+nav: zh-Hans
+search: 
+  - zh-Hans
+  - zh-Hant
+---
+
 # SEER区块浏览器开发指南
 
 ## 区块浏览器基本功能

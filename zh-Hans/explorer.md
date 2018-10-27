@@ -1625,7 +1625,7 @@ wscat -c ws://127.0.0.1:9191
 ```
 | 类型 | 说明 | 
 | - | - |
-| [转账] | okok 转账 10000.00000 ABC 给 else |
+| 转账 | okok 转账 10000.00000 ABC 给 else |
 ```
 取数据格式：
 get_account[result.transactions.operations.from].result.name + "转账" + result.transactions.operations.amount.amount/100000 + get_asset[result.transactions.operations.amount.asset_id].result.symbol + "给" + get_account[result.transactions.operations.to].result.name

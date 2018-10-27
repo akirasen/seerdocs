@@ -644,10 +644,6 @@ wscat -c ws://127.0.0.1:9191
 
 示例：`{"jsonrpc": "2.0", "method": "get_global_properties", "params": [], "id": 1}`
 
-<p class="tip">
-  提示：`"fee"`、`"price_per_kbyte"`等费率相关参数值的单位均为 `1/100000` ，代表着SEER支持的最大小数点后数据精度。
-</p>
-
 返回信息示例：
 
 ```json

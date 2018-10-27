@@ -658,7 +658,7 @@ wscat -c ws://127.0.0.1:9191
 		"parameters": {
 			"current_fees": {
 				"parameters": [
-					......]//费率表介绍可以在命令行指南中查看
+					/*...费率表介绍可以在命令行指南中查看...*/]
 			},
 			"block_interval": 3,//块间隔时间，3秒
 			"maintenance_interval": 86400,//维护更新时间 86400秒，一天

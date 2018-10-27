@@ -380,7 +380,11 @@ D 用户在使用RPC方式调用`get_relative_account_history`时，返回信息
 | 3 | alice | 20秒前 | 456126 | 1 | 5981236 | 345343 |
 | 4 | bob | 现在 | 456129 | 0 | 8123012 | 4081236 |
 
-通过`list_witnesses`获得所有见证人id，`get_witness`可获得每个见证人的详细信息。按抵押金额排名前101位的为获息见证人，通过`info`获得本轮出块的21为活跃见证人和参与率等信息，每块奖励通过`get_global_properties`获得，本期剩余见证人奖励通过`get_dynamic_global_properties`中的`witness_budget`本期见证人预算总额 - 本期已出块数 * 每块奖励得出。
+通过`list_witnesses`获得所有见证人id，`get_witness`可获得每个见证人的详细信息。
+
+按抵押金额排名前101位的为获息见证人，通过`get_global_properties`.result.active_collateral_witnesses可以获得获息见证人列表。
+
+通过`info`获得本轮出块的21位活跃见证人和参与率等信息，每块奖励通过`get_global_properties`获得，本期剩余见证人奖励通过`get_dynamic_global_properties`中的`witness_budget`本期见证人预算总额 - 本期已出块数 * 每块奖励得出。
 
 2、区块生产状态：包括当前见证人、活跃见证人、参与率、每块奖励、剩余预算、计票更新时间（侧边栏显示）；
 
@@ -396,7 +400,9 @@ D 用户在使用RPC方式调用`get_relative_account_history`时，返回信息
 
 #### 理事会信息页面
 
-显示排名、账户名、得票数、竞选网页。
+1、显示排名、账户名、得票数、竞选网页。
+
+2、可以切换活跃理事会成员和所有（含竞选中）理事会成员页面
 
 | 排名 | 账户名 | 得票数 | 竞选网页 |
 | - | - | - | - |
@@ -404,8 +410,7 @@ D 用户在使用RPC方式调用`get_relative_account_history`时，返回信息
 | 2 | else | 54234798 | http://baidu.com |
 | 3 | alice | 68633872 | http://baidu.com |
 
-通过`list_committee_members`和`get_committee_member`获得。
-
+所有理事会成员列表通过`list_committee_members`获得，活跃理事会成员列表通过`get_global_properties`.result.active_committee_members 或 `info` 获得，详细信息通过`get_committee_member`获得。
 
 ## 调用区块链上的信息
 
@@ -517,21 +522,387 @@ wscat -c ws://127.0.0.1:9191
 
 #### get_block
 
+格式： `get_block` num
 
+参数： 块号
+
+作用： 显示第num个块的概况
+
+示例： `{"jsonrpc": "2.0", "method": "get_block", "params": [2090482], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": {
+		"previous": "003b1b3f312331a5caca5d84251561532d1a37bf",//上一个块的块号
+		"timestamp": "2018-10-20T10:22:51",//时间戳
+		"witness": "1.5.3",//见证人
+		"transaction_merkle_root": "10d083ae2e6fee5822094d7d4622e4b616989e66",
+		"extensions": [],
+		"witness_signature": "203......f1",//见证人签名
+		"transactions": [//交易列表
+			"ref_block_num": 6974,//引用的区块号
+			"ref_block_prefix": 478549604,//引用的区块头
+			"expiration": "2018-10-20T10:24:47",//交易过期时间
+			"operations": [//操作列表
+				[0, {
+					"fee": {//手续费
+						"amount": 2105468,
+						"asset_id": "1.3.0"
+					},
+					"from": "1.2.105",//发起用户ID
+					"to": "1.2.109",//接收用户ID
+					"amount": {
+						"amount": 10000000,//金额
+						"asset_id": "1.3.0"//资产类型 
+					},
+					"memo": {
+						"from": "SEER8UAbnsAnXY1qr3CD6uzKaRuewsyPF9ynYJJGrdvSfDANxsGNxH",
+						"to": "SEER6sJwPuSSayEzHXLbVgw9HJsDnGBk5Dup5bq3ns1YziZEDMKMgU",
+						"nonce": "394247926841715",
+						"message": "129a23c2e02759b952322eb2f3ab71f91a5943a0d200daa9aa39561a66fda3f3"
+					},
+					"extensions": []
+				}]
+			],
+			"extensions": [],
+			"signatures": ["2054eb......e7c7"],//交易签名集合
+			"operation_results": [
+				[0, {}]
+			]
+		}],
+		"block_id": "003b1b40e745144407b6a59ec18388dfc29a4866",//块id
+		"signing_key": "SEER4xBLWwa8Q42ZRnY2sFz5rywr16TG6WgbNSPDR5DodvNEQyVgnQ",//见证人签名公钥
+		"transaction_ids": ["e7ac878e5771a8c5f7e20699639cad7084067960"],//交易id集
+		"txs_count": 1
+	}
+}
+```
 
 #### info
 
+作用：显示当前Seer区块链的状态
+
+示例：`{"jsonrpc": "2.0", "method": "info", "params": [], "id": 1}`
+
+返回信息示例：
+```json
+ {"id":1,
+ 	"result":
+ 	{
+ 		"head_block_num":3678258,//当前块高
+ 		"head_block_id":"00382032d0bfee243b0c5f6b37e3fd6f29682e6e",//当前块号
+ 		"head_block_age":"0 second old",//上一个区块生成时间
+ 		"next_maintenance_time":"7 hours in the future",//维护更新时间
+ 		"chain_id":"da68a9c5f2fd9ed48e626ea301db1c77505523884ba0dd409e779246c6ea26cf",//链号
+ 		"participation":"88.28125000000000000",//区块生产参与率
+ 		"active_witnesses"://活跃见证人ID
+ 		["1.5.1","1.5.2","1.5.3","1.5.4","1.5.5","1.5.6","1.5.7","1.5.8"],
+ 		"active_committee_members"://活跃理事会成员ID
+ 		["1.4.0","1.4.1","1.4.2","1.4.3","1.4.4","1.4.5","1.4.6","1.4.7"]
+ 	}
+ }
+```
+
 #### get_global_properties
+
+作用：列出链的当前全局参数
+
+示例：`{"jsonrpc": "2.0", "method": "get_global_properties", "params": [], "id": 1}`
+
+<p class="tip">
+  提示：`"fee"`、`"price_per_kbyte"`等费率相关参数值的单位均为 `1/100000` ，代表着SEER支持的最大小数点后数据精度。
+</p>
+
+返回信息示例：
+
+```json
+{
+	"id": 1,
+	"result": {
+		"id": "2.0.0",
+		"parameters": {
+			"current_fees": {
+				"parameters": [
+					......]//费率表介绍可以在命令行指南中查看
+			},
+			"block_interval": 3,//块间隔时间，3秒
+			"maintenance_interval": 86400,//维护更新时间 86400秒，一天
+			"maintenance_skip_slots": 3,//维护时跳过的块间隔数
+			"committee_proposal_review_period": 1209600,//理事会提案审查期 1209600秒 14天
+			"maximum_transaction_size": 2048,//最大交易大小 2048K 即2M
+			"maximum_block_size": 2000000,//最大单个块数据大小 2000000K 即约1.9G
+			"maximum_time_until_expiration": 86400,//在到期之前，交易有效的最长生命周期（以秒为单位）
+			"maximum_proposal_lifetime": 2419200,//在到期之前，提议的交易的最长生命周期（以秒为单位）
+			"maximum_asset_whitelist_authorities": 50,//资产可列为白名单或黑名单权限的最大帐户数
+			"maximum_authenticator_count": 101,//最多认证者的数量
+			"maximum_committee_count": 1001,//参与理事会最大人数
+			"maximum_authority_membership": 10,//权限(多签)可以设置的最大数量的密钥/帐户
+			"network_percent_of_fee": 6000,//支付给网络的手续费比例 此处为60%
+			"lifetime_referrer_percent_of_fee": 0,//终身会员推荐人手续费分成比例
+			"cashback_vesting_period_seconds": 31536000,//待解冻余额解冻周期，31536000秒，一年
+			"cashback_vesting_threshold": 10000000,//待解冻余额领取门槛，100SEER
+			"count_non_member_votes": true,//非会员账户是否投票
+			"allow_non_member_whitelists": false,//非会员帐户能否设置白名单和黑名单
+			"witness_pay_per_block": 300000,//主力见证人出块的每个块奖励，3 SEER
+			"max_predicate_opcode": 1,
+			"fee_liquidation_threshold": 10000000,
+			"accounts_per_fee_scale": 1000,
+			"account_fee_scale_bitshifts": 4,
+			"max_authority_depth": 2,//权限(多签)可以设置的最大深度（级别）
+			"min_guaranty_per_room": "10000000000",//每个房间最少抵押金：10万SEER
+			"max_oracle_reward": 100000000,//每个预言机最高奖励：1000SEER
+			"fixed_witness_count": 21,//主力见证人数量
+			"maximum_profit_witness_count": 101,//获息见证人总数
+			"maximun_seer_settles_per_block": 1000,
+			"supported_authenticate_types": 7,
+			"extensions": []
+		},
+		"next_available_vote_id": 9,
+		"active_committee_members": ["1.4.0", "1.4.1", "1.4.2", "1.4.3", "1.4.4", "1.4.5", "1.4.6", "1.4.7", "1.4.8"],//活跃理事会成员
+		"active_witnesses": ["1.5.1", "1.5.2", "1.5.3", "1.5.4", "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9"],//活跃（主力）见证人
+		"active_collateral_witnesses": ["1.5.1", "1.5.2", "1.5.3", "1.5.4", "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9"],//活跃获息见证人（主力+候选）
+		"active_supervisors": [],
+		"active_authenticators": [],
+		"seer_exploded": false
+	}
+}
+```
 
 #### list_accounts
 
+格式：`list_accounts` lowerbound limit
+
+参数：lowerbound:账户名下标, limit:返回结果的数量上限
+
+作用：列出账号名大于lowerbound的账户
+
+示例1：`{"jsonrpc": "2.0", "method": "list_accounts", "params": ["",10], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [
+		["abc111", "1.2.115"],
+		["abccba", "1.2.108"],
+		["abcde-12345", "1.2.20"],
+		["abcde-123455", "1.2.23"],
+		["acc-3", "1.2.101"],
+		["akira123", "1.2.133"],
+		["akira6", "1.2.131"],
+		["alice", "1.2.109"],
+		["asd123", "1.2.149"],
+		["asdddd22", "1.2.27"]
+	]
+}
+```
+<p class="tip">
+  此例未指定账号名，所以从a开始，若设置账号名大于seer，则会列出从seer开始的seer01、seer03等账户。
+</p>
+
+示例2：`{"jsonrpc": "2.0", "method": "list_accounts", "params": ["seer",9], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [
+		["seer", "1.2.13"],
+		["seer-123", "1.2.137"],
+		["seer-bind-1", "1.2.55"],
+		["seer-faucet", "1.2.15"],
+		["seer-go", "1.2.42"],
+		["seer-king", "1.2.46"],
+		["seer-opc", "1.2.75"],
+		["seer123", "1.2.117"],
+		["seeropc123", "1.2.74"]
+	]
+}
+```
+
 #### list_assets
 
+格式：`list_assets` lowerbound limit
+
+参数：lowerbound资产名下标, limit 返回结果的数量上限
+
+作用：列出资产名大于lowerbound的资产
+
+示例：`{"jsonrpc": "2.0", "method": "list_assets", "params": ["SEE",2], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [{
+		"id": "1.3.11",//SEER的资产ID
+		"symbol": "SEED",//SEER的资产ID
+		"precision": 5,//小数点后精度
+		"issuer": "1.2.151",//创建者
+		"options": {
+			"max_supply": "10000000000",//最大供给量
+			"market_fee_percent": 0,//交易手续费收取比例
+			"max_market_fee": 0,//最大市场手续费
+			"issuer_permissions": 31,
+			"flags": 0,
+			"core_exchange_rate": {//发生手续费会按以下比例 从费用池自动将此资产换为核心资产（SEER）用于支付费用
+				"base": {
+					"amount": 100000,//对标市场基准资产的比例
+					"asset_id": "1.3.0"
+				},
+				"quote": {
+					"amount": 100000,
+					"asset_id": "1.3.11"
+				}
+			},
+			"whitelist_authorities": [],//一组帐户，此资产的白名单。如果白名单非空，则只允许白名单中的帐户保留、使用或转移资产。
+			"blacklist_authorities": [],//一组帐户，此资产的黑名单。如果设置了白名单，则只有这些帐户能进行此资产的发送、接收、交易等，但如果该帐户被列入黑名单，即使该帐户也列入白名单，它也不能操作此资产。
+			"whitelist_markets": ["1.3.0"],//定义此资产可在市场上组成交易对的资产
+			"blacklist_markets": [],//定义此资产在市场上不可进行交易的资产，不得与白名单重叠
+			"description": "{\"main\":\"\",\"market\":\"\"}",//资产描述
+			"extensions": []
+		},
+		"dynamic_asset_data_id": "2.3.11"
+	}, {
+		"id": "1.3.0",
+		"symbol": "SEER",
+		"precision": 5,
+		"issuer": "1.2.3",
+		"options": {
+			"max_supply": "1000000000000000",
+			"market_fee_percent": 0,
+			"max_market_fee": "1000000000000000",
+			"issuer_permissions": 0,
+			"flags": 0,
+			"core_exchange_rate": {
+				"base": {
+					"amount": 1,
+					"asset_id": "1.3.0"
+				},
+				"quote": {
+					"amount": 1,
+					"asset_id": "1.3.0"
+				}
+			},
+			"whitelist_authorities": [],
+			"blacklist_authorities": [],
+			"whitelist_markets": [],
+			"blacklist_markets": [],
+			"description": "",
+			"extensions": []
+		},
+		"dynamic_asset_data_id": "2.3.0"
+	}]
+}
+```
+
 #### get_seer_room
+
+格式：`get_seer_room` room_id start limit
+
+参数：room_id为房间id，start 为投注记录的开始索引,limit为返回结果中投注记录的最大数量
+
+作用：根据房间id查询房间详情（不是完整的房间,因投注太多的情况下房间空间会非常大）
+
+示例：`{"jsonrpc": "2.0", "method": "get_seer_room", "params": ["1.15.21",0,2], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": {
+		"id": "1.15.21",//预测市场房间id
+		"house_id": "1.14.9",//创建者身份（平台）id
+		"owner": "1.2.105",//创建者账号id
+		"label": [
+			"BTC", 
+			"币圈",
+			"比特币",
+			"行情"
+		],//标签
+		"description": "SEER明天中午能到1毛吗？（以AEX明天中午12点整的价格为准）",
+		"script": "",
+		"room_type": 0,
+		"status": "opening",
+		"option": {
+			"result_owner_percent": 9000,
+			"reward_per_oracle": 0,
+			"accept_asset": "1.3.0",
+			"minimum": 100000,
+			"maximum": "10000000000",
+			"start": "2018-07-01T13:22:45",
+			"stop": "2018-07-01T13:33:45",
+			"input_duration_secs": 360,
+			"filter": {
+				"reputation": 0,
+				"guaranty": 0,
+				"volume": 0
+			},
+			"allowed_oracles": [],
+			"allowed_countries": [],
+			"allowed_authentications": []
+		},
+		"running_option": {
+			"room_type": 0,
+			"selection_description": ["1", "2"],
+			"range": 2,
+			"lmsr": {
+				"L": "100000000000"
+			},
+			"participators": [
+				[],
+				[]
+			],
+			"total_shares": "69314718055",
+			"settled_balance": 0,
+			"settled_row": -1,
+			"settled_column": -1,
+			"player_count": [0, 0],
+			"total_player_count": 0,
+			"lmsr_running": {
+				"items": [0, 0],
+				"accelerator": []
+			},
+			"guaranty_alone": 0
+		},
+		"owner_result": [],
+		"final_result": [],
+		"committee_result": [],
+		"oracle_sets": [],
+		"final_finished": false,
+		"settle_finished": false,
+		"last_deal_time": "1970-01-01T00:00:00"
+	}
+}
+```
 
 #### get_relative_account_history
 
 #### list_account_balances
+
+格式：`list_account_balances` name
+
+参数：name可以是账户名，也可以是账户的id
+
+作用：列出账号为id的账户的各资产余额
+
+示例：`{"jsonrpc": "2.0", "method": "list_account_balances", "params": ["abc"], "id": 1}` 
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [{
+		"amount": "7861177753754", //余额，精度5,amount没有小数点，其数值被乘以了10000 此处即78611777.53754
+		"asset_id": "1.3.0" //资产类型 此处为SEER
+	}, {
+		"amount": 97099800, //余额，精度5,amount没有小数点，其数值被乘以了10000 
+		"asset_id": "1.3.8" //资产类型 此处为测试链上的ABC资产
+	}]
+}
+```
 
 #### get_account
 
@@ -555,6 +926,54 @@ wscat -c ws://127.0.0.1:9191
 
 #### transfer2
 
+格式：`transfer2` from to amount asset_symbol memo broadcast(true/false)
+
+参数：from为转出账户,to为接收账户,amount为转账数量, asset_symbol为资产名,memo为备注。from/to 可以是用户名或者id，broadcast设置是否广播。 
+
+作用：转账，并返回交易id。
+
+示例：`{"jsonrpc": "2.0", "method": "transfer2", "params": ["seerdex-withdraw","ffffff","500000","SEER","Welcome to SEERTALK. https://forum.seerchain.org",true], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result":[
+		"7ab0e58b6391a770cb62f432e0f2aef93de4d18e",//交易id
+		{
+		"ref_block_num": 64292,//引用的区块号
+		"ref_block_prefix": 1517346144,//引用的区块头
+		"expiration": "2018-10-12T07:33:12",//交易过期时间
+		"operations": [
+			[0, {//0表示转账
+				"fee": {//手续费
+					"amount": 2136718,//金额 ,amount没有小数点，其数值被乘以了10000 
+					"asset_id": "1.3.0"//资产 此处表示SEER
+				},
+				"from": "1.2.105",//转出账户id
+				"to": "1.2.138",//转入账户id
+				"amount": {
+					"amount": "50000000000",//金额 amount没有小数点，其数值被乘以了10000 
+					"asset_id": "1.3.0"//资产 此处表示SEER
+				},
+				"memo": {//memo权限相关
+					"from": "SEER8UAbnsAnXY1qr3CD6uzKaRuewsyPF9ynYJJGrdvSfDANxsGNxH",
+					"to": "SEER6QbqUZF6xzjdceVoLHS7K1KwvLyszVTZS8bbsQQQXcAm8L3aZp",
+					"nonce": "4469110159915322318",
+					"message": "482a7d070d298fe2a79d5f528f55778c62584d242274a7d697dae1ec63d7038b5a0b80dc9ba524e3f5f528bc717c60a635f89ff8af1cccbd1b4189f8ddc92e39"
+				},
+				"extensions": []
+			}]
+		],
+		"extensions": [],
+		"signatures": ["204e8746aac14a05fb3c66ac653429dead34bddac58911c53346feb365f0c7b5767ea870c1e5da6a104d8364e42f504fc1bdcfc442652f5c2e9bb9b26a858b0ccd"]
+		}
+	]
+}
+
+```
+
 #### get_asset
 
 #### list_witnesses
@@ -562,8 +981,6 @@ wscat -c ws://127.0.0.1:9191
 #### get_global_properties
 
 #### get_dynamic_global_properties
-
-#### list_committee_members
 
 作用：列出链的当前全局动态参数
 
@@ -591,6 +1008,8 @@ wscat -c ws://127.0.0.1:9191
 	}
 }
 ```
+
+#### list_committee_members
 
 ## 操作信息翻译
 

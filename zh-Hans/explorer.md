@@ -1655,11 +1655,11 @@ get_account[result.transactions.operations.from].result.name + "转账" + result
 ```
 显示效果：
 
-```
+
 | 类型 | 说明 | 
 | - | - |
 | [委单] | tomato 提交委单，以 1.00000 ABC/SEER 的价格求购 955.00000 SEER |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.seller].result.name + "提交委单，以" + result.transactions.operations.amount_to_sell.amount / result.transactions.operations.min_to_receive.amount + get_asset[result.transactions.operations.amount_to_sell.amount.asset_id].result.symbol + "/" + get_asset[result.transactions.operations.min_to_receive.amount.asset_id].result.symbol + "的价格买入" + result.transactions.operations.min_to_receive.amount/100000 + get_asset[result.transactions.operations.min_to_receive.amount.asset_id].result.symbol
@@ -1681,11 +1681,10 @@ get_account[result.transactions.operations.seller].result.name + "提交委单�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [取消委单] | tomato 取消了委单 #11 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.fee_paying_account].result.name + "取消了委单 #" + result.transactions.operations.order
@@ -1733,11 +1732,10 @@ B、用户挂单时，市场内有低于用户挂单价格的委单，将优先�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [委单撮合] | tomato 以 0.10000 ABC/SEER 的价格卖出了 100.00000 SEER |
-```
+
 取数据格式：
 
 get_account[result.op.account_id].result.name + "以" + result.op.receives.amount / result.op.pays.amount + get_asset[result.op.receives.asset_id].result.symbol + "/" + get_asset[result.op.pays.asset_id].result.symbol + "的价格卖出了" + result.op.pays.amount / 100000 + get_asset[result.op.pays.asset_id].result.symbol
@@ -1790,11 +1788,10 @@ get_account[result.op.account_id].result.name + "以" + result.op.receives.amoun
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [创建账户] | okok 注册了账户 tomato |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.registrar].result.name + "注册了账户" + result.transactions.operations.name
@@ -1835,11 +1832,10 @@ get_account[result.transactions.operations.registrar].result.name + "注册了�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [更新账户] | tomato 更新了账户信息 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.account].result.name + "更新了账户信息" 
@@ -1861,11 +1857,10 @@ get_account[result.transactions.operations.account].result.name + "更新了账�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [升级账户] | tomato 升级到终身会员 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.account_to_upgrade].result.name + "升级到终身会员" 
@@ -1911,11 +1906,10 @@ get_account[result.transactions.operations.account_to_upgrade].result.name + "�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [创建资产] | tomato 创建了资产 ABC |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "创建了资产" + result.transactions.operations.symbol
@@ -1960,11 +1954,10 @@ get_account[result.transactions.operations.issuer].result.name + "创建了资�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [更新资产] | tomato 更新了资产 ABC |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "更新了资产" + get_asset[result.transactions.operations.asset_to_update].result.symbol
@@ -1990,11 +1983,10 @@ get_account[result.transactions.operations.issuer].result.name + "更新了资�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [资产发行] | tomato 将 1,111.0000 ABC 发行给 alice |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "将" + result.transactions.operations.asset_to_issue.amount/100000 get_asset[result.transactions.operations.asset_to_issue.asset_id].result.symbol+ "发行给" + get_account[result.transactions.operations.issue_to_account].result.name
@@ -2019,11 +2011,10 @@ get_account[result.transactions.operations.issuer].result.name + "将" + result.
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [销毁资产] | tomato 销毁了 111.0000 ABC |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.payer].result.name + "销毁了" + result.transactions.operations.amount_to_reserve.amount/100000 + get_asset[result.transactions.operations.amount_to_reserve.asset_id].result.symbol
@@ -2046,11 +2037,10 @@ get_account[result.transactions.operations.payer].result.name + "销毁了" + re
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [注资资产手续费池] | tomato 向 ABC 的手续费池注资了 1,000.00000 SEER |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.from_account].result.name + "向" + get_asset[result.transactions.operations.asset_id].result.symbol + "的手续费池注资了" + result.transactions.operations.amount/100000 + get_asset[result.transactions.operations.asset_id].result.symbol
@@ -2072,11 +2062,10 @@ get_account[result.transactions.operations.from_account].result.name + "向" + g
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [创建见证人] | bob 升级到见证人 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.witness_account].result.name + "升级到见证人"
@@ -2098,11 +2087,10 @@ get_account[result.transactions.operations.witness_account].result.name + "升�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [更新见证人] | bob 更新了见证人信息 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.witness_account].result.name + "更新了见证人信息"
@@ -2124,11 +2112,10 @@ get_account[result.transactions.operations.witness_account].result.name + "更�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [创建抵押项] | bob 创建了新抵押项，金额 1000 SEER |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.witness_account].result.name + "创建了新抵押项，金额" + result.transactions.operations.amount / 100000 + “SEER”
@@ -2150,11 +2137,10 @@ get_account[result.transactions.operations.witness_account].result.name + "创�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [解锁抵押] | bob 解锁抵押项 2.16.1，15天后可领取。 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.witness_account].result.name + "解锁抵押项" + result.transactions.operations.collateral_id + "，15天后可领取。"
@@ -2192,11 +2178,10 @@ get_account[result.transactions.operations.witness_account].result.name + "解�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | 领取抵押余额 | bob 领取抵押项余额/抵押收益 269,287.24460 SEER |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.witness_account].result.name + "领取抵押项余额/抵押收益" + result.transactions.operation_results.amount / 100000 + "SEER"
@@ -2246,11 +2231,10 @@ get_account[result.transactions.operations.witness_account].result.name + "领�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [创建提议] | tomato 创建了交易提议:更新账户 bob 的信息  |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.fee_paying_account].result.name + "创建了交易提议:" + “更新账户” + get_account[result.transactions.operations.proposed_ops.op.account].result.name + "的信息"
@@ -2282,11 +2266,10 @@ get_account[result.transactions.operations.fee_paying_account].result.name + "�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [更新提议] | tomato 更新了交易提议: 1.8.7 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.fee_paying_account].result.name + "更新了交易提议:" + result.transactions.operations.proposal
@@ -2307,11 +2290,10 @@ get_account[result.transactions.operations.fee_paying_account].result.name + "�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [竞选理事] | bob 参加理事会成员竞选，竞选宣言地址：https://baidu.com |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.committee_member_account].result.name + "参加理事会成员竞选，竞选宣言地址:" + result.transactions.operations.url
@@ -2336,11 +2318,10 @@ get_account[result.transactions.operations.committee_member_account].result.name
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [提取解冻余额] | bob 提取了账户解冻金额/出块收益 202,023.00000 SEER |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.owner].result.name + "提取了账户解冻金额/出块收益" + result.transactions.operations.amount.amount / 100000 + "SEER"
@@ -2363,11 +2344,10 @@ get_account[result.transactions.operations.owner].result.name + "提取了账户
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [创建预言机] | tomato 以 10,000.00000 SEER保证金创建预言机 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "以" + result.transactions.operations.guaranty / 100000 + "SEER保证金创建预言机"
@@ -2391,11 +2371,10 @@ get_account[result.transactions.operations.issuer].result.name + "以" + result.
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [更新预言机] | tomato 更新预言机 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "更新预言机"
@@ -2420,11 +2399,10 @@ get_account[result.transactions.operations.issuer].result.name + "更新预言�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [预言机输入结果] | bob 为预测市场1.15.70 "比特币价格高于6810美元吗？以.." 输入预测结果0:高于6810美元 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "为预测市场" + result.transactions.operations.room + """ + get_seer_room[result.transactions.operations.room].result.description + " "输入预测结果" + result.transactions.operations.input + “:” + get_seer_room[result.transactions.operations.room].result.running_option.selection_description.[result.transactions.operations.input]
@@ -2480,11 +2458,10 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [创建预测市场] | tomato 创建预测市场“比特币价格高于6810美元吗？以...” |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "创建预测市场“" + result.transactions.operations.description + " "" 
@@ -2534,11 +2511,10 @@ get_account[result.transactions.operations.issuer].result.name + "创建预测�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [更新预测市场] | tomato 更新预测市场1.15.71“比特币价格高于6810美元吗？以...” |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "更新预测市场" + result.transactions.operations.room + " "" +result.transactions.operations.description + " "" 
@@ -2562,11 +2538,10 @@ get_account[result.transactions.operations.issuer].result.name + "更新预测�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [创建者输入结果] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.." 输入预测结果1:不高于6810美元 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "为预测市场" + result.transactions.operations.room + """ + get_seer_room[result.transactions.operations.room].result.description + " "输入预测结果" + result.transactions.operations.input + “:” + get_seer_room[result.transactions.operations.room].result.running_option.selection_description.[result.transactions.operations.input]
@@ -2590,11 +2565,10 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [开启预测] | tomato 开启预测市场1.15.70 "比特币价格高于6810美元吗？以.." |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "开启预测市场" + result.transactions.operations.room + " "" +result.transactions.operations.description + " "" 
@@ -2616,11 +2590,10 @@ get_account[result.transactions.operations.issuer].result.name + "开启预测�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [提前终止预测] | tomato 提前终止预测市场1.15.71 "比特币价格高于6810美元吗？以.." |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "提前终止预测市场" + result.transactions.operations.room + " "" +result.transactions.operations.description + " "" 
@@ -2641,12 +2614,11 @@ get_account[result.transactions.operations.issuer].result.name + "提前终止�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [预测结算] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.."结算 |
 | [预测结算] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.."结算，tomato 余额变动 -3000 SEER |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "为预测市场" + result.transactions.operations.room + " "" +result.transactions.operations.description + " "结算"
@@ -2669,12 +2641,11 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [派发奖励] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.."派奖 |
 | [派发奖励] | tomato 为预测市场1.15.70 "比特币价格高于6810美元吗？以.."派奖，bob 余额变动 3000 SEER |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "为预测市场" + result.transactions.operations.room + " "" + result.transactions.operations.description + " "派奖"
@@ -2725,11 +2696,10 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [参与预测] | bob 参与预测市场1.15.70"比特币价格高于6810美元吗？以.."预测,预测结果1:不高于6810美元 参与数额:10000,余额变动:-10,000.00000 SEER |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "参与预测市场" + result.transactions.operations.room + " "" + get_seer_room[result.transactions.operations.room].result.description + " "预测,预测结果" + result.transactions.operations.input + ":" + get_seer_room[result.transactions.operations.room].result.running_option.selection_description.[result.transactions.operations.input] + "参与数额:" + result.transactions.operations.amount + “,余额变动:” + result.transactions.operation_results.deltas[1] / 100000 + get_asset[result.transactions.operation_results.asset_id].result.symbol
@@ -2757,11 +2727,10 @@ B 在账号详情页通过`get_relative_account_history`获取指定账号参与
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [升级市场设立者] | tomato 取得高级预测市场设立者身份 保证金1000000.00000 SEER |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "取得高级预测市场设立者身份 保证金" + result.transactions.operations.guaranty / 100000 + "SEER"
@@ -2786,11 +2755,10 @@ get_account[result.transactions.operations.issuer].result.name + "取得高级�
 ```
 显示效果：
 
-```
 | 类型 | 说明 | 
 | - | - |
 | [更新市场设立者] | tomato 更新预测市场设立者信息 |
-```
+
 取数据格式：
 
 get_account[result.transactions.operations.issuer].result.name + "更新预测市场设立者信息"

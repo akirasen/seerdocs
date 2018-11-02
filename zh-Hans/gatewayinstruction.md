@@ -53,7 +53,7 @@ screen -S seer
 
 ```linux
 mkdir seer
-curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.05/seer-ubuntu-0.0.5.tar.gz 
+curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.05/witness_node-ubuntu-0.0.5.tar.gz 
 ```
 
 3、进入seer目录，解压此软件包。

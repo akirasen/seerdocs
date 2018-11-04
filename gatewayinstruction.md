@@ -58,13 +58,13 @@ For the node handling the deposit service, we do not need to save all the data, 
 
 The` --max-ops-per-account `parameter sets the number of operation records for the reserved account in memory. Here, 1000 indicates that 1000 operation records of the tracking account are retained, and you need to fill in as required.
 
-5、 After the observation node runs normally, ctrl+A d hides the screen and disconnects the server. After opening Sreeen with nodes, use screen -R or screen -r seer. 
+5、 After the observation node runs normally, `control` + `A` `d` hides the screen and disconnects the server. After opening Sreeen with nodes, use screen -R or screen -r seer. 
 
 After the node starts normally,it will display a blockout message of 3 seconds as shown below. 
 
 ![Node normal startup state](https://github.com/akirasen/seerdocs/raw/master/zh-Hans/img/640.gif)
 
-If you want to close the node, use control + C.
+If you want to close the node, use `control` + `C`.
  
 
 ## Configure a SEER command line wallet

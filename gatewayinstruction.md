@@ -373,7 +373,7 @@ Return information example:
 
 For deposit service, you need to pay attention to the `transaction_ids data `obtained by `get_block` in conjunction with the `op.block_num` obtained in `get_relative_account_history`. If there are multiple transactions in the same block, there will be multiple `transaction_id`, which need to be matched with the `op.trx_in_block` obtained in `get_relative_account_history` to get the txid corresponding to this operation.
 
-### Handling deposit:
+## Handling deposit
 1、 Query the account related history by `get_relative_account_history`.
 
 The serial number of each record is not directly displayed in the returned result, and needs to be obtained and recorded by itself.
@@ -411,12 +411,12 @@ The information of the block in which the transfer operation is located can be o
 
 6、 If there is a deposited MEMO or the asset type is incorrect, it is recommended not to return directly, but wait for the user to contact the confirmation return path, because the user may deposit through exchanges or third-party platforms. Directly return but without the MEMO may cause difficulties in processing or even loss of assets. 
 
-### Handling cash withdrawal:
+## Handling withdrawal
 1、 Check whether the blockchain net is running normally before the operation.
 
-The cash withdrawal service needs to pay attention to whether the blockchain network is in normal operation state and only process cash withdrawal when the network is normal.
+The withdrawal service needs to pay attention to whether the blockchain network is in normal operation state and only process cash withdrawal when the network is normal.
 
-The` head_block_age` (previous block generation time) obtained by the info command must be within 1 minute, and the participation (block production participation rate) must be above 80, indicating that 80% of the block producers are working normally.
+The`head_block_age` (previous block generation time) obtained by the info command must be within 1 minute, and the participation (block production participation rate) must be above 80, indicating that 80% of the block producers are working normally.
 
 At the same time, the `head_block_number` (current block height) and `last_irreversible_block_num` (the most recent irreversible block) obtained by the `get_dynamic_global_properties` instruction are not too different, generally within 30.
 

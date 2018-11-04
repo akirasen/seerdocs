@@ -67,7 +67,7 @@ After the node starts normally,it will display a blockout message of 3 seconds a
 If you want to close the node, use control + C.
  
 
-##Configure a SEER command line wallet:
+## Configure a SEER command line wallet:
 
 0、Reminder: Usually, there are two files `witness_node` and `cli_wallet` in the latest release package downloaded when you deploying the full node, so this step can be ignored, but it is possible to upgrade `witness_node` only when updating, so there may be no `cli wallet` in the latest release package (for example, `v0.0.5` named `witness_node-ubuntu-0.0.5.tar.gz`, in the package only `witness_node`, it is necessary to obtain `cli_wallet` in the last complete package for the next steps.)
 
@@ -131,7 +131,7 @@ true
 unlocked >>> 
 ```
 
-##Access the command line wallet:
+## Access the command line wallet:
 The command line wallet can be accessed using Http-RPC or websocket RPC. Using the JSON-RPC remote call protocol to pass the appropriate instructions, and the command line wallet can be implemented relevant operation or return the required information.
 The format is as follows (no actual line breaks without comment):
 
@@ -140,14 +140,14 @@ The format is as follows (no actual line breaks without comment):
      "Jsonrpc"  :  Two , / / definition JSON-RPC version "Method"  :  "Get_block" , / / name of the method, such as transfer, list the account balance list_account_balances, where get_block is to return block information of instruction block number "Params"  :  [ 1 ], / / parameter from the method, if no parameter is Null Here, 1 means block number "Id"  :  1 / / call identifier }
 ```
 
-###Http-RPC access example
+### Http-RPC access example
 You can use the curl command to test the Http-RPC connection command line wallet to get the balance of each asset in the specified account:
 
 ```linux
   curl http://127.0.0.1:9192 -d '{"jsonrpc": "2.0", "method": "list_account_balances", "params": ["seerdex-withdraw"], "id": 1}' {"id":1,"result":[{"amount":"7861151753754","asset_id":"1.3.0"},{"amount":97099800,"asset_id":"1.3.8"}]} 
 ```
 
-##Websocket RPC access example
+## Websocket RPC access example
 First install wscat on the server to test ws:
 
 ```linux
@@ -169,8 +169,8 @@ Switch back to the window where the command line wallet is located, and you can 
 
 A wallet transfer was implemented.
 
-##Common instructions:
-###Get_dynamic_global_properties
+## Common instructions:
+### Get_dynamic_global_properties
 Role: List the current global dynamic parameters of the chain
 Example`: {"jsonrpc": "2.0", "method": "get_dynamic_global_properties", "params": [], "id": 1}`
 Return information example:
@@ -186,7 +186,7 @@ Return information example:
 
 The deposit service needs to pay attention to the current block height of `head_block_number`, and the last irreversible block number of `last_irreversible_block_num`, used to determine whether it is a trusted deposit operation and whether the withdrawal has been processed.
 
-###Info
+### Info
 Role: Display the status of the current Seer blockchain
 Example:` {"jsonrpc": "2.0", "method": "info", "params": [], "id": 1}`
 Return information example:
@@ -203,7 +203,7 @@ Return information example:
 
 The deposit service needs to pay attention to `head_block_age -` last block generation time, and participation - block production participation rate. Determine whether the blockchain is running normally before the cash withdrawal operation.
 
-###List_account_balances
+### List_account_balances
 
 Format: list_account_balances name
 Parameters: name can be the account name, or the id of the account
@@ -223,7 +223,7 @@ Return information example:
 
 The deposit service needs to pay attention to whether the balance amount of `asset_id of 1.3.0` (ie SEER) is enough and paid for the network fee. If it involves the deposit service of other assets in the SEER chain, it is also necessary to pay attention to whether the balance of the corresponding assets is enough.
 
-###Transfer2
+### Transfer2
 Format: transfer2 from to amount `asset_symbol` memo broadcast(true/false)
 Parameters: from is the outgoing account, to is the receiving account, amount is the transfer amount, `asset_symbol` is the asset name, and memo is the remark. From/to can be a username or id, and the broadcast setting is broadcast.
 
@@ -260,7 +260,7 @@ Return information example:
 
 The deposit business needs to pay attention to the first string of the returned information, that is, the transaction id, and the expiration is transaction expiration time.
 
-###Get_account_id
+### Get_account_id
 Format:` get_account_id name`
 Parameter: name is the account name
 Role: list the account id of the account name
@@ -271,7 +271,7 @@ Return information example:
    { "id" : 1 , "result" : "1.2.105" } 
 ```
  
-###Get_relative_account_history
+### Get_relative_account_history
 Format:` get_relative_account_history name start limit end`
 Parameters: name can be the account name or id, start is the minimum number of results returned, limit is the maximum number of results returned, and end is the maximum number of results returned;
 
@@ -326,13 +326,13 @@ Of course, the most important are memo (transfer MEMO) and op.op.amount.amount (
 
 And` op.op.from` (out of id), if the same account is responsible for deposit and cashing, then determine whether op.op.from is the same as the current account obtained by` get_account_id` to distinguish whether the operation is the withdrawal initiated by the account operating;
 
-`Op.id` is the object id of the operation, and is also the unique id of the transfer operation;
+`op.id` is the object id of the operation, and is also the unique id of the transfer operation;
 
 In addition, you need to pay attention to` op.block_num`, which is the block height of the operation, `op.trx_in_block` - the location of the transaction in which the operation belongs, `op.op_in_trx` - the location of the operation within the transaction, and `op.virtual_op` - the virtual operation number.
 
 The above four data can be combined with other instructions to obtain the txid to which the operation belongs and to determine the uniqueness of the operation.
 
-###Get_block
+### Get_block
 Format: `get_block num`
 
 Parameter: block number
@@ -373,7 +373,7 @@ Return information example:
 
 For deposit service, you need to pay attention to the `transaction_ids data `obtained by `get_block` in conjunction with the `op.block_num` obtained in `get_relative_account_history`. If there are multiple transactions in the same block, there will be multiple `transaction_id`, which need to be matched with the `op.trx_in_block` obtained in `get_relative_account_history` to get the txid corresponding to this operation.
 
-###Handling deposit:
+### Handling deposit:
 1、 Query the account related history by `get_relative_account_history`.
 
 The serial number of each record is not directly displayed in the returned result, and needs to be obtained and recorded by itself.
@@ -411,7 +411,7 @@ The information of the block in which the transfer operation is located can be o
 
 6、 If there is a deposited MEMO or the asset type is incorrect, it is recommended not to return directly, but wait for the user to contact the confirmation return path, because the user may deposit through exchanges or third-party platforms. Directly return but without the MEMO may cause difficulties in processing or even loss of assets. 
 
-###Handling cash withdrawal:
+### Handling cash withdrawal:
 1、 Check whether the blockchain net is running normally before the operation.
 
 The cash withdrawal service needs to pay attention to whether the blockchain network is in normal operation state and only process cash withdrawal when the network is normal.

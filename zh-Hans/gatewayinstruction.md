@@ -53,7 +53,7 @@ screen -S seer
 
 ```linux
 mkdir seer
-curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.05/seer-ubuntu-0.0.5.tar.gz 
+curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.05/witness_node-ubuntu-0.0.5.tar.gz 
 ```
 
 3、进入seer目录，解压此软件包。
@@ -83,6 +83,17 @@ witness_node --rpc-endpoint=127.0.0.1:9090 partial-operations=true --track-accou
 如果要关闭节点，则使用`control` + `C` 。
 
 ## 配置一个SEER命令行钱包
+
+0、提醒：通常情况下，在部署全节点时下载的最新程序包内会有`witness_node`和`cli_wallet`两个文件，因此此步骤可以省略，但有可能更新时仅升级了`witness_node`，所以最新的程序包内有可能没有`cli_wallet`（例`如v0.0.5`的程序包就名为`witness_node-ubuntu-0.0.5.tar.gz`，仅有`witness_node`），因此需要在上一个完整的程序包内获得`cli_wallet`用于接下来的步骤。
+以下命令的作用是：建立一个名为`temp`的临时目录下载最新的带有有`cli_wallet`的程序包，并解压缩，然后复制`cli_wallet`到seer目录。（下载链接替换为https://github.com/seer-project/seer-core-package/releases 最新的带有有`cli_wallet`的程序包）
+```linux
+cd~
+mkdir temp
+curl -Lo temp/temp.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.04/seer-ubuntu-0.0.4.tar.gz 
+cd temp
+tar xzvf temp.tar.gz
+cp cli_wallet ../seer/cli_wallet
+```
 
 1、在服务器新建一个名叫cli的窗口，运行seer目录中的命令行钱包程序；
 

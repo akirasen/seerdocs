@@ -911,10 +911,10 @@ wscat -c ws://127.0.0.1:9191
 			},
 			"guaranty_alone": 0
 		},
-		"owner_result": [],
-		"final_result": [],
-		"committee_result": [],
-		"oracle_sets": [],
+		"owner_result": [],//房主输入结果
+		"final_result": [],//市场最终采纳的结果
+		"committee_result": [],//理事会输入的结果
+		"oracle_sets": [],//预言机输入的结果
 		"final_finished": false,
 		"settle_finished": false,
 		"last_deal_time": "1970-01-01T00:00:00"

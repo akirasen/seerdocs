@@ -160,7 +160,1405 @@ Advanced模式的特点有：
 7. 用户参与时，若当前总资金（含资金池和用户参与资金）可能不够派奖，则参与失败
 
 
+## SEER apis
+
+此处列出SEER节点的全部API接口的参数、作用及部分SEER常用接口的示例。
+
+在示例中，我们以WS-RPC为例。
+
+参考：<a href="http://docs.bitshares.org/api/database.html"> **石墨烯区块链技术文档** </a>
+
+### get_objects
+
+格式：get_objects(const vector<object_id_type> &ids) const
+
+参数： ids，即要检索对象的ID
+
+作用： 获取与提供的ID对应的对象。（此处的ID可以是账户ID（1.2.X）、见证人ID（1.5.X）、房间ID（1.15.X）等），如果指定的ID未找到相关对象，则返回null。
+
+示例： {"jsonrpc": "2.0", "method": "get_objects", "params": [["1.15.1160"]], "id": 1}
+
+返回信息示例：
+
+省略，参考get_seer_room、get_asset等
+
+### set_subscribe_callback
+
+格式：set_subscribe_callback( int identifier, bool clear_filter ):
+
+参数： identifier，即标识符
+
+作用： 订阅全局回调。
+
+订阅通知相关请参考：<a href="http://docs.bitshares.org/api/websocket.html?highlight=set_subscribe_callback"> **石墨烯区块链技术文档WEBSOCKET数据库通知相关介绍** </a>
+
+### set_pending_transaction_callback
+
+格式：set_pending_transaction_callback(int identifier)
+
+参数： identifier，即标识符
+
+作用： 订阅未确认交易的通知。
+
+### set_block_applied_callback
+
+格式：set_block_applied_callback(blockid)
+
+参数： blockid
+
+作用： 当块blockid应用于区块链时发出通知。
+
+### cancel_all_subscriptions
+
+作用： 停止接收任何通知。
+
+### get_block_header
+
+格式：get_block_header(uint32_t block_num) const
+
+参数： block_num：要返回其区块头的块高
+
+作用： 返回指定区块的区块头，如果未找到匹配块，则返回null
+
+示例： {"jsonrpc": "2.0", "method": "get_block_header", "params": [8722946], "id": 1}
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"previous": "00851a01374611e976dad94781ebbc49d8aa4e16",//上一个块的块号
+		"timestamp": "2019-03-19T02:18:00",//时间戳
+		"witness": "1.5.78",//见证人id
+		"transaction_merkle_root": "6c586010ed4b90b425529a302146739d4cb74bb5",
+		"extensions": []
+	}
+}
+```
+### get_block_header_batch
+
+格式：const vector<uint32_t> block_nums)
+
+参数： block_num：要返回其区块头的块高
+
+作用： 按块高查询多个块头。
+
+### get_block
+
+格式： `get_block` num
+
+参数： 块号
+
+作用： 显示第num个块的概况
+
+示例： `{"jsonrpc": "2.0", "method": "get_block", "params": [8722946], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"previous": "00851a01374611e976dad94781ebbc49d8aa4e16",//上一个块的块号
+		"timestamp": "2019-03-19T02:18:00",//时间戳
+		"witness": "1.5.78",//见证人ID
+		"transaction_merkle_root": "6c586010ed4b90b425529a302146739d4cb74bb5",
+		"extensions": [],
+		"witness_signature": "1f5eb922...befcd1",//见证人签名
+		"transactions": [{//交易列表
+			"ref_block_num": 6656,//引用的区块号
+			"ref_block_prefix": 1321242125,//引用的区块头
+			"expiration": "2019-03-19T02:19:54",//交易过期时间
+			"operations": [//操作列表
+				[46, {//46操作类型表示开启房间
+					"fee": {//手续费
+						"amount": 10000000,//手续费金额，带100000精度，此处表示100.00000
+						"asset_id": "1.3.0"//手续费资产类型。此处表示SEER
+					},
+					"issuer": "1.2.14054",//发起人
+					"room": "1.15.1160",//房间号
+					"start": "2019-03-19T02:17:16",//开始时间
+					"stop": "2019-03-25T07:00:00",//结束时间
+					"input_duration_secs": 9600//开奖时间
+				}]
+			],
+			"extensions": [],
+			"signatures": ["1f1eb22a...24f2dd3418a8"],//交易签名集合
+			"operation_results": [
+				[0, {}]//操作返回信息
+			]
+		}]
+	}
+}
+```
+
+### get_transaction
+
+格式：get_transaction(uint32_t block_num, uint32_t trx_in_block) 
+
+参数： block_num, 块高；trx_in_block，交易在指定块中的位置。
+
+作用： 交易在指定块中的位置和制定块的块高返回指定的交易信息。
+
+示例： {"jsonrpc": "2.0", "method": "get_transaction", "params": [8722946,0], "id": 1}
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"ref_block_num": 6656,//引用的区块号
+		"ref_block_prefix": 1321242125,//引用的区块头
+		"expiration": "2019-03-19T02:19:54",//交易过期时间
+		"operations": [//操作列表
+			[46, {//46操作类型表示开启房间
+				"fee": {//手续费
+					"amount": 10000000,//手续费金额
+					"asset_id": "1.3.0"//手续费资产类型
+				},
+				"issuer": "1.2.14054",//发起人
+				"room": "1.15.1160",//房间号
+				"start": "2019-03-19T02:17:16",//开始时间
+				"stop": "2019-03-25T07:00:00",//结束时间
+				"input_duration_secs": 9600//开奖时间
+			}]
+		],
+		"extensions": [],
+		"signatures": ["1f1eb22...f2dd3418a8"],//交易签名集合
+		"operation_results": [//操作返回信息
+			[0, {}]
+		]
+	}
+}
+```
+### get_recent_transaction_by_id
+
+格式：get_recent_transaction_by_id(const transaction_id_type &id) 
+
+作用： 如果交易未超时，则返回指定ID的交易，否则将因未知而返回NULL。而未知并不意味着它没有包含在区块链中。
+
+### get_chain_properties
+
+作用： 返回区块链参数对象
+
+示例： {"jsonrpc": "2.0", "method": "get_chain_properties", "params": [], "id": 1}
+
+### get_global_properties
+
+作用：列出链的当前全局参数
+
+示例：`{"jsonrpc": "2.0", "method": "get_global_properties", "params": [], "id": 1}`
+
+返回信息示例：
+
+```json
+{
+	"id": 1,
+	"result": {
+		"id": "2.0.0",
+		"parameters": {
+			"current_fees": {
+				"parameters": [
+					/*...费率表介绍可以在命令行指南中查看...*/]
+			},
+			"block_interval": 3,//块间隔时间，3秒
+			"maintenance_interval": 86400,//维护更新时间 86400秒，一天
+			"maintenance_skip_slots": 3,//维护时跳过的块间隔数
+			"committee_proposal_review_period": 1209600,//理事会提案审查期 1209600秒 14天
+			"maximum_transaction_size": 2048,//最大交易大小 2048K 即2M
+			"maximum_block_size": 2000000,//最大单个块数据大小 2000000K 即约1.9G
+			"maximum_time_until_expiration": 86400,//在到期之前，交易有效的最长生命周期（以秒为单位）
+			"maximum_proposal_lifetime": 2419200,//在到期之前，提议的交易的最长生命周期（以秒为单位）
+			"maximum_asset_whitelist_authorities": 50,//资产可列为白名单或黑名单权限的最大帐户数
+			"maximum_authenticator_count": 101,//最多认证者的数量
+			"maximum_committee_count": 1001,//参与理事会最大人数
+			"maximum_authority_membership": 10,//权限(多签)可以设置的最大数量的密钥/帐户
+			"network_percent_of_fee": 6000,//支付给网络的手续费比例 此处为60%
+			"lifetime_referrer_percent_of_fee": 0,//终身会员推荐人手续费分成比例
+			"cashback_vesting_period_seconds": 31536000,//待解冻余额解冻周期，31536000秒，一年
+			"cashback_vesting_threshold": 10000000,//待解冻余额领取门槛，100SEER
+			"count_non_member_votes": true,//非会员账户是否投票
+			"allow_non_member_whitelists": false,//非会员帐户能否设置白名单和黑名单
+			"witness_pay_per_block": 300000,//主力见证人出块的每个块奖励，3 SEER
+			"max_predicate_opcode": 1,
+			"fee_liquidation_threshold": 10000000,
+			"accounts_per_fee_scale": 1000,
+			"account_fee_scale_bitshifts": 4,
+			"max_authority_depth": 2,//权限(多签)可以设置的最大深度（级别）
+			"min_guaranty_per_room": "10000000000",//每个房间最少抵押金：10万SEER
+			"max_oracle_reward": 100000000,//每个预言机最高奖励：1000SEER
+			"fixed_witness_count": 21,//主力见证人数量
+			"maximum_profit_witness_count": 101,//获息见证人总数
+			"maximun_seer_settles_per_block": 1000,
+			"supported_authenticate_types": 7,
+			"extensions": []
+		},
+		"next_available_vote_id": 9,
+		"active_committee_members": ["1.4.0", "1.4.1", "1.4.2", "1.4.3", "1.4.4", "1.4.5", "1.4.6", "1.4.7", "1.4.8"],//活跃理事会成员
+		"active_witnesses": ["1.5.1", "1.5.2", "1.5.3", "1.5.4", "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9"],//活跃（主力）见证人
+		"active_collateral_witnesses": ["1.5.1", "1.5.2", "1.5.3", "1.5.4", "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9"],//活跃获息见证人（主力+候选）
+		"active_supervisors": [],
+		"active_authenticators": [],
+		"seer_exploded": false
+	}
+}
+```
+
+### get_config
+
+作用： 返回区块链底层常量配置
+
+示例： {"jsonrpc": "2.0", "method": "get_config", "params": [], "id": 1}
+
+### get_chain_id
+
+作用： 返回区块链id
+
+示例： {"jsonrpc": "2.0", "method": "get_chain_id", "params": [], "id": 1}
+
+### get_dynamic_global_properties
+
+作用： 返回区块链动态全局参数
+
+示例： {"jsonrpc": "2.0", "method": "get_dynamic_global_properties", "params": [], "id": 1}
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"id": "2.1.0",
+		"head_block_number": 8796555,//最新块高
+		"head_block_id": "0086398bf1668565a4b79bc3c52980176882a1a0",//最新块id
+		"time": "2019-03-21T15:39:12",//最新时间戳
+		"current_witness": "1.5.83",//当前块见证人
+		"next_maintenance_time": "2019-03-22T00:00:00",//下一维护时间
+		"last_budget_time": "2019-03-21T00:00:00",//上一期预算周期
+		"witness_budget": 3007800000,//本期见证人预算
+		"accounts_registered_this_interval": 2,//本期新注册账号数量
+		"recently_missed_count": 0,//最近丢块数
+		"current_aslot": 8845060,
+		"recent_slots_filled": "340282366920938463463374607431768211455",
+		"dynamic_flags": 0,
+		"last_irreversible_block_num": 8796545//最近不可逆块高
+	}
+}
+```
+### get_key_references
+
+格式：get_key_references(vector<public_key_type> key) 
+
+参数： key，公钥
+
+作用： 返回此公钥所有有owner或active权限的帐户id。
+
+示例： {"jsonrpc": "2.0", "method": "get_key_references", "params": [["SEER6cTUFs1ptsYG9AF3ccudirnJ1Fo3dLdVSni9qyPGnn45KzS9mU"]], "id": 1}
+
+返回信息示例：
+```json
+{"id":1,"jsonrpc":"2.0","result":[["1.2.16642","1.2.16642"]]}
+```
+### is_public_key_registered
+
+格式：bool is_public_key_registered(string public_key)
+
+参数： public_key，公钥
+
+作用： 确定公钥当前是否与区块链上的任何已注册帐户相关联，返回true即表示有。
+
+示例： {"jsonrpc": "2.0", "method": "is_public_key_registered", "params": ["SEER6cTUFs1ptsYG9AF3ccudirnJ1Fo3dLdVSni9qyPGnn45KzS9mU"], "id": 1}
+
+返回信息示例：
+```json
+{"id":1,"jsonrpc":"2.0","result":true}
+```
+### get_accounts
+
+格式：get_accounts(const vector<account_id_type> &account_ids)
+
+参数： account_ids：要获取的帐户的ID
+
+作用： 按ID获取帐户列表。此函数的作用与get_objects相同
+
+示例： {"jsonrpc": "2.0", "method": "get_accounts", "params": [["1.2.9981"]], "id": 1}
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.2.9981",//账户id
+		"membership_expiration_date": "1969-12-31T23:59:59",//此帐户的会员资格到期的时间
+		"registrar": "1.2.9981",//注册人
+		"referrer": "1.2.9981",//推荐人
+		"lifetime_referrer": "1.2.9981",//终身会员推荐人
+		"network_fee_percentage": 6000,//手续费分配给网络的百分比
+		"lifetime_referrer_fee_percentage": 4000,//手续费分配给终身会员推荐人的百分比
+		"referrer_rewards_percentage": 0,//推荐人获得的比例
+		"name": "gateway",//名称
+		"owner": {//账户权限 多签管理
+			"weight_threshold": 50,//阈值
+			"account_auths": [
+				["1.2.9987", //控制人id
+					25],//权重
+				["1.2.9990", 25],
+				["1.2.10041", 25]
+			],
+			"key_auths": [
+				["SEER4uy8k3qrVJVJG5a1Nif9fTi4FDVUnWgmqYoNapdxBagMsT3vRh", 1]//账户权限公钥
+			],
+			"address_auths": []
+		},
+		"active": {//资金权限
+			"weight_threshold": 1,//阈值
+			"account_auths": [
+				["1.2.9990",//控制人id
+				 1]//权重
+			],
+			"key_auths": [
+				["SEER646RGdL4gncz7y834wfGfcHECnKdbdVWd6gh9aEYdn3HWyhBjB", 1]//资金权限公钥
+			],
+			"address_auths": []
+		},
+		"options": {
+			"memo_key": "SEER646RGdL4gncz7y834wfGfcHECnKdbdVWd6gh9aEYdn3HWyhBjB",//备注权限公钥
+			"voting_account": "1.2.5",
+			"num_committee": 0,
+			"num_authenticator": 0,
+			"num_supervisor": 0,
+			"votes": [],
+			"extensions": []
+		},
+		"statistics": "2.5.9981",
+		"whitelisting_accounts": [],
+		"blacklisting_accounts": [],
+		"whitelisted_accounts": [],
+		"blacklisted_accounts": [],
+		"cashback_vb": "1.11.11",
+		"owner_special_authority": [0, {}],
+		"active_special_authority": [0, {}],
+		"top_n_control_flags": 0,
+		"country": 0,
+		"status": 0,
+		"authentications": []
+	}]
+}
+```
+### get_full_accounts
+
+格式：get_full_accounts(const vector<string> &names_or_ids, bool subscribe)
+
+参数： 
+
+作用： 订阅
+
+示例： {"jsonrpc": "2.0", "method": "get_full_accounts", "params": [["1.2.9981"],2], "id": 1}
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [
+		["1.2.9981", {
+			"account": {
+				"id": "1.2.9981",
+				"membership_expiration_date": "1969-12-31T23:59:59",
+				"registrar": "1.2.9981",
+				"referrer": "1.2.9981",
+				"lifetime_referrer": "1.2.9981",
+				"network_fee_percentage": 6000,
+				"lifetime_referrer_fee_percentage": 4000,
+				"referrer_rewards_percentage": 0,
+				"name": "gateway",
+				"owner": {
+					"weight_threshold": 50,
+					"account_auths": [
+						["1.2.9987", 25],
+						["1.2.9990", 25],
+						["1.2.10041", 25]
+					],
+					"key_auths": [
+						["SEER4uy8k3qrVJVJG5a1Nif9fTi4FDVUnWgmqYoNapdxBagMsT3vRh", 1]
+					],
+					"address_auths": []
+				},
+				"active": {
+					"weight_threshold": 1,
+					"account_auths": [
+						["1.2.9990", 1]
+					],
+					"key_auths": [
+						["SEER646RGdL4gncz7y834wfGfcHECnKdbdVWd6gh9aEYdn3HWyhBjB", 1]
+					],
+					"address_auths": []
+				},
+				"options": {
+					"memo_key": "SEER646RGdL4gncz7y834wfGfcHECnKdbdVWd6gh9aEYdn3HWyhBjB",
+					"voting_account": "1.2.5",
+					"num_committee": 0,
+					"num_authenticator": 0,
+					"num_supervisor": 0,
+					"votes": [],
+					"extensions": []
+				},//以上请参考get_accounts
+				"statistics": "2.5.9981",
+				"whitelisting_accounts": [],
+				"blacklisting_accounts": [],
+				"whitelisted_accounts": [],
+				"blacklisted_accounts": [],
+				"cashback_vb": "1.11.11",
+				"owner_special_authority": [0, {}],
+				"active_special_authority": [0, {}],
+				"top_n_control_flags": 0,
+				"country": 0,
+				"status": 0,
+				"authentications": []
+			},
+			"statistics": {
+				"id": "2.5.9981",
+				"owner": "1.2.9981",
+				"most_recent_op": "2.8.158115",
+				"total_ops": 3917,
+				"removed_ops": 2917,
+				"total_core_in_orders": 0,
+				"lifetime_fees_paid": 1588851249,
+				"pending_fees": 0,
+				"pending_vested_fees": 0
+			},
+			"registrar_name": "gateway",
+			"referrer_name": "gateway",
+			"lifetime_referrer_name": "gateway",
+			"votes": [],
+			"cashback_balance": {
+				"id": "1.11.11",
+				"owner": "1.2.9981",
+				"balance": {
+					"amount": 235540529,
+					"asset_id": "1.3.0"
+				},
+				"policy": [1, {
+					"vesting_seconds": 31536000,
+					"start_claim": "1970-01-01T00:00:00",
+					"coin_seconds_earned": "7428006122544000",
+					"coin_seconds_earned_last_update": "2019-03-18T00:00:00"
+				}]
+			},
+			"balances": [{//余额
+				"id": "2.4.6",
+				"owner": "1.2.9981",
+				"asset_type": "1.3.0",//资产类型
+				"balance": "22971074757961"//数额
+			}],
+			"vesting_balances": [{//待解冻余额
+				"id": "1.11.11",
+				"owner": "1.2.9981",
+				"balance": {
+					"amount": 235540529,
+					"asset_id": "1.3.0"
+				},
+				"policy": [1, {
+					"vesting_seconds": 31536000,
+					"start_claim": "1970-01-01T00:00:00",
+					"coin_seconds_earned": "7428006122544000",
+					"coin_seconds_earned_last_update": "2019-03-18T00:00:00"
+				}]
+			}],
+			"limit_orders": [],
+			"proposals": [],
+			"assets": [],
+			"withdraws": []
+		}]
+	]
+}
+```
+### get_account_by_name
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_account_references
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### lookup_account_names
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### lookup_accounts
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_account_count
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_account_ids
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_account_balances
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_named_account_balances
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_balance_objects
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_vested_balances
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_vesting_balances
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_assets
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### list_assets
+
+格式：`list_assets` lowerbound limit
+
+参数：lowerbound资产名下标, limit 返回结果的数量上限
+
+作用：列出资产名大于lowerbound的资产
+
+示例：`{"jsonrpc": "2.0", "method": "list_assets", "params": ["SEE",2], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"result": [{
+		"id": "1.3.11",//SEER的资产ID
+		"symbol": "SEED",//SEER的资产ID
+		"precision": 5,//小数点后精度
+		"issuer": "1.2.151",//创建者
+		"options": {
+			"max_supply": "10000000000",//最大供给量
+			"market_fee_percent": 0,//交易手续费收取比例
+			"max_market_fee": 0,//最大市场手续费
+			"issuer_permissions": 31,
+			"flags": 0,
+			"core_exchange_rate": {//发生手续费会按以下比例 从费用池自动将此资产换为核心资产（SEER）用于支付费用
+				"base": {
+					"amount": 100000,//对标市场基准资产的比例
+					"asset_id": "1.3.0"
+				},
+				"quote": {
+					"amount": 100000,
+					"asset_id": "1.3.11"
+				}
+			},
+			"whitelist_authorities": [],//一组帐户，此资产的白名单。如果白名单非空，则只允许白名单中的帐户保留、使用或转移资产。
+			"blacklist_authorities": [],//一组帐户，此资产的黑名单。如果设置了白名单，则只有这些帐户能进行此资产的发送、接收、交易等，但如果该帐户被列入黑名单，即使该帐户也列入白名单，它也不能操作此资产。
+			"whitelist_markets": ["1.3.0"],//定义此资产可在市场上组成交易对的资产
+			"blacklist_markets": [],//定义此资产在市场上不可进行交易的资产，不得与白名单重叠
+			"description": "{\"main\":\"\",\"market\":\"\"}",//资产描述
+			"extensions": []
+		},
+		"dynamic_asset_data_id": "2.3.11"
+	}, {
+		"id": "1.3.0",
+		"symbol": "SEER",
+		"precision": 5,
+		"issuer": "1.2.3",
+		"options": {
+			"max_supply": "1000000000000000",
+			"market_fee_percent": 0,
+			"max_market_fee": "1000000000000000",
+			"issuer_permissions": 0,
+			"flags": 0,
+			"core_exchange_rate": {
+				"base": {
+					"amount": 1,
+					"asset_id": "1.3.0"
+				},
+				"quote": {
+					"amount": 1,
+					"asset_id": "1.3.0"
+				}
+			},
+			"whitelist_authorities": [],
+			"blacklist_authorities": [],
+			"whitelist_markets": [],
+			"blacklist_markets": [],
+			"description": "",
+			"extensions": []
+		},
+		"dynamic_asset_data_id": "2.3.0"
+	}]
+}
+```
+
+### lookup_asset_symbols
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_order_book
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_limit_orders
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### subscribe_to_market
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### unsubscribe_from_market
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_ticker
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_24_volume
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_trade_history
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_trade_history_by_sequence
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_witnesses
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_witness_by_account
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### lookup_witness_accounts
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_witness_count
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_committee_members
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_committee_member_by_account
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### lookup_committee_member_accounts
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_committee_count
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### lookup_vote_ids
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_transaction_hex
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_required_signatures
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_potential_signatures
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_potential_address_signatures
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### verify_authority
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### verify_account_authority
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### validate_transaction
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_required_fees
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_proposed_transactions
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_blinded_balances
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### lookup_oracle_accounts
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_oracles
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_oracle_by_account
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### lookup_house_accounts
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_houses
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_house_by_account
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_seer_room
+
+格式：`get_seer_room` room_id start limit
+
+参数：room_id为房间id，start 为投注记录的开始索引,limit为返回结果中投注记录的最大数量
+
+作用：根据房间id查询房间详情（不是完整的房间,因投注太多的情况下房间空间会非常大）
+
+示例：`{"jsonrpc": "2.0", "method": "get_seer_room", "params": ["1.15.21",0,2], "id": 1}`
+
+返回信息示例：
+
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.15.1160",//预测市场房间id
+		"house_id": "1.14.5",//创建者身份（平台）id
+		"owner": "1.2.14054",//创建者账号id
+		"label": ["BTC", "美元"],//标签
+		"description": "预测一下2019年3月25日 下周一BTC价格能突破4100美元吗？以2019/3/25（UTC+8）17：30的coinmarketcap.com显示价格为准，2019/3/25 15:00（UTC+8）前可以参与预测",//描述
+		"script": "",//网址等
+		"room_type": 1,//房间类型 0为PVP
+		"status": "opening",//状态
+		"option": {
+			"result_owner_percent": 9000,//创建者输入权重
+			"reward_per_oracle": 0,//每个预言机奖励
+			"accept_asset": "1.3.0",//接受资产类型
+			"minimum": 500000,//最小参与数量
+			"maximum": "200000000000",//最大参与数量
+			"start": "2019-03-19T02:17:16",//开始时间
+			"stop": "2019-03-25T07:00:00",//结束时间
+			"input_duration_secs": 9600,//结果输入时间（秒）
+			"filter": {//预言机门槛
+				"reputation": 0,//声誉
+				"guaranty": 0,//保证金
+				"volume": 0//参与量
+			},
+			"allowed_oracles": [],
+			"allowed_countries": [],
+			"allowed_authentications": []
+		},
+		"owner_pay_fee_percent": 0,//房主代付手续费比例
+		"running_option": {
+			"room_type": 1,//房间类型
+			"selection_description": [
+			"能",//选项0描述
+			"不能"],//选项1描述
+			"range": 2,//选项数量
+			"participators": [//参与记录
+				[{
+					"player": "1.2.14229",//参与者id
+					"block_num": 8727575,//参与时的前一个块高
+					"when": "2019-03-19T06:09:27",//参与时间
+					"amount": 10000000,//参与份数
+					"paid": 10000000,//参与金额
+					"sequence": 0,//顺序
+					"reward": 0//获得奖励
+				},
+				...
+					"player": "1.2.14227",
+					"block_num": 8727629,
+					"when": "2019-03-19T06:12:09",
+					"amount": 10000000,
+					"paid": 10000000,
+					"sequence": 5,
+					"reward": 0
+				}]
+			],
+			"total_shares": 60000000,//总参与量
+			"settled_balance": 0,
+			"settled_row": -1,
+			"settled_column": -1,
+			"player_count": [4, 2],//各选项参与人数
+			"total_player_count": 6,//总参与人数
+			"pvp_running": {
+				"total_participate": [40000000, 20000000]//各选项参与量
+			},
+			"guaranty_alone": 0,
+			"pvp_owner_percent": 0,//PVP创建者分成比例
+			"pvp_owner_shares": 0//PVP创建者获得量
+		},
+		"owner_result": [],//创建者输入的结果
+		"final_result": [],//最终结果
+		"committee_result": [],//理事会介入输入的结果
+		"oracle_sets": [],
+		"final_finished": false,
+		"settle_finished": false,
+		"last_deal_time": "1970-01-01T00:00:00"
+	}]
+}
+```
+### get_rooms_by_label
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
+```json
+
+```
+### get_rooms_by_account
+
+格式：
+
+参数： 
+
+作用： 
+
+示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+
+返回信息示例：
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 
 
 

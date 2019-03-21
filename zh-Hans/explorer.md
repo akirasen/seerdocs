@@ -911,10 +911,10 @@ wscat -c ws://127.0.0.1:9191
 			},
 			"guaranty_alone": 0
 		},
-		"owner_result": [],
-		"final_result": [],
-		"committee_result": [],
-		"oracle_sets": [],
+		"owner_result": [],//房主输入结果
+		"final_result": [],//市场最终采纳的结果
+		"committee_result": [],//理事会输入的结果
+		"oracle_sets": [],//预言机输入的结果
 		"final_finished": false,
 		"settle_finished": false,
 		"last_deal_time": "1970-01-01T00:00:00"
@@ -1592,6 +1592,7 @@ wscat -c ws://127.0.0.1:9191
 | 48 | seer_room_final_operation | 预测结算 |
 | 49 | seer_room_settle_operation | 派发奖励 | 
 | 50 | seer_room_participate_operation | 参与预测 |
+| 52 | seer_room_pool_operation | 给房间添加资金 |
 | 53 | seer_house_create_operation | 创建平台 |
 | 54 | seer_house_update_operation | 更新平台 |
 
@@ -2626,15 +2627,30 @@ get_account[result.transactions.operations.issuer].result.name + "为预测市�
 操作信息：
 
 ```json
-49, {//操作类型：派发奖励
-	"fee": {
-		"amount": 2000000,
-		"asset_id": "1.3.0"
-	},
-	"issuer": "1.2.151",//发起用户ID
-	"room": "1.15.70"//房间ID
-}
+"operations": [
+	[49, {//操作类型：派发奖励
+		"fee": {
+			"amount": 2000000,
+			"asset_id": "1.3.0"
+		},
+		"issuer": "1.2.105",
+		"room": "1.15.127"
+	}]
+],
+"extensions": [],
+"signatures": ["1f17......62c"],
+"operation_results": [
+	[3, {
+		"asset_id": "1.3.0",
+		"deltas": [
+			["1.2.46", 100000000],
+			["1.2.105", "14810585203"]
+		]
+	}]
+]
 ```
+
+
 显示效果：
 
 | 类型 | 说明 | 
@@ -2704,6 +2720,35 @@ A result.transactions.operations.amount 在PVP和高级模式的房间中为资�
 
 B 在账号详情页通过`get_relative_account_history`获取指定账号参与预测时，除显示参与预测，该帐号余额的变动情况
 (通过`op.result.deltas`获取)、输入结果(通过`op.op.inputN`获取),同时显示房间号(通过`op.op.room` 获取，链接)
+
+#### 给房间添加资金操作
+
+操作信息：
+
+```json
+52, {//操作类型：给高级预测市场添加资金池
+	"fee": {
+		"amount": 2000000,
+		"asset_id": "1.3.0"
+	},
+	"issuer": "1.2.105",
+	"room": "1.15.128",
+	"amount": {
+		"amount": 1000000000,
+		"asset_id": "1.3.0"
+	}
+}
+```
+显示效果：
+
+| 类型 | 说明 | 
+| - | - |
+| [添加资金池] | tomato 为预测市场 1.15.128"比特币价格高于6810美元吗？以.."添加资金池 10000.00000 SEER |
+
+取数据格式：
+
+get_account[result.transactions.operations.issuer].result.name + "为预测市场" + result.room + " "" + get_seer_room[result.room].result.description + " "添加资金池" + result.amount.amount/100000 + get_asset[result.amount.asset_id].result.symbol
+
 
 #### 创建平台操作
 

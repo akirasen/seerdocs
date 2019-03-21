@@ -552,9 +552,9 @@ Advanced模式的特点有：
 
 格式：get_full_accounts(const vector<string> &names_or_ids, bool subscribe)
 
-参数： 
+参数： names_or_ids，账号名或id；订阅标示符
 
-作用： 订阅
+作用： 订阅并返回此帐号所有相关的信息
 
 示例： {"jsonrpc": "2.0", "method": "get_full_accounts", "params": [["1.2.9981"],2], "id": 1}
 
@@ -655,11 +655,11 @@ Advanced模式的特点有：
 				"balance": "22971074757961"//数额
 			}],
 			"vesting_balances": [{//待解冻余额
-				"id": "1.11.11",
+				"id": "1.11.11",//待解冻余额编号
 				"owner": "1.2.9981",
 				"balance": {
-					"amount": 235540529,
-					"asset_id": "1.3.0"
+					"amount": 235540529,//待解冻余额金额
+					"asset_id": "1.3.0"//待解冻余额资产id
 				},
 				"policy": [1, {
 					"vesting_seconds": 31536000,
@@ -678,179 +678,215 @@ Advanced模式的特点有：
 ```
 ### get_account_by_name
 
-格式：
+格式：get_account_by_name(string name)
 
-参数： 
+参数： name，要获取账户信息的账号名
 
-作用： 
+作用： 根据账号名返回帐号信息，此函数的返回内容与get_objects及get_accounts相同。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_account_by_name", "params": ["xiaowanzi"], "id": 1}
 
-返回信息示例：
-```json
-
-```
 ### get_account_references
 
-格式：
+格式：get_account_references(account_id_type account_id) 
 
-参数： 
+参数： account_id，账号id
 
-作用： 
+作用： 返回此账号id拥有avtive或owner权限的账号列表
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例：  {"jsonrpc": "2.0", "method": "get_account_references", "params": ["1.2.16642"], "id": 1}
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":["1.2.13634","1.2.13647","1.2.14054"]}
 ```
 ### lookup_account_names
 
-格式：
+格式：lookup_account_names(const vector<string> &account_names) 
 
-参数： 
+参数： account_names：要检索的帐户名称
 
-作用： 
+作用： 根据账号名返回帐号信息，此函数的作用与get_objects相同。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "lookup_account_names", "params": [["xiaowanzi"]], "id": 1}
 
-返回信息示例：
-```json
-
-```
 ### lookup_accounts
 
-格式：
+格式：lookup_accounts(const string &lower_bound_name, uint32_t limit) 
 
-参数： 
+参数： lower_bound_name：要返回的名字下限;limit：要返回的最大结果（不得超过1000）
 
-作用： 
+作用： 获取已注册帐户的名称和ID。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "lookup_accounts", "params": ["seer",10], "id": 1}
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [
+		["seer", "1.2.16"],
+		["seer-001", "1.2.373"],
+		["seer-009", "1.2.10927"],
+		["seer-01", "1.2.376"],
+		["seer-1", "1.2.477"],
+		["seer-100", "1.2.7346"],
+		["seer-10010", "1.2.9187"],
+		["seer-10014", "1.2.9191"],
+		["seer-10016", "1.2.9188"],
+		["seer-10017", "1.2.9189"]
+	]
+}
 ```
 ### get_account_count
 
-格式：
+作用： 获取区块链注册的帐户总数。
 
-参数： 
-
-作用： 
-
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_account_count", "params": [], "id": 1}
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":18844}
 ```
 ### get_account_ids
 
-格式：
+格式：get_account_ids(const vector<string> &account_names) 
 
-参数： 
+参数：  account_names：要检索的帐户名称
 
-作用： 
+作用： 根据账号名返回账号id
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_account_ids", "params": [["bibi","wanzi"]], "id": 1}
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":[["bibi","1.2.14054"],["wanzi","1.2.16640"]]}
 ```
 ### get_account_balances
 
-格式：
+格式：get_account_balances(account_id_type id, const flat_set<asset_id_type> &assets) 
 
-参数： 
+参数： id：要获得余额的帐户的ID；assets：要获得余额的资产的ID，如果为空，则获取所有资产帐户中的余额
 
-作用： 
+作用： 获取指定账户id各种资产的帐户余额。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_account_balances", "params": [1.2.16640,"1.3.0"], "id": 1}
 
-返回信息示例：
-```json
-
-```
 ### get_named_account_balances
 
-格式：
+格式：get_named_account_balances(const std::string &name, const flat_set<asset_id_type> &assets)
 
-参数： 
+参数： name，账号名；assets：要获得余额的资产的ID，如果为空，则获取所有资产帐户中的余额
 
-作用： 
+作用： 和get_account_balances一样，只是参数由账户id变为账号名
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_account_balances", "params": ["wanzi","1.3.0"], "id": 1}
 
-返回信息示例：
-```json
-
-```
 ### get_balance_objects
 
-格式：
+格式：get_balance_objects(const vector<address> &addrs) 
 
-参数： 
+参数： address，地址公钥
 
-作用： 
+作用： 获取未认领余额的数额
 
 示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
 
-返回信息示例：
-```json
-
-```
 ### get_vested_balances
 
-格式：
+格式：get_vested_balances(const vector<balance_id_type> &objs)
 
-参数： 
+参数： objs：已领取余额的object ID
 
-作用： 
+作用： 查询已领取余额的数额
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### get_vesting_balances
 
-格式：
+格式：get_vesting_balances(account_id_type account_id)
 
-参数： 
+参数： account_id,账户id
 
-作用： 
+作用： 查询指定账户id待领取余额的数额
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_vesting_balances", "params": ["1.2.9981"], "id": 1}
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.11.11",
+		"owner": "1.2.9981",
+		"balance": {
+			"amount": 235540529,
+			"asset_id": "1.3.0"
+		},
+		"policy": [1, {
+			"vesting_seconds": 31536000,
+			"start_claim": "1970-01-01T00:00:00",
+			"coin_seconds_earned": "7428006122544000",
+			"coin_seconds_earned_last_update": "2019-03-18T00:00:00"
+		}]
+	}]
+}
 ```
 ### get_assets
 
-格式：
+格式：get_assets(const vector<asset_id_type> &asset_ids) 
 
-参数： 
+参数： asset_ids：要检索的资产的ID，此函数的作用与get_objects相同。
 
-作用： 
+作用： 按ID获取资产列表。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_assets", "params": [["1.3.0"]], "id": 1}
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.3.0",//资产ID
+		"symbol": "SEER",//资产标识符
+		"precision": 5,//精度
+		"issuer": "1.2.3",//发行人
+		"options": {
+			"max_supply": "1000000000000000",//总供给
+			"market_fee_percent": 0,
+			"max_market_fee": "1000000000000000",//最大市场手续费
+			"issuer_permissions": 0,
+			"flags": 0,
+			"core_exchange_rate": {//交易手续费
+				"base": {
+					"amount": 1,
+					"asset_id": "1.3.0"
+				},
+				"quote": {
+					"amount": 1,
+					"asset_id": "1.3.0"
+				}
+			},
+			"whitelist_authorities": [],
+			"blacklist_authorities": [],
+			"whitelist_markets": [],
+			"blacklist_markets": [],
+			"description": "",
+			"extensions": []
+		},
+		"dynamic_asset_data_id": "2.3.0"
+	}]
+}
+你 1: 41: 29
 ```
 ### list_assets
 
-格式：`list_assets` lowerbound limit
+格式：list_assets(const string &lower_bound_symbol, uint32_t limit)
 
-参数：lowerbound资产名下标, limit 返回结果的数量上限
+参数：lower_bound_symbol：要检索的符号名称的下限；limit：要获取的最大资产数（不得超过100）
 
-作用：列出资产名大于lowerbound的资产
+作用：列出资产名大于lower_bound_symbol的资产
 
 示例：`{"jsonrpc": "2.0", "method": "list_assets", "params": ["SEE",2], "id": 1}`
 
@@ -922,101 +958,174 @@ Advanced模式的特点有：
 
 ### lookup_asset_symbols
 
-格式：
+格式：lookup_asset_symbols(const vector<string> &symbols_or_ids)
 
-参数： 
+参数： symbols_or_ids
 
-作用： 
+作用： 按资产名称或id获取资产列表，此函数的作用与get_objects相同。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "lookup_asset_symbols", "params": [["SEER"]], "id": 1}
 
-返回信息示例：
-```json
-
-```
 ### get_order_book
 
-格式：
+格式：get_order_book(const string &base, const string &quote, unsigned limit = 50)
 
-参数： 
+参数： base：第一个资产的名称;quote：第二个资产的名称;depth：订单。每个要求和出价的深度，最高限额为50，优先返回最低的订单。
 
-作用： 
+作用： 返回内置交易所的交易对订单
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_order_book", "params": ["SEER","OPC",2], "id": 1}
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"base": "SEER",
+		"quote": "OPC",
+		"bids": [{
+			"price": "0.05012000000000000",
+			"quote": "2008000.00000000000000000",
+			"base": "100640.96000000000640284"
+		}, {
+			"price": "0.05010020000045181",
+			"quote": "788397.40639000001829118",
+			"base": "39498.86774000000150409"
+		}],
+		"asks": [{
+			"price": "0.26600000000000001",
+			"quote": "1326.20000000000004547",
+			"base": "352.76920000000001210"
+		}, {
+			"price": "0.26800000000000002",
+			"quote": "46562.59999999999854481",
+			"base": "12478.77679999999963911"
+		}]
+	}
+}
 ```
 ### get_limit_orders
 
-格式：
+格式：get_limit_orders(asset_id_type a, asset_id_type b, uint32_t limit) 
 
-参数： 
+参数： a：正在出售的资产ID；b：正在购买的资产ID；limit：要检索的最大订单数
 
-作用： 
+作用： 获取指定交易对的限价单。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_limit_orders", "params": ["1.3.0","1.3.1",1], "id": 1}
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.6.2048",
+		"expiration": "2024-03-18T03:40:29",
+		"seller": "1.2.10229",
+		"for_sale": "10064096000",
+		"sell_price": {
+			"base": {
+				"amount": "10064096000",
+				"asset_id": "1.3.0"
+			},
+			"quote": {
+				"amount": "200800000000",
+				"asset_id": "1.3.1"
+			}
+		},
+		"deferred_fee": 500000
+	}, {
+		"id": "1.6.2049",
+		"expiration": "2024-03-20T06:21:39",
+		"seller": "1.2.10723",
+		"for_sale": 132620000,
+		"sell_price": {
+			"base": {
+				"amount": 132620000,
+				"asset_id": "1.3.1"
+			},
+			"quote": {
+				"amount": 35276920,
+				"asset_id": "1.3.0"
+			}
+		},
+		"deferred_fee": 500000
+	}]
+}
 ```
 ### subscribe_to_market
 
-格式：
+格式：subscribe_to_market(std::function<void(const variant&)> callback, asset_id_type a, asset_id_type b, )
 
-参数： 
+参数： callback：市场变化时调用的回调方法；a：第一个资产ID；b：第二个资产ID
 
-作用： 
+作用： 订阅指定交易对的限价单等信息。当两个资产之间的市场中的活动订单发生变化时请求通知。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "subscribe_to_market", "params": [2,"1.3.0","1.3.1"], "id": 1}
 
-返回信息示例：
-```json
-
-```
 ### unsubscribe_from_market
 
-格式：
+格式：unsubscribe_from_market（ asset_id_type a，asset_id_type b ）
 
-参数： 
+参数： a：第一个资产ID；b：第二个资产ID
 
-作用： 
+作用： 取消订阅特定市场的更新。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "unsubscribe_from_market", "params": ["1.3.0","1.3.1"], "id": 1}
 
-返回信息示例：
-```json
-
-```
 ### get_ticker
 
-格式：
+格式：get_ticker(const string &base, const string &quote) 
 
-参数： 
+参数： a：第一个资产的字符串名称；b：第二个资产的字符串名称
 
-作用： 
+作用： 返回过去24小时指定交易对的行情信息。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_ticker", "params": ["1.3.0","1.3.1"], "id": 1}
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"time": "2019-03-21T18:05:04",
+		"base": "1.3.0",
+		"quote": "1.3.1",
+		"latest": "0.05010020000045181",
+		"lowest_ask": "0.26600000000000001",
+		"highest_bid": "0.05012000000000000",
+		"percent_change": "0.00000000000000000",
+		"base_volume": "0.00000000000000000",
+		"quote_volume": "0.00000000000000000"
+	}
+}
 ```
 ### get_24_volume
 
-格式：
+格式：get_24_volume(const string &base, const string &quote) 
 
-参数： 
+参数： a：第一个资产名称；b：第二个资产名称
 
-作用： 
+作用： 返回指定交易对24小时交易量。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_24_volume", "params": ["SEER","OPC"], "id": 1}
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"time": "2019-03-21T18:07:41",
+		"base": "SEER",
+		"quote": "OPC",
+		"base_volume": "0.00000000000000000",
+		"quote_volume": "0.00000000000000000"
+	}
+}
 ```
 ### get_trade_history
 
@@ -1456,7 +1565,7 @@ Advanced模式的特点有：
 					"sequence": 0,//顺序
 					"reward": 0//获得奖励
 				},
-				...
+				...{
 					"player": "1.2.14227",
 					"block_num": 8727629,
 					"when": "2019-03-19T06:12:09",

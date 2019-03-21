@@ -785,7 +785,7 @@ Advanced模式的特点有：
 
 ### get_balance_objects
 
-格式：get_balance_objects(const vector<address> &addrs) 
+格式：get_balance_objects(const vector address &addrs) 
 
 参数： address，地址公钥
 

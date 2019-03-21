@@ -878,7 +878,7 @@ Advanced模式的特点有：
 		"dynamic_asset_data_id": "2.3.0"
 	}]
 }
-你 1: 41: 29
+
 ```
 ### list_assets
 

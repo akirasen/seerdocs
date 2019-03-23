@@ -111,7 +111,7 @@ LMSR参与量的单位为“份”，价格是需要根据份数即时计算的�
 
 LMSR玩法的优势：参与预测的过程可以伴随自由的买卖，用户可以在预测结果出来之前卖出获利或者止损。预测的参与量的买卖可以使预测倾向流动加快，即更快的向概率最大的选项倾斜。
 
-房主在开设LMSR类型房间时，需要设定一个L值，L表示房主设定的亏损界值，房主提供的准备金F=L*ln（N），N为结果数量。总参与量表示当前的总资金池，包括房主提供的准备金和参与者注入的资金，在选项中将显示每个选项的实时参与人数和份数。
+房主在开设LMSR类型房间时，需要设定一个L值，L表示房主设定的亏损界值，房主提供的准备金F = L * ln（N），N为结果数量。总参与量表示当前的总资金池，包括房主提供的准备金和参与者注入的资金，在选项中将显示每个选项的实时参与人数和份数。
 
 LMSR机制需要房主在创建房间时通过设定亏损界值来提供一笔准备金（根据房间接受的资产可能是SEER、PFC等资产），根据房主设定的亏损界值，准备金将自动注入资金池，房主设定的亏损界值越大，需要提供的准备金越多，亏损界值较大的情况下，也只有更多的用户参与时才能让实时参与成本产生较大波动。如果预测错误的用户多于预测正确的用户，房主将会盈利，而如果预测正确的用户大于预测错误的用户，房主将会亏损，在所有用户的预测方向全对且参与者足够多的极端情况下，房主将损失掉所有的准备金。
 
@@ -170,7 +170,7 @@ Advanced模式的特点有：
 
 ### get_objects
 
-格式：get_objects(const vector<object_id_type> &ids) const
+格式：get_objects(object_id_type ids) 
 
 参数： ids，即要检索对象的ID
 
@@ -214,7 +214,7 @@ Advanced模式的特点有：
 
 ### get_block_header
 
-格式：get_block_header(uint32_t block_num) const
+格式：get_block_header(uint32_t block_num) 
 
 参数： block_num：要返回其区块头的块高
 
@@ -238,7 +238,7 @@ Advanced模式的特点有：
 ```
 ### get_block_header_batch
 
-格式：const vector<uint32_t> block_nums)
+格式：get_block_header_batch(uint32_t block_nums)
 
 参数： block_num：要返回其区块头的块高
 
@@ -335,7 +335,7 @@ Advanced模式的特点有：
 ```
 ### get_recent_transaction_by_id
 
-格式：get_recent_transaction_by_id(const transaction_id_type &id) 
+格式：get_recent_transaction_by_id(const transaction_id_type id) 
 
 作用： 如果交易未超时，则返回指定ID的交易，否则将因未知而返回NULL。而未知并不意味着它没有包含在区块链中。
 
@@ -449,7 +449,7 @@ Advanced模式的特点有：
 ```
 ### get_key_references
 
-格式：get_key_references(vector<public_key_type> key) 
+格式：get_key_references(public_key_type key) 
 
 参数： key，公钥
 
@@ -477,7 +477,7 @@ Advanced模式的特点有：
 ```
 ### get_accounts
 
-格式：get_accounts(const vector<account_id_type> &account_ids)
+格式：get_accounts(account_id_type account_ids)
 
 参数： account_ids：要获取的帐户的ID
 
@@ -550,7 +550,7 @@ Advanced模式的特点有：
 ```
 ### get_full_accounts
 
-格式：get_full_accounts(const vector<string> &names_or_ids, bool subscribe)
+格式：get_full_accounts(string names_or_ids, bool subscribe)
 
 参数： names_or_ids，账号名或id；订阅标示符
 
@@ -702,7 +702,7 @@ Advanced模式的特点有：
 ```
 ### lookup_account_names
 
-格式：lookup_account_names(const vector<string> &account_names) 
+格式：lookup_account_names(string account_names) 
 
 参数： account_names：要检索的帐户名称
 
@@ -712,7 +712,7 @@ Advanced模式的特点有：
 
 ### lookup_accounts
 
-格式：lookup_accounts(const string &lower_bound_name, uint32_t limit) 
+格式：lookup_accounts(string lower_bound_name, uint32_t limit) 
 
 参数： lower_bound_name：要返回的名字下限;limit：要返回的最大结果（不得超过1000）
 
@@ -751,7 +751,7 @@ Advanced模式的特点有：
 ```
 ### get_account_ids
 
-格式：get_account_ids(const vector<string> &account_names) 
+格式：get_account_ids(string account_names) 
 
 参数：  account_names：要检索的帐户名称
 
@@ -765,7 +765,7 @@ Advanced模式的特点有：
 ```
 ### get_account_balances
 
-格式：get_account_balances(account_id_type id, const flat_set<asset_id_type> &assets) 
+格式：get_account_balances(account_id_type id, asset_id_type assets) 
 
 参数： id：要获得余额的帐户的ID；assets：要获得余额的资产的ID，如果为空，则获取所有资产帐户中的余额
 
@@ -775,7 +775,7 @@ Advanced模式的特点有：
 
 ### get_named_account_balances
 
-格式：get_named_account_balances(const std::string &name, const flat_set<asset_id_type> &assets)
+格式：get_named_account_balances(string name, asset_id_type assets)
 
 参数： name，账号名；assets：要获得余额的资产的ID，如果为空，则获取所有资产帐户中的余额
 
@@ -785,17 +785,17 @@ Advanced模式的特点有：
 
 ### get_balance_objects
 
-格式：get_balance_objects(const vector address &addrs) 
+格式：get_balance_objects(address addrs) 
 
-参数： address，地址公钥
+参数： addrs，地址公钥
 
 作用： 获取未认领余额的数额
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_balance_objects", "params": ["SEER71d7yHA7KgW8qkHYv4hX2WT4X1FariKbjWCqAfegjGr8B2LowE"], "id": 1}
 
 ### get_vested_balances
 
-格式：get_vested_balances(const vector<balance_id_type> &objs)
+格式：get_vested_balances(balance_id_type objs)
 
 参数： objs：已领取余额的object ID
 
@@ -834,7 +834,7 @@ Advanced模式的特点有：
 ```
 ### get_assets
 
-格式：get_assets(const vector<asset_id_type> &asset_ids) 
+格式：get_assets(asset_id_type asset_ids) 
 
 参数： asset_ids：要检索的资产的ID，此函数的作用与get_objects相同。
 
@@ -882,7 +882,7 @@ Advanced模式的特点有：
 ```
 ### list_assets
 
-格式：list_assets(const string &lower_bound_symbol, uint32_t limit)
+格式：list_assets(string lower_bound_symbol, uint32_t limit)
 
 参数：lower_bound_symbol：要检索的符号名称的下限；limit：要获取的最大资产数（不得超过100）
 
@@ -958,7 +958,7 @@ Advanced模式的特点有：
 
 ### lookup_asset_symbols
 
-格式：lookup_asset_symbols(const vector<string> &symbols_or_ids)
+格式：lookup_asset_symbols(string symbols_or_ids)
 
 参数： symbols_or_ids
 
@@ -968,7 +968,7 @@ Advanced模式的特点有：
 
 ### get_order_book
 
-格式：get_order_book(const string &base, const string &quote, unsigned limit = 50)
+格式：get_order_book(string base, string quote, unsigned limit = 50)
 
 参数： base：第一个资产的名称;quote：第二个资产的名称;depth：订单。每个要求和出价的深度，最高限额为50，优先返回最低的订单。
 
@@ -1057,7 +1057,7 @@ Advanced模式的特点有：
 ```
 ### subscribe_to_market
 
-格式：subscribe_to_market(std::function<void(const variant&)> callback, asset_id_type a, asset_id_type b, )
+格式：subscribe_to_market(variant callback, asset_id_type a, asset_id_type b)
 
 参数： callback：市场变化时调用的回调方法；a：第一个资产ID；b：第二个资产ID
 
@@ -1077,13 +1077,13 @@ Advanced模式的特点有：
 
 ### get_ticker
 
-格式：get_ticker(const string &base, const string &quote) 
+格式：get_ticker(string base, string quote) 
 
-参数： a：第一个资产的字符串名称；b：第二个资产的字符串名称
+参数： base：第一个资产的字符串名称或资产ID；quote：第二个资产的字符串名称或资产ID
 
 作用： 返回过去24小时指定交易对的行情信息。
 
-示例： {"jsonrpc": "2.0", "method": "get_ticker", "params": ["1.3.0","1.3.1"], "id": 1}
+示例： {"jsonrpc": "2.0", "method": "get_ticker", "params": ["SEER","OPC"], "id": 1}
 
 返回信息示例：
 ```json
@@ -1105,9 +1105,9 @@ Advanced模式的特点有：
 ```
 ### get_24_volume
 
-格式：get_24_volume(const string &base, const string &quote) 
+格式：get_24_volume(string base, string quote) 
 
-参数： a：第一个资产名称；b：第二个资产名称
+参数： base：第一个资产名称；quote：第二个资产名称
 
 作用： 返回指定交易对24小时交易量。
 
@@ -1129,7 +1129,7 @@ Advanced模式的特点有：
 ```
 ### get_trade_history
 
-格式：
+格式：get_trade_history(const string &base, const string &quote, time_point_sec start, time_point_sec stop, unsigned limit = 100)
 
 参数： 
 

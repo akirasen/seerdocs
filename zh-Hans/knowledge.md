@@ -164,7 +164,7 @@ Advanced模式的特点有：
 
 此处列出SEER节点的全部API接口的参数、作用及部分SEER常用接口的示例。
 
-在示例中，我们以WS-RPC为例。
+在示例中，我们主要以WS-RPC为例。
 
 参考：<a href="http://docs.bitshares.org/api/database.html"> **石墨烯区块链技术文档** </a>
 
@@ -176,7 +176,7 @@ Advanced模式的特点有：
 
 作用： 获取与提供的ID对应的对象。（此处的ID可以是账户ID（1.2.X）、见证人ID（1.5.X）、房间ID（1.15.X）等），如果指定的ID未找到相关对象，则返回null。
 
-示例： {"jsonrpc": "2.0", "method": "get_objects", "params": [["1.15.1160"]], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_objects", "params": [["1.15.1160"]], "id": 1}`
 
 返回信息示例：
 
@@ -220,7 +220,7 @@ Advanced模式的特点有：
 
 作用： 返回指定区块的区块头，如果未找到匹配块，则返回null
 
-示例： {"jsonrpc": "2.0", "method": "get_block_header", "params": [8722946], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_block_header", "params": [8722946], "id": 1}`
 
 返回信息示例：
 ```json
@@ -301,7 +301,7 @@ Advanced模式的特点有：
 
 作用： 交易在指定块中的位置和制定块的块高返回指定的交易信息。
 
-示例： {"jsonrpc": "2.0", "method": "get_transaction", "params": [8722946,0], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_transaction", "params": [8722946,0], "id": 1}`
 
 返回信息示例：
 ```json
@@ -343,7 +343,7 @@ Advanced模式的特点有：
 
 作用： 返回区块链参数对象
 
-示例： {"jsonrpc": "2.0", "method": "get_chain_properties", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_chain_properties", "params": [], "id": 1}`
 
 ### get_global_properties
 
@@ -410,19 +410,19 @@ Advanced模式的特点有：
 
 作用： 返回区块链底层常量配置
 
-示例： {"jsonrpc": "2.0", "method": "get_config", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_config", "params": [], "id": 1}`
 
 ### get_chain_id
 
 作用： 返回区块链id
 
-示例： {"jsonrpc": "2.0", "method": "get_chain_id", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_chain_id", "params": [], "id": 1}`
 
 ### get_dynamic_global_properties
 
 作用： 返回区块链动态全局参数
 
-示例： {"jsonrpc": "2.0", "method": "get_dynamic_global_properties", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_dynamic_global_properties", "params": [], "id": 1}`
 
 返回信息示例：
 ```json
@@ -455,7 +455,7 @@ Advanced模式的特点有：
 
 作用： 返回此公钥所有有owner或active权限的帐户id。
 
-示例： {"jsonrpc": "2.0", "method": "get_key_references", "params": [["SEER6cTUFs1ptsYG9AF3ccudirnJ1Fo3dLdVSni9qyPGnn45KzS9mU"]], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_key_references", "params": [["SEER6cTUFs1ptsYG9AF3ccudirnJ1Fo3dLdVSni9qyPGnn45KzS9mU"]], "id": 1}`
 
 返回信息示例：
 ```json
@@ -469,7 +469,7 @@ Advanced模式的特点有：
 
 作用： 确定公钥当前是否与区块链上的任何已注册帐户相关联，返回true即表示有。
 
-示例： {"jsonrpc": "2.0", "method": "is_public_key_registered", "params": ["SEER6cTUFs1ptsYG9AF3ccudirnJ1Fo3dLdVSni9qyPGnn45KzS9mU"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "is_public_key_registered", "params": ["SEER6cTUFs1ptsYG9AF3ccudirnJ1Fo3dLdVSni9qyPGnn45KzS9mU"], "id": 1}`
 
 返回信息示例：
 ```json
@@ -483,7 +483,7 @@ Advanced模式的特点有：
 
 作用： 按ID获取帐户列表。此函数的作用与get_objects相同
 
-示例： {"jsonrpc": "2.0", "method": "get_accounts", "params": [["1.2.9981"]], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_accounts", "params": [["1.2.9981"]], "id": 1}`
 
 返回信息示例：
 ```json
@@ -556,7 +556,7 @@ Advanced模式的特点有：
 
 作用： 订阅并返回此帐号所有相关的信息
 
-示例： {"jsonrpc": "2.0", "method": "get_full_accounts", "params": [["1.2.9981"],2], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_full_accounts", "params": [["1.2.9981"],2], "id": 1}`
 
 返回信息示例：
 ```json
@@ -684,7 +684,7 @@ Advanced模式的特点有：
 
 作用： 根据账号名返回帐号信息，此函数的返回内容与get_objects及get_accounts相同。
 
-示例： {"jsonrpc": "2.0", "method": "get_account_by_name", "params": ["xiaowanzi"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_account_by_name", "params": ["xiaowanzi"], "id": 1}`
 
 ### get_account_references
 
@@ -694,7 +694,7 @@ Advanced模式的特点有：
 
 作用： 返回此账号id拥有avtive或owner权限的账号列表
 
-示例：  {"jsonrpc": "2.0", "method": "get_account_references", "params": ["1.2.16642"], "id": 1}
+示例：  `{"jsonrpc": "2.0", "method": "get_account_references", "params": ["1.2.16642"], "id": 1}`
 
 返回信息示例：
 ```json
@@ -708,7 +708,7 @@ Advanced模式的特点有：
 
 作用： 根据账号名返回帐号信息，此函数的作用与get_objects相同。
 
-示例： {"jsonrpc": "2.0", "method": "lookup_account_names", "params": [["xiaowanzi"]], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "lookup_account_names", "params": [["xiaowanzi"]], "id": 1}`
 
 ### lookup_accounts
 
@@ -718,7 +718,7 @@ Advanced模式的特点有：
 
 作用： 获取已注册帐户的名称和ID。
 
-示例： {"jsonrpc": "2.0", "method": "lookup_accounts", "params": ["seer",10], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "lookup_accounts", "params": ["seer",10], "id": 1}`
 
 返回信息示例：
 ```json
@@ -743,7 +743,7 @@ Advanced模式的特点有：
 
 作用： 获取区块链注册的帐户总数。
 
-示例： {"jsonrpc": "2.0", "method": "get_account_count", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_account_count", "params": [], "id": 1}`
 
 返回信息示例：
 ```json
@@ -757,7 +757,7 @@ Advanced模式的特点有：
 
 作用： 根据账号名返回账号id
 
-示例： {"jsonrpc": "2.0", "method": "get_account_ids", "params": [["bibi","wanzi"]], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_account_ids", "params": [["bibi","wanzi"]], "id": 1}`
 
 返回信息示例：
 ```json
@@ -771,7 +771,7 @@ Advanced模式的特点有：
 
 作用： 获取指定账户id各种资产的帐户余额。
 
-示例： {"jsonrpc": "2.0", "method": "get_account_balances", "params": [1.2.16640,"1.3.0"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_account_balances", "params": [1.2.16640,"1.3.0"], "id": 1}`
 
 ### get_named_account_balances
 
@@ -781,7 +781,7 @@ Advanced模式的特点有：
 
 作用： 和get_account_balances一样，只是参数由账户id变为账号名
 
-示例： {"jsonrpc": "2.0", "method": "get_account_balances", "params": ["wanzi","1.3.0"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_account_balances", "params": ["wanzi","1.3.0"], "id": 1}`
 
 ### get_balance_objects
 
@@ -791,7 +791,7 @@ Advanced模式的特点有：
 
 作用： 获取未认领余额的数额
 
-示例： {"jsonrpc": "2.0", "method": "get_balance_objects", "params": ["SEER71d7yHA7KgW8qkHYv4hX2WT4X1FariKbjWCqAfegjGr8B2LowE"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_balance_objects", "params": ["SEER71d7yHA7KgW8qkHYv4hX2WT4X1FariKbjWCqAfegjGr8B2LowE"], "id": 1}`
 
 ### get_vested_balances
 
@@ -809,7 +809,7 @@ Advanced模式的特点有：
 
 作用： 查询指定账户id待领取余额的数额
 
-示例： {"jsonrpc": "2.0", "method": "get_vesting_balances", "params": ["1.2.9981"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_vesting_balances", "params": ["1.2.9981"], "id": 1}`
 
 返回信息示例：
 ```json
@@ -840,7 +840,7 @@ Advanced模式的特点有：
 
 作用： 按ID获取资产列表。
 
-示例： {"jsonrpc": "2.0", "method": "get_assets", "params": [["1.3.0"]], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_assets", "params": [["1.3.0"]], "id": 1}`
 
 返回信息示例：
 ```json
@@ -964,7 +964,7 @@ Advanced模式的特点有：
 
 作用： 按资产名称或id获取资产列表，此函数的作用与get_objects相同。
 
-示例： {"jsonrpc": "2.0", "method": "lookup_asset_symbols", "params": [["SEER"]], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "lookup_asset_symbols", "params": [["SEER"]], "id": 1}`
 
 ### get_order_book
 
@@ -974,7 +974,7 @@ Advanced模式的特点有：
 
 作用： 返回内置交易所的交易对订单
 
-示例： {"jsonrpc": "2.0", "method": "get_order_book", "params": ["SEER","OPC",2], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_order_book", "params": ["SEER","OPC",2], "id": 1}`
 
 返回信息示例：
 ```json
@@ -1013,7 +1013,7 @@ Advanced模式的特点有：
 
 作用： 获取指定交易对的限价单。
 
-示例： {"jsonrpc": "2.0", "method": "get_limit_orders", "params": ["1.3.0","1.3.1",1], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_limit_orders", "params": ["1.3.0","1.3.1",1], "id": 1}`
 
 返回信息示例：
 ```json
@@ -1063,7 +1063,7 @@ Advanced模式的特点有：
 
 作用： 订阅指定交易对的限价单等信息。当两个资产之间的市场中的活动订单发生变化时请求通知。
 
-示例： {"jsonrpc": "2.0", "method": "subscribe_to_market", "params": [2,"1.3.0","1.3.1"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "subscribe_to_market", "params": [2,"1.3.0","1.3.1"], "id": 1}`
 
 ### unsubscribe_from_market
 
@@ -1073,7 +1073,7 @@ Advanced模式的特点有：
 
 作用： 取消订阅特定市场的更新。
 
-示例： {"jsonrpc": "2.0", "method": "unsubscribe_from_market", "params": ["1.3.0","1.3.1"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "unsubscribe_from_market", "params": ["1.3.0","1.3.1"], "id": 1}`
 
 ### get_ticker
 
@@ -1083,7 +1083,7 @@ Advanced模式的特点有：
 
 作用： 返回过去24小时指定交易对的行情信息。
 
-示例： {"jsonrpc": "2.0", "method": "get_ticker", "params": ["SEER","OPC"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_ticker", "params": ["SEER","OPC"], "id": 1}`
 
 返回信息示例：
 ```json
@@ -1111,7 +1111,7 @@ Advanced模式的特点有：
 
 作用： 返回指定交易对24小时交易量。
 
-示例： {"jsonrpc": "2.0", "method": "get_24_volume", "params": ["SEER","OPC"], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_24_volume", "params": ["SEER","OPC"], "id": 1}`
 
 返回信息示例：
 ```json
@@ -1129,385 +1129,404 @@ Advanced模式的特点有：
 ```
 ### get_trade_history
 
-格式：get_trade_history(const string &base, const string &quote, time_point_sec start, time_point_sec stop, unsigned limit = 100)
+格式：get_trade_history(string base, string quote, time_point_sec start, time_point_sec stop, unsigned limit = 100)
 
-参数： 
+参数： base：第一个资产的字符串名称;quote：第二个资产的字符串名称;start：UNIX时间戳的开始时间;stop：停止时间的UNIX时间戳；
+limit：要检索的trasactions数量，上限为100
 
-作用： 
+作用： 返回指定交易对指定时间区间的历史交易记录。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_trade_history", "params": ["SEER","OPC","1553274061","1551978061","2"], "id": 1}`
 
-返回信息示例：
-```json
-
-```
 ### get_trade_history_by_sequence
 
-格式：
+作用： 按顺序返回指定交易对指定时间区间的历史交易记录。
 
-参数： 
-
-作用： 
-
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### get_witnesses
 
-格式：
+格式：get_witnesses(witness_id_type witness_ids) 
 
-参数： 
+参数： witness_ids：要检索的见证人的ID
 
-作用： 
+作用： 按ID获取见证人列表。此函数的语义与get_objects相同。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_witnesses", "params": [["1.5.22"]], "id": 1}`
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.5.22",//见证人id
+		"witness_account": "1.2.10429",//所属账号id
+		"last_aslot": 6637717,//最近可见
+		"signing_key": "SEER5oyAoCzw5GRD9unKK6vsLXkPVx1aKU7i3hX19E8BRU5u3FoAoA",//见证人签名
+		"pay_vb": "1.11.52",
+		"collaterals": ["2.16.169", "2.16.205", "2.16.222", "2.16.225", "2.16.227", "2.16.232", "2.16.238", "2.16.247", "2.16.253", "2.16.338", "2.16.369"],//抵押清单
+		"collateral_profit": "23353010098",//抵押利息
+		"total_collateral": "1017942300000",//总抵押金额
+		"cancelling_collateral": 0,//取消中的抵押
+		"url": "",
+		"total_missed": 0,//丢块数
+		"last_confirmed_block_num": 6606635,//最后生成块
+		"recent_maintenance_missed_blocks": [0, 0]//最近维护周期丢块数
+	}]
+}
 ```
 ### get_witness_by_account
 
-格式：
+格式：get_witness_by_account(account_id_type account) 
 
-参数： 
+参数： account：应检索其见证人的帐户ID
 
-作用： 
+作用： 获取指定帐户对应的见证人信息。如果指定帐户没有见证人，则为null
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_witness_by_account", "params": ["1.2.17311"], "id": 1}`
 
-返回信息示例：
-```json
 
-```
 ### lookup_witness_accounts
 
-格式：
+格式：lookup_witness_accounts(string lower_bound_name, uint32_t limit) 
 
-参数： 
+参数： lower_bound_name：要返回的用户名的下限,limit：要返回的最大结果数，不得超过1000
 
-作用： 
+作用： 返回指定账户已登记的见证人信息。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "lookup_witness_accounts", "params": ["win",10], "id": 1}`
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":[["win","1.5.78"],["win666","1.5.71"],["witness-seer","1.5.45"],["witness-yao","1.5.56"],["wxfkuq-seer","1.5.64"],["xianzhixianjue","1.5.41"],["xingyun52","1.5.54"],["xqy1","1.5.38"],["ygl78963","1.5.31"],["yow11234","1.5.17"]]}
 ```
 ### get_witness_count
 
-格式：
+作用：获取在区块链中注册的见证人总数。 
 
-参数： 
-
-作用： 
-
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_witness_count", "params": [], "id": 1}`
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":83}
 ```
 ### get_committee_members
 
-格式：
+格式：get_committee_members(committee_member_id_type committee_member_ids) 
 
-参数： 
+参数： committee_member_ids：要检索的理事会成员ID
 
-作用： 
+作用： 按ID获取理事会成员列表。此函数的语义与get_objects相同。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_committee_members", "params": [["1.4.1","1.4.2"]], "id": 1}`
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.4.1",//理事会ID
+		"committee_member_account": "1.2.7",//账户id
+		"vote_id": "0:1",//投票id
+		"total_votes": "279989972183009",//得票
+		"url": ""
+	}, {
+		"id": "1.4.2",
+		"committee_member_account": "1.2.8",
+		"vote_id": "0:2",
+		"total_votes": "279989972183009",
+		"url": ""
+	}]
+}
 ```
 ### get_committee_member_by_account
 
-格式：
+格式：get_committee_member_by_account(account_id_type account) 
 
-参数： 
+参数： account：应检索其理事会成员的帐户ID
 
-作用： 
+作用： 获取由给定帐户拥有的理事会成员账号信息。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_committee_member_by_account", "params": ["1.2.7"], "id": 1}`
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":{"id":"1.4.1","committee_member_account":"1.2.7","vote_id":"0:1","total_votes":"279989972183009","url":""}}
 ```
 ### lookup_committee_member_accounts
 
-格式：
+格式：lookup_committee_member_accounts(string lower_bound_name, uint32_t limit)
 
-参数： 
+参数： lower_bound_name：要返回的账号名下限;limit：要返回的最大结果数不得超过1000
 
-作用： 
+作用： 根据账户名返回符合条件的理事会成员id和用户名。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "lookup_committee_member_accounts", "params": ["init",5], "id": 1}`
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":[["init0","1.4.0"],["init1","1.4.1"],["init2","1.4.2"],["init3","1.4.3"],["init4","1.4.4"]]}
 ```
 ### get_committee_count
 
-格式：
+作用： 获取在区块链中注册的理事会成员总数。
 
-参数： 
-
-作用： 
-
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_committee_count", "params": [], "id": 1}`
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":8}
 ```
 ### lookup_vote_ids
 
-格式：
+格式：lookup_vote_ids(vote_id_type votes) 
 
-参数： 
+参数： votes：投票id
 
-作用： 
+作用： 给定一组投票，返回他们投票的对象。（SEER似乎没用启用此功能）
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### get_transaction_hex
 
-格式：
+格式：get_transaction_hex(signed_transaction trx) 
 
-参数： 
+参数： trx：已签名交易的二进制编码
 
-作用： 
+作用： 查看二进制编码格式交易的十六进制形式
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### get_required_signatures
 
-格式：
+格式：get_required_signatures(signed_transaction trx, public_key_type available_keys) 
 
-参数： 
+参数： trx：已签名交易
 
-作用： 
+作用： 此API将采用部分签名的事务和一组公共密钥，所有者可以签名并返回将签名添加到交易的最小公钥子集。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### get_potential_signatures
 
-格式：
+格式：get_potential_signatures(signed_transaction trx) 
 
-参数： 
+参数： trx：已签名交易
 
-作用： 
+作用： 此方法将返回可能为指定交易签名的所有公钥的集合。在调用get_required_signatures以获得最小子集前，钱包可以使用此调用将其公钥集合过滤到相关子集。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### get_potential_address_signatures
 
-格式：
+格式：get_potential_address_signatures(signed_transaction trx) 
 
-参数： 
+参数： trx：已签名交易
 
-作用： 
+作用： 返回可能为指定交易签名的所有地址的集合
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### verify_authority
 
-格式：
+格式：verify_authority(signed_transaction trx)
 
-参数： 
+参数： trx：已签名交易
 
-作用： 
+作用： 如果trx具有所有必需的签名，则返回true，否则抛出异常
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### verify_account_authority
 
-格式：
+格式：verify_account_authority(string name_or_id, public_key_type signers) 
 
-参数： 
+参数： name_or_id：账户名或账户id；signers：签名公钥
 
-作用： 
+作用： 验证账户权限，如果签名者有足够的权限授权帐户，则返回true
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### validate_transaction
 
-格式：
+格式：validate_transaction(signed_transaction trx)
 
-参数： 
+参数： trx：已签名交易
 
-作用： 
+作用： 针对验证交易当前状态而不在区块链网络上广播它。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### get_required_fees
 
-格式：
+格式：get_required_fees(operation ops, asset_id_type id)
 
-参数： 
+参数： ops：操作；id：资产id
 
-作用： 
+作用： 如果指定资产类型没有有效的core_exchange_rate（资产设定的针对核心资产SEER的汇率）的话，对于指定操作，计算指定资产类型的所需费用。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### get_proposed_transactions
 
-格式：
+格式：get_proposed_transactions(account_id_type id)
 
-参数： 
+参数： id：账户id
 
-作用： 
+作用： 返回与指定帐户ID相关的提议交易集。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_proposed_transactions", "params": ["1.2.18098"], "id": 1}`
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.8.52",
+		"expiration_time": "2019-03-24T16:42:20",//过期时间
+		"proposed_transaction": {
+			"ref_block_num": 0,
+			"ref_block_prefix": 0,
+			"expiration": "2019-03-24T16:42:20",
+			"operations": [//操作内容
+				[5, {//修改权限/更行账户
+					"fee": {//手续费
+						"amount": 2000000,
+						"asset_id": "1.3.0"
+					},
+					"account": "1.2.18098",//发起id
+					"active": {
+						"weight_threshold": 1,
+						"account_auths": [
+							["1.2.16640", 1]//授权账户及权重
+						],
+						"key_auths": [
+							["SEER5gmQdasu32KHsu5MCbGVsZ6xnL8m8LSxDEfeuDx88jkuzXE4qc", 1]
+						],
+						"address_auths": []
+					},
+					"extensions": {}
+				}]
+			],
+			"extensions": []
+		},
+		"required_active_approvals": ["1.2.18098"],
+		"available_active_approvals": [],
+		"required_owner_approvals": [],
+		"available_owner_approvals": [],
+		"available_key_approvals": []
+	}]
+}
 ```
 ### get_blinded_balances
 
-格式：
+格式：get_blinded_balances(commitment_type commitments) 
 
-参数： 
+参数： commitments：承诺id
 
-作用： 
+作用： 通过承诺id设置一个盲余额对象
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
-
-返回信息示例：
-```json
-
-```
 ### lookup_oracle_accounts
 
-格式：
+格式：lookup_oracle_accounts(string lower_bound_name, uint32_t limit)
 
-参数： 
+参数： lower_bound_name：要返回的账号名下限;limit：要返回的最大结果数不得超过1000
 
-作用： 
+作用： 根据账户名返回符合条件的预言机id和用户名。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "lookup_oracle_accounts", "params": ["in",5], "id": 1}`
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":[["in-future","1.13.0"]]}
 ```
 ### get_oracles
 
-格式：
+格式：get_oracles (oracle_id_type id）
 
-参数： 
+参数：id为预言机id
 
-作用： 
+作用：根据预言机id查询预言机信息，此函数的语义与get_objects相同。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例：`{"jsonrpc": "2.0", "method": "get_oracles", "params": [["1.13.0"]], "id": 1}` 
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.13.0",//预言机id
+		"owner": "1.2.13648",//账户id
+		"guaranty": 0,//保证金金额
+		"locked_guaranty": 0,//锁定保证金金额
+		"reputation": 1,//名誉值
+		"volume": 1,//参与量
+		"description": "在未来",//描述
+		"script": ""
+	}]
+}
 ```
 ### get_oracle_by_account
 
-格式：
+格式：get_oracle_by_account (account_id_type id）
 
-参数： 
+参数： id为账户id
 
-作用： 
+作用： 通过账户id查询预言机信息
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_oracle_by_account", "params": [["1.2.13648"]], "id": 1}`
 
-返回信息示例：
-```json
-
-```
 ### lookup_house_accounts
 
-格式：
+格式：lookup_house_accounts(string lower_bound_name, uint32_t limit)
 
-参数： 
+参数： lower_bound_name：要返回的账号名下限;limit：要返回的最大结果数不得超过1000
 
-作用： 
+作用： 根据账户名返回符合条件的平台id和用户名。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "lookup_house_accounts", "params": ["in",5], "id": 1}`
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":[["in-future","1.14.8"],["null-account","1.14.4294967295"],["octopaul","1.14.1"],["powerfans-community","1.14.6"],["shehuilongge2018","1.14.3"]]}
 ```
 ### get_houses
 
-格式：
+格式：get_houses(house_id_type id）
 
-参数： 
+参数： id为平台id
 
-作用： 
+作用： 根据平台id查询相应平台信息，此函数的语义与get_objects相同。
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_houses", "params": [["1.14.4","1.14.5"]], "id": 1}`
 
 返回信息示例：
 ```json
-
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.14.4",//平台id
+		"owner": "1.2.13647",//所有者账号id
+		"description": "社会事件预测平台。",//描述
+		"script": "",
+		"reputation": 121,//名誉值
+		"guaranty": "90100000000",//保证金
+		"volume": 121,//参与量
+		"collected_fees": 254750000,//手续费分成
+		"rooms": ["1.15.1144", "1.15.1145", "1.15.1152", "1.15.1153", "1.15.1165", "1.15.1168"],//开放中的房间
+		"finished_rooms": ["1.15.447", "1.15.535"/*...*/ "1.15.1147"]//已结束的房间
+	}, {
+		"id": "1.14.5",
+		"owner": "1.2.14054",
+		"description": "币比",
+		"script": "",
+		"reputation": 178,
+		"guaranty": "80100000000",
+		"volume": 178,
+		"collected_fees": 351500000,
+		"rooms": ["1.15.1154", "1.15.1155", "1.15.1159", "1.15.1160"],
+		"finished_rooms": ["1.15.559", "1.15.560"/*...*/"1.15.1132"]
+	}]
+}
 ```
 ### get_house_by_account
 
-格式：
+格式：get_house_by_account(account_id_type id）
 
-参数： 
+参数： id为账户id
 
-作用： 
+作用： 通过账户id查询平台信息
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_house_by_account", "params": ["1.2.13648"], "id": 1}`
 
-返回信息示例：
-```json
-
-```
 ### get_seer_room
 
-格式：`get_seer_room` room_id start limit
+格式：get_seer_room （room_id start limit）
 
 参数：room_id为房间id，start 为投注记录的开始索引,limit为返回结果中投注记录的最大数量
 
@@ -1565,7 +1584,7 @@ Advanced模式的特点有：
 					"sequence": 0,//顺序
 					"reward": 0//获得奖励
 				},
-				...{
+				/*...*/{
 					"player": "1.2.14227",
 					"block_num": 8727629,
 					"when": "2019-03-19T06:12:09",
@@ -1600,74 +1619,39 @@ Advanced模式的特点有：
 ```
 ### get_rooms_by_label
 
-格式：
+格式：get_rooms_by_label(string label, uint32_t limit)
 
-参数： 
+参数： label为需要查找的标签, limit为返回结果的最大数量
 
-作用： 
+作用： 返回标签为label的房间id
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_rooms_by_label", "params": ["BTC",5], "id": 1}`
 
 返回信息示例：
 ```json
-
+{"id":1,"jsonrpc":"2.0","result":["1.15.524","1.15.559","1.15.560","1.15.581","1.15.583"]}
 ```
 ### get_rooms_by_account
 
-格式：
+格式：get_rooms_by_account(account_id_type id)
 
-参数： 
+参数： id为账户id
 
-作用： 
+作用： 通过账户id查询该账户创建的房间列表
 
-示例： {"jsonrpc": "2.0", "method": "", "params": [], "id": 1}
+示例： `{"jsonrpc": "2.0", "method": "get_rooms_by_account", "params": ["1.2.14054"], "id": 1}`
 
 返回信息示例：
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 
-
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [
+		["actives", ["1.15.1154", "1.15.1155", "1.15.1159", "1.15.1160"]],//进行中的房间
+		["histories", ["1.15.559", "1.15.560", /*...*/, "1.15.1132"]]//已结束的历史房间
+	]
+}
+```
 

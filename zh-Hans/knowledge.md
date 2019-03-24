@@ -1283,7 +1283,7 @@ limit：要检索的trasactions数量，上限为100
 
 参数： votes：投票id集
 
-作用： 给定一组投票，返回他们投票的对象。投票id是committee_member_object，witness_objects(SEER未启用见证人投票)和worker_objects（SEER未启用worker投票）的混合，返回结果与投票id的顺序相同。如果未找到任何投票ID，将返回Null。
+作用： 指定一组投票，返回他们投票的对象。投票id即理事会成员投票id，返回结果与投票id的顺序相同。如果未找到任何投票ID，将返回Null。
 
 示例： `{"jsonrpc": "2.0", "method": "lookup_vote_ids", "params": [["0:1","0:2"]], "id": 1}`
 

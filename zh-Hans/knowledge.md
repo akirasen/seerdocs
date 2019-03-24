@@ -160,7 +160,7 @@ Advanced模式的特点有：
 7. 用户参与时，若当前总资金（含资金池和用户参与资金）可能不够派奖，则参与失败
 
 
-## SEER apis
+## SEER APIS
 
 此处列出SEER节点的全部API接口的参数、作用及部分SEER常用接口的示例。
 
@@ -1281,9 +1281,32 @@ limit：要检索的trasactions数量，上限为100
 
 格式：lookup_vote_ids(vote_id_type votes) 
 
-参数： votes：投票id
+参数： votes：投票id集
 
-作用： 给定一组投票，返回他们投票的对象。（SEER似乎没用启用此功能）
+作用： 给定一组投票，返回他们投票的对象。投票id是committee_member_object，witness_objects(SEER未启用见证人投票)和worker_objects（SEER未启用worker投票）的混合，返回结果与投票id的顺序相同。如果未找到任何投票ID，将返回Null。
+
+示例： `{"jsonrpc": "2.0", "method": "lookup_vote_ids", "params": [["0:1","0:2"]], "id": 1}`
+
+返回信息示例：
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+		"id": "1.4.1",
+		"committee_member_account": "1.2.7",
+		"vote_id": "0:1",
+		"total_votes": "279989972183009",
+		"url": ""
+	}, {
+		"id": "1.4.2",
+		"committee_member_account": "1.2.8",
+		"vote_id": "0:2",
+		"total_votes": "279989972183009",
+		"url": ""
+	}]
+}
+```
 
 ### get_transaction_hex
 
@@ -1339,7 +1362,7 @@ limit：要检索的trasactions数量，上限为100
 
 参数： trx：已签名交易
 
-作用： 针对验证交易当前状态而不在区块链网络上广播它。如果验证成功，则返回true
+作用： 验证交易是否合法,是否可以成功执行。成功：返回已经处理的交易（含处理结果）;失败：抛出执行中的异常错误。
 
 ### get_required_fees
 

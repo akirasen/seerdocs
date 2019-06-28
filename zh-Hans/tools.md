@@ -442,8 +442,8 @@ exec $SHELL
 git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
 
 
-rbenv install 2.2.3
-rbenv global 2.2.3
+rbenv install 2.3.0
+rbenv global 2.3.0
 gem install bundler
 ```
 ### 下载水龙头代码

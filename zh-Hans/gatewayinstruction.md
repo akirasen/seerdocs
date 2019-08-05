@@ -49,11 +49,11 @@ search: zh-Hans
 screen -S seer
 ```
 
-2、在root目录下新建一个名叫seer的目录，下载`v0.0.5版本`的程序包到此目录，并更名为`seer.tar.gz`。（请到SEER软件发布页https://github.com/seer-project/seer-core-package/releases 复制最新的ubuntu版本程序包链接替换掉此下载链接。）
+2、在root目录下新建一个名叫seer的目录，下载`v0.0.7版本`的程序包到此目录，并更名为`seer.tar.gz`。（请到SEER软件发布页https://github.com/seer-project/seer-core-package/releases 复制最新的ubuntu版本程序包链接替换掉此下载链接。）
 
 ```linux
 mkdir seer
-curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.05/witness_node-ubuntu-0.0.5.tar.gz 
+curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.07/witness_node-ubuntu-0.0.7.tar.gz
 ```
 
 3、进入seer目录，解压此软件包。
@@ -66,11 +66,11 @@ tar xzvf seer.tar.gz
 4、带websocket参数启动witness_node：
 
 ```linux
-witness_node --rpc-endpoint=127.0.0.1:9090 partial-operations=true --track-account="\"seerdex-withdraw\"" --track-account="\"seerdex-deposit\"" max-ops-per-account=1000 
+witness_node --rpc-endpoint=127.0.0.1:9090 --partial-operations=true --track-account=\"1.2.9981\" --track-account=\"1.2.9982\" --max-ops-per-account=1000 
 ```
 其中的`--rpc-endpoint`参数为节点监听的websocket RPC IP地址和端口号，需要您替换，此处`127.0.0.1`为本机，`9090`是为节点指定的WS端口。
 
-对于处理充提业务的节点，我们并不需要保存全部数据，仅需要保存和交易所账户相关的账户数据以节省内存开支，因此我们需要设置`partial-operations`参数和`--track-account`参数，此处`partial-operations=true `表示只需要部分的数据，`"\"seerdex-withdraw\""`和`"\"seerdex-deposit\"" `表示要追踪的一个或多个账户id，需要您替换。
+对于处理充提业务的节点，我们并不需要保存全部数据，仅需要保存和交易所账户相关的账户数据以节省内存开支，因此我们需要设置`partial-operations`参数和`--track-account`参数，此处`partial-operations=true `表示只需要部分的数据，`\"1.2.9981\"`和`\"1.2.9982\"`表示要追踪的一个或多个账户id的数字object_ID，可以在浏览器-账户 https://wallet.seer.best/explorer/accounts 中输入账号名查询到 ，需要您替换。
 
 `--max-ops-per-account`参数设定内存中保留账户的多少条操作记录，此处`1000`表示保留追踪账户的`1000`条操作记录，需要您按需求填写。
 
@@ -89,7 +89,7 @@ witness_node --rpc-endpoint=127.0.0.1:9090 partial-operations=true --track-accou
 ```linux
 cd~
 mkdir temp
-curl -Lo temp/temp.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.04/seer-ubuntu-0.0.4.tar.gz 
+curl -Lo temp/temp.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.07/cli_wallet-ubuntu.tar.gz
 cd temp
 tar xzvf temp.tar.gz
 cp cli_wallet ../seer/cli_wallet

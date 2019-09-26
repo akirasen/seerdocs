@@ -1405,6 +1405,46 @@ fund_asset_fee_pool tester ABCDE 1000 true
 }
 ```
 
+#### 9. asset_create_market
+
+signed_transaction asset_create_market(string account, string origin_asset, int sequence, string target_asset, bool broadcast = false);
+
+参数：account为资产所有者账户名，origin_asset为当前资产名,sequence为序号，需要≥1，target_asset为要创建交易对的目标资产。
+
+作用：资产所有者创建交易对。（自定义资产需要资产所有者通过命令行钱包创建交易对才能在交易市场内交易）
+
+示例：`asset_create_market` tester ABCDE 1 USDT true
+	
+返回信息示例：
+```json
+
+asset_create_market seer-community SCP 1 USDT true
+{
+  "ref_block_num": 50800,
+  "ref_block_prefix": 3786166302,
+  "expiration": "2019-09-26T12:42:24",
+  "operations": [[
+      62,{
+        "fee": {
+          "amount": 3000000000,
+          "asset_id": "1.3.0"
+        },
+        "issuer": "1.2.20367",
+        "asset_id": "1.3.6",
+        "sequence": 1,
+        "target": "1.3.5",
+        "extensions": []
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "20189cc243b59d66135df57b47dc36865e5f68fb2f50997bba839c4d725fbaf8522eeb5d65f27fbaffa05fd77f5ab51851f264789c5ffb90c3017fd463793d2cd6"
+  ]
+}
+
+```
+
 ### 系统治理指令
 
 #### 1. create_committee_member

@@ -27,9 +27,7 @@ search:
 
 私钥：5Kb1PcVBpKWPacsgPwZ8KdesmBbvqnmAdYYKQtYVEpBJVF5GRci
 
-ubuntu wallet：https://github.com/akirasen/W1/releases/download/1.0/cli.tar.gz
-
-win wallet：https://github.com/akirasen/W1/releases/download/1.0/test.zip
+wallet：https://github.com/seer-project/seer-core-package/releases
 
 此测试网络可能会随时销毁或重置，请勿保存重要数据。
 
@@ -41,9 +39,10 @@ win wallet：https://github.com/akirasen/W1/releases/download/1.0/test.zip
 
 考虑到有的小伙伴是第一次接触SEER，所以我们从头补一下课，如何使用命令行钱包，此处以windows为例。
 
-首先，下载钱包https://github.com/akirasen/W1/releases/download/1.0/test.zip
+首先，下载钱包https://github.com/seer-project/seer-core-package/releases 此页面最新的节点和钱包版本中文件名中有win的，并且以zip为后缀名的包。如果要用linux，则使用ubuntu版本。
 
-解压后点击run.cmd
+解压后新建一个txt，内容填写`cli_wallet -s ws://192.144.171.138:8003 -r 127.0.0.1:5698 --chain-id="da68a9c5f2fd9ed48e626ea301db1c77505523884ba0dd409e779246c6ea26cf" 
+`，另存为run.cmd，然后点击run.cmd，此方法通过为主网命令行钱包指定测试网络chain-id和API的方式连接到测试网络。
 
 成功运行后，会显示new >> 
 

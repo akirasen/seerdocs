@@ -162,14 +162,14 @@ set_password 123
 null
 locked >>>
 ```
-4. 在命令行窗口`locked >>>`之后输入`unlock 123`，`Enter`，解锁命令行钱包，`123`替换为您的密码，成功后显示内容如下：
+5. 在命令行窗口`locked >>>`之后输入`unlock 123`，`Enter`，解锁命令行钱包，`123`替换为您的密码，成功后显示内容如下：
 ```
 locked >>> unlock 123
 unlock 123
 null
 unlocked >>>
 ```
-5. 在命令行窗口`unlocked >>>`之后输入`import_key abc 5kxxxxxxx..w2s4x`，`Enter`，导入资产创建账户资金权限私钥，`abc`替换为您的SEER资产发行人账户名，`5kxxxxxxx..w2s4x`替换为您的资金权限私钥，私钥可以在网页钱包点击顶部`账户管理`按钮-`账户管理`页面左侧`权限管理`按钮，在`权限管理`-`资金权限`页面点击`账户名/公钥`列表中的`SEER2r312.....3y9xVuFk2`格式公钥，在弹出的`私钥查看器`中点击显示并输入密码即可显示您的私钥。成功后显示内容如下：
+6. 在命令行窗口`unlocked >>>`之后输入`import_key abc 5kxxxxxxx..w2s4x`，`Enter`，导入资产创建账户资金权限私钥，`abc`替换为您的SEER资产发行人账户名，`5kxxxxxxx..w2s4x`替换为您的资金权限私钥，私钥可以在网页钱包点击顶部`账户管理`按钮-`账户管理`页面左侧`权限管理`按钮，在`权限管理`-`资金权限`页面点击`账户名/公钥`列表中的`SEER2r312.....3y9xVuFk2`格式公钥，在弹出的`私钥查看器`中点击显示并输入密码即可显示您的私钥。成功后显示内容如下：
 ```
 unlocked >>> import_key abc 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
 import_key abc 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY

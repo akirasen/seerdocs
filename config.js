@@ -65,11 +65,7 @@ docute.init({
       
       },
       {
-        title: '文体平台', path: '/zh-Hans/CSPinstruction', source: 'https://cdn.jsdelivr.net/gh/akirasen/seerdocs@master/zh-Hans/CSPinstruction.md'
-      
-      },
-      {
-        title: '流量众筹', path: '/zh-Hans/ACPinstruction', source: 'https://cdn.jsdelivr.net/gh/akirasen/seerdocs@master/zh-Hans/ACPinstruction.md'
+        title: '文体平台和流量众筹', path: '/zh-Hans/ACPandCSPinstruction', source: 'https://cdn.jsdelivr.net/gh/akirasen/seerdocs@master/zh-Hans/ACPandCSPinstruction.md'
       
       },
       {

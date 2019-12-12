@@ -246,10 +246,13 @@ apt install -y python-certbot-nginx
 按`Enter`键确认。
 
 3. 使用Certbot自动完成SSL证书申请和配置，Certbot会自动修改你的nginx配置文件，替换api.example.org为你的API二级域名。
+
 ```
 certbot --nginx -d api.example.org
 ```
+
 按照英文的提示配置吧，有几个地方要填和选择，比如第一步输入邮箱等，其它有(A)gree的选择输入A，有(Y)es的选择输入Y即可，需要注意的是：
+
 ```
 Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -260,6 +263,7 @@ change by editing your web server's configuration.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Select the appropriate number [1-2] then [enter] (press 'c' to cancel):
 ```
+
 在这一步时，您可能会需要选择1，如果选择2的话，Certbot会自动修改你的nginx配置文件，所有的非SSL请求都会被自动转发到SSL，如果您希望同一个域名既能用于WS，例如命令行钱包，也能用于HTTPS的网页钱包等，则选1，否则选择2。
 
 成功的话，会在最后看到如下提示：

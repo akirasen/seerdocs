@@ -276,6 +276,7 @@ Congratulations! You have successfully enabled https://api.example.org
 nano /etc/nginx/sites-available/apifile
 ```
 可以查看到certbot对配置文件的修改，最终配置好的文件如下：
+
 ```
 map $http_upgrade $connection_upgrade {
         default upgrade;
@@ -312,12 +313,15 @@ server {
 ```
 
 5. 设置certbot自动续约
+
 ```
 certbot renew --dry-run
 ```
+
 这一步是因为证书使用周期有限，需要设置certbot自动续约证书。
 
 成功的话，会在最后看到如下提示：
+
 ```
 Congratulations, all renewals succeeded. The following certs have been renewed:
 ```

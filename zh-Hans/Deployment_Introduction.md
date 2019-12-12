@@ -111,12 +111,14 @@
 1. 连接服务器，在`ubuntu@ip-172-31-37-11:~$`后输入：`sudo -i`，按`Enter`键，切换为`root`用户；
 
 2. 在`root@ip-172-31-37-11:~$`后输入如下代码：
+
 ```
 mkdir seer
 curl -Lo seer/seer.tar.gz https://github.com/seer-project/seer-core-package/releases/download/v0.08/seer-ubuntu.0.0.8.tar.gz
 cd seer
 tar xzvf seer.tar.gz
 ```
+
 按`Enter`键，在root目录下新建一个名叫seer的目录，复制v0.0.8版本的程序包到此目录，并更名、解压；
 
 3. 在`root@ip-172-31-37-11:~/seer# `后输入`screen -S seer`，按`Enter`键，新建一个名叫seer的窗口并进入；
@@ -126,6 +128,7 @@ tar xzvf seer.tar.gz
 ```
 ./witness_node  --data-dir ./data --p2p-endpoint=0.0.0.0:1888 --rpc-endpoint=0.0.0.0:9090 --bucket-size=[300,900,1800,3600,14400,86400] --history-per-size=10000 --replay-blockchain
 ```
+
 按`Enter`键，在窗口seer下启动节点，其中127.0.0.1:9090是设置是节点对外的Websocket RPC服务地址和端口。
 
 5. 区块同步大约需要1小时到数小时不等的时间，我们现在可以按`ctrl`+`A`+`D`键隐藏窗口，之后要再打开运行有节点的Sreeen，则使用 `screen -r seer`，隐藏窗口的方法同上。之后当观察节点运行正常，显示3秒一个出块后，则表示节点启动成功。现在我们可以继续part2等其他步骤。
@@ -137,7 +140,9 @@ apt update
 apt install -y node-ws
 
 ```
+
 按`Enter`键，安装wscat后，输入：`wscat -c ws://127.0.0.1:9090`进入wscat，然后输入请求：`{"jsonrpc": "2.0", "method": "get_chain_id", "params": [], "id": 1}`，按`Enter`键，成功的返回信息如下：
+
 ```
 wscat -c ws://127.0.0.1:9090
 connected (press CTRL+C to quit)
@@ -145,6 +150,7 @@ connected (press CTRL+C to quit)
 < {"id":1,"jsonrpc":"2.0","result":"cea4fdf4f5c2278f139b22e782b308928f04008b0fc2c79970a58974a2a28f91"}
 > 
 ```
+
 使用`ctrl+C`退出wscat。
 
 ### part2 配置服务器nginx
@@ -158,6 +164,7 @@ nginx在服务器上负责反向代理、SSL等服务，如果要配置多节点
 apt update
 apt install -y nginx
 ```
+
 按`Enter`键确认。
 
 **配置nginx：**
@@ -203,6 +210,7 @@ server {
         }
 }
 ```
+
 修改完成后，使用`ctrl`+`O`-`ENTER`写入，`ctrl`+`X`退出nano。
 
 3. 将apifile软链接到配置目录：
@@ -210,12 +218,15 @@ server {
 ```
 ln -s /etc/nginx/sites-available/apifile /etc/nginx/sites-enabled/
 ```
+
 按`Enter`键确认。
 
 4. 测试nginx配置是否有错：
+
 ```
 nginx -t
 ```
+
 按`Enter`键确认，如果有错根据提示修改。
 
 5. 重新载入nginx：
@@ -233,16 +244,20 @@ systemctl reload nginx
 SSL证书有很多种类，收费的和免费的都有，AWS也提供免费的ACM证书，这里推荐最简单的certbot一键注册免费证书并自动续期的服务。
 
 1. 首先，添加certbot存储库：
+
 ```
 add-apt-repository ppa:certbot/certbot
 ```
+
 按`Enter`-`Enter`键确认。
 
 2. 安装Certbot的Nginx软件包：
+
 ```
 apt update
 apt install -y python-certbot-nginx
 ```
+
 按`Enter`键确认。
 
 3. 使用Certbot自动完成SSL证书申请和配置，Certbot会自动修改你的nginx配置文件，替换api.example.org为你的API二级域名。
@@ -267,14 +282,17 @@ Select the appropriate number [1-2] then [enter] (press 'c' to cancel):
 在这一步时，您可能会需要选择1，如果选择2的话，Certbot会自动修改你的nginx配置文件，所有的非SSL请求都会被自动转发到SSL，如果您希望同一个域名既能用于WS，例如命令行钱包，也能用于HTTPS的网页钱包等，则选1，否则选择2。
 
 成功的话，会在最后看到如下提示：
+
 ```
 Congratulations! You have successfully enabled https://api.example.org
 ```
 
 4. 完成后，打开您之前创建的nginx配置文件:
+
 ```
 nano /etc/nginx/sites-available/apifile
 ```
+
 可以查看到certbot对配置文件的修改，最终配置好的文件如下：
 
 ```

@@ -73,6 +73,10 @@ docute.init({
       
       },
       {
+        title: '钱包部署', path: '/zh-Hans/Deployment_Introduction', source: 'https://cdn.jsdelivr.net/gh/akirasen/seerdocs@master/zh-Hans/Deployment_Introduction.md'
+      
+      },
+      {
         title: '对接指南', path: '/zh-Hans/gatewayinstruction', source: 'https://cdn.jsdelivr.net/gh/akirasen/seerdocs@master/zh-Hans/gatewayinstruction.md'
       
       },

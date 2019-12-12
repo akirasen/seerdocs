@@ -310,6 +310,7 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
 }
+
 ```
 
 5. 设置certbot自动续约
@@ -346,18 +347,23 @@ Windows PowerShell
 
 PS C:\Users\name>
 ```
+
 2. 选择您要存放代码的盘符和目录，例如要在`D盘`下新建一个`code`目录，并将代码放在里面，则输入:
+
 ```
 D:
 mkdir code
 cd code
 ```
+
 3. 使用git拉取项目源码，在终端中输入：
 
 ```
 git clone https://github.com/seer-developer-community/Seer-UI-2.0.git
 ```
+
 此步骤所需的时间取决于您的网速，大约需要几分钟到十几分钟不等，成功的返回信息如下：
+
 ```
 PS D:\code> git clone https://github.com/seer-developer-community/Seer-UI-2.0.git
 Cloning into 'Seer-UI-2.0'...
@@ -368,11 +374,14 @@ remote: Total 2239 (delta 1087), reused 2192 (delta 1043), pack-reused 0
 Receiving objects: 100% (2239/2239), 3.88 MiB | 42.00 KiB/s, done.
 Resolving deltas: 100% (1087/1087), done.
 ```
+
 4. 安装环境依赖：
+
 ```
 cd Seer-UI-2.0
 npm install
 ```
+
 安装速度取决于您的所在地和国际网速，如果网络不好下载安装过程有可能持续几个小时，安装成功后会在最后一行看到类似这样的提示：
 
 ```
@@ -392,6 +401,7 @@ Listening at http://localhost:/9080
 ......
 webpack: Compiled successfully.
 ```
+
 现在在浏览器中输入 http://localhost:/9080 即可看到运行在您本地的开发模式网页钱包，在此模式中，您对源代码的任何修改都将刷新开发服务端，在本地网页钱包中立即呈现效果，以方便您进行代码调试。
 
 ### part2 修改网页钱包代码
@@ -477,9 +487,11 @@ npm run build
     b. 完成后，在`S3存储桶`首页列表中，可以看到您创建的存储桶，点击进入，点击`属性`-`静态网站托管`-`使用此存储桶托管网站`，`索引文档`、`错误文档`全部填入`index.html`,`保存`。
 
     c. 点击`权限`-`存储桶策略`，在编辑器中填入：
+    
     ```
     { "Version": "2012-10-17", "Statement": [ { "Sid": "PublicReadForGetBucketObjects", "Effect": "Allow", "Principal": "*", "Action": "s3:GetObject", "Resource": "arn:aws:s3:::you-bucket-name/*" } ] }
     ```
+    
     将上面的`aws:s3:::wallet.exemple.com`修改为此页面中显示的您的存储桶名。`保存`。
     
     d. 点击`权限`-`CORS配置`，在编辑器中填入：
@@ -495,6 +507,7 @@ npm run build
     </CORSRule>
     </CORSConfiguration>
     ```
+    
     `保存`。
 
     e. 此时已可以上传静态页面资源，点击此存储桶`概述`中的`上传`，全选页面资源根目录`seer-ui-2.0/build/dist`下所有文件进入`上传`页，然后点击`下一步`，在`设置权限`-`管理公共权限`中选择`为此对象授予公共读取访问权限`，`下一步`，`存储类别`选择`标准`即可，`下一步`，`上传`。

@@ -129,6 +129,96 @@ STEP 1.PART 1.3 中已经介绍了如何获得一个和SEER账户绑定的ETH地
 
 用户可以使用任何具备SEER区块链浏览器的SEER DAPP或钱包查看资产详情，例如主网网页钱包可以点击顶部`区块浏览器`按钮-`区块浏览器`页面点击顶部`资产`按钮，在列表中找到或搜索到您创建的资产，查看总量、供应量、手续费率、资金池等数据。显示页面如：https://wallet.seerchain.org/explorer/asset/SCP
 
+### 创建自定义交易对
+
+SEER链上默认只能使用自定义资产和SEER主资产之间的交易对，若要创建其他交易对，需要资产发行人账号在命令行钱包中使用`asset_create_market`操作才能让新的交易对可用。
+
+#### PART 1 配置命令行钱包
+
+以下教程以Windows版本为例：
+
+1. 请下载最新版的钱包文件：https://github.com/seer-project/seer-core-package/releases 选择页面最新版本Assets中包含`seer-win`、`.zip`的版本下载并解压缩。
+
+2. 在解压出的cli_wallet.exe所在目录创建记事本文件，内容填写：`cli_wallet.exe -s ws://sg1.seerchain.org`，并将此文件另存为`点此启动.cmd`。
+
+3. 点击`点此启动.cmd`即可运行，命令行钱包启动后显示内容如下：
+
+```
+D:\SEER>cli_wallet -s ws://sg1.seerchain.org
+Logging RPC to file: logs\rpc\rpc.log
+3209149ms th_a       main.cpp:131                  main                 ] key_to_wif( committee_private_key ): 5KCBDTcyDqzsqehcb52tW5nU6pXife6V2rX9Yf7c3saYSzbDZ5W
+3209150ms th_a       main.cpp:135                  main                 ] nathan_pub_key: SEER6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+3209150ms th_a       main.cpp:136                  main                 ] key_to_wif( nathan_private_key ): 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
+Starting a new wallet with chain ID cea4fdf4f5c2278f139b22e782b308928f04008b0fc2c79970a58974a2a28f91 (from egenesis)
+3209157ms th_a       main.cpp:183                  main                 ] wdata.ws_server: ws://sg1.seerchain.org
+3209198ms th_a       main.cpp:188                  main                 ] wdata.ws_user:  wdata.ws_password:
+Please use the set_password method to initialize a new wallet before continuing
+new >>>
+```
+4. 在命令行窗口`new >>>`之后输入`set_password 123`，`Enter`，创建命令行钱包密码，`123`可以替换为您能记得的其他的密码，成功后显示内容如下：
+```
+new >>> set_password 123
+set_password 123
+null
+locked >>>
+```
+4. 在命令行窗口`locked >>>`之后输入`unlock 123`，`Enter`，解锁命令行钱包，`123`替换为您的密码，成功后显示内容如下：
+```
+locked >>> unlock 123
+unlock 123
+null
+unlocked >>>
+```
+5. 在命令行窗口`unlocked >>>`之后输入`import_key abc 5kxxxxxxx..w2s4x`，`Enter`，导入资产创建账户资金权限私钥，`abc`替换为您的SEER资产发行人账户名，`5kxxxxxxx..w2s4x`替换为您的资金权限私钥，私钥可以在网页钱包点击顶部`账户管理`按钮-`账户管理`页面左侧`权限管理`按钮，在`权限管理`-`资金权限`页面点击`账户名/公钥`列表中的`SEER2r312.....3y9xVuFk2`格式公钥，在弹出的`私钥查看器`中点击显示并输入密码即可显示您的私钥。成功后显示内容如下：
+```
+unlocked >>> import_key abc 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
+import_key abc 5JLE3j2Mn815kunzbT4ffeKsZwMhHdwDJUAyjm2KRis3qcATPUY
+1983068ms th_a       wallet.cpp:793                save_wallet_file     ] saving wallet to file wallet.json
+1983069ms th_a       wallet.cpp:467                copy_wallet_file     ] backing up wallet wallet.json to after-import-key-4b839f25.wallet
+true
+```
+
+以上，命令行钱包配置完成。
+
+#### PART 2 创建自定义交易对
+
+前提条件：1. 命令行钱包已解锁(显示：`unlocked >>> `)，2. 已导入资产发行人私钥。
+
+在命令行窗口`unlocked >>>`之后输入`asset_create_market abc ABC 1 CDE true`，`Enter`，创建ABC/CDE交易对。`abc`替换为您的SEER资产发行人账户名，`ABC`替换为您发行资产的代码，`CDE`替换为要创建交易对的目标资产（非SEER，因为SEER交易对是默认就有的），`1`为交易对的序号，表明这是您为此资产创建的第几个交易对，需要大于等于1。成功后显示内容如下：
+
+```
+unlocked >>> asset_create_market abc ABC 1 CDE true
+{
+  "ref_block_num": 50800,
+  "ref_block_prefix": 3786166302,
+  "expiration": "2019-09-26T12:42:24",
+  "operations": [[
+      62,{
+        "fee": {
+          "amount": 30000000000,
+          "asset_id": "1.3.0"
+        },
+        "issuer": "1.2.20367",
+        "asset_id": "1.3.6",
+        "sequence": 1,
+        "target": "1.3.5",
+        "extensions": []
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "20189cc243b59d66135df57b47dc36865e5f68fb2f50997bba839c4d725fbaf8522eeb5d65f27fbaffa05fd77f5ab51851f264789c5ffb90c3017fd463793d2cd6"
+  ]
+}
+```
+
+以上，自定义交易对创建完成。
+
+### 在网页钱包或DAPP前端列出资产
+
+您自行创建的交易对需要联系相关网页钱包或DAPP的运营方，由开发者在前端进行配置后才能列出，供用户使用。
+
 ## SEER的预测市场体系
 
 ### 预言机

@@ -667,4 +667,35 @@ witness_claim_collateral abc  "" true
   ]
 }
 ```
+### 见证人重新上线
+
+自SEER主网v0.0.8版本起，SEER在以往的惩罚两天不能出块的基础上，新增了丢块过多的见证人强制下线功能。被惩罚的同时，见证人将处于离线状态，需要见证人解决节点故障后手动设置重新上线。
+
+重新上线的方式为，使用`更新见证人`命令，将签名和网址设为null：`update_witness abc null null true`，即可重新上线。
+
+返回信息示例：
+
+```json
+update_witness abc null null true
+{
+  "ref_block_num": 4870,
+  "ref_block_prefix": 1016406219,
+  "expiration": "2018-07-31T07:02:24",
+  "operations": [[
+      15,{
+        "fee": {
+          "amount": 10000000,
+          "asset_id": "1.3.0"
+        },
+        "witness": "1.5.8",
+        "witness_account": "1.2.6",
+      }
+    ]
+  ],
+  "extensions": [],
+  "signatures": [
+    "1f677827fc57e4628e8cf61a25d40eecee120860e6d5a7fee6e1c6998b52c792fc28a977bcdefd87de3af5c754912a7766f69d6a376ace6b6b8dba042b9e0a05a6"
+  ]
+}
+```
 

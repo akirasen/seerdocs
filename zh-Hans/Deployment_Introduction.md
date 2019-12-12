@@ -1,3 +1,11 @@
+---
+nav: zh-Hans
+search: 
+  - zh-Hans
+  - zh-Hant
+---
+
+
 # 基于SEER-UI搭建一个自己的网页钱包DAPP
 
 ## I 前言
